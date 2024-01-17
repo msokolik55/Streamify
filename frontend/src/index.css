@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Forgive us students, this css is messy 
    - you can tinker with it and see if you can make it more organized!
  */
