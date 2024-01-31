@@ -19,7 +19,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	return (
 		<>
 			<iframe src={iframeUrl}></iframe>
-			<div style={{ width: "50%" }}>
+			<div>
 				<Player playsInline src={hlsUrl}>
 					<BigPlayButton position="center" />
 					{/* <HlsSource src={hlsUrl} video={videoRef.current!} /> */}

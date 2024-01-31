@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { RecoilRoot } from "recoil";
+
 import { App } from "./App";
 import "./index.css";
-import "./styles/normalize.css";
-import { RecoilRoot } from "recoil";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<RecoilRoot>
 		<React.StrictMode>
 			<App />
 		</React.StrictMode>
-	</RecoilRoot>
+	</RecoilRoot>,
 );

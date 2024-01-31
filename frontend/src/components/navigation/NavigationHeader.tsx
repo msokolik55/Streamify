@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 const NavigationHeader = () => {
 	return (
 		<Link to="/">
-			<div className="navigation__server-header header">
-				<h1 className="navigation__server-heading heading heading--1">
-					Streams
-				</h1>
+			<div className="flex-shrink h-16 flex items-center">
+				<h1 className="text-2xl font-bold">Streams</h1>
 			</div>
 		</Link>
 	);

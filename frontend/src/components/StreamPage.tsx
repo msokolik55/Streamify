@@ -9,7 +9,9 @@ import fetcher from "../models/fetcher";
 import VideoPlayer from "./VideoPlayer";
 import { apiUserUrl } from "../urls";
 import Counter from "./Counter";
-import MainWindowError from "./MainWindowError";
+import MainWindowError from "./errors/MainWindowError";
+import colors from "../styles/colors";
+import CircleLive from "./CircleLive";
 
 const StreamPage = () => {
 	const { username } = useParams();
@@ -46,11 +48,29 @@ const StreamPage = () => {
 	}
 
 	return (
-		<div>
-			<h1>{user.username}</h1>
-			<Counter count={user.count} />
+		<>
 			<VideoPlayer streamKey={user.streamKey} />
-		</div>
+
+			<div className="flex flex-row">
+				<div className="m-2 h-20 w-20 flex justify-center items-center">
+					<img
+						className="rounded-full"
+						alt="logo"
+						src={user.picture}
+					/>
+				</div>
+
+				<div className="flex flex-col flex-1 p-2 gap-2">
+					<div className="flex">
+						<h1 className="font-semibold">{user.username}</h1>
+					</div>
+					<div className="flex flex-row justify-between ">
+						<h2 className="font-semibold">Title</h2>
+						<Counter count={user.count} />
+					</div>
+				</div>
+			</div>
+		</>
 	);
 };
 

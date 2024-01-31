@@ -1,17 +1,18 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ProfilePage from "./components/ProfilePage";
-import MainPage from "./components/MainPage";
 import { useEffect } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
-import { userUsernames, userUsernamesAtom } from "./atom";
 import { useSWRConfig } from "swr";
+
+import { userUsernames, userUsernamesAtom } from "./atom";
+import MainPage from "./components/MainPage";
+import ProfilePage from "./components/ProfilePage";
 import StreamPage from "./components/StreamPage";
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "./components/errors/ErrorPage";
 import { apiUserUrl, livePath, profilePath } from "./urls";
 
 export const shiftUserUsernames = (
 	setUserUsernames: SetterOrUpdater<userUsernames>,
-	id: string
+	id: string,
 ) => {
 	setUserUsernames((oldIds) => {
 		if (id === oldIds.curr) return oldIds;
@@ -38,24 +39,22 @@ export const App = () => {
 	}, [userIds]);
 
 	return (
-		<div className="app">
-			<Router>
-				<Routes>
-					<Route path="/" element={<MainPage />}>
-						<Route
-							path={`${profilePath}/:username`}
-							element={<ProfilePage />}
-						/>
-						<Route
-							path={`${livePath}/:username`}
-							element={<StreamPage />}
-						/>
-						<Route path="*" element={<ErrorPage />} />
-					</Route>
+		<Router>
+			<Routes>
+				<Route path="/" element={<MainPage />}>
+					<Route
+						path={`${profilePath}/:username`}
+						element={<ProfilePage />}
+					/>
+					<Route
+						path={`${livePath}/:username`}
+						element={<StreamPage />}
+					/>
 					<Route path="*" element={<ErrorPage />} />
-					{/* <Route path={profilePath} element={<ProfilePage />} /> */}
-				</Routes>
-			</Router>
-		</div>
+				</Route>
+				<Route path="*" element={<ErrorPage />} />
+				<Route path={profilePath} element={<ProfilePage />} />
+			</Routes>
+		</Router>
 	);
 };

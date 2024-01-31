@@ -3,6 +3,7 @@ import fetcher from "../../../models/fetcher";
 import { userId } from "../../../store/user";
 import { IDataUser } from "../../../models/IDataUser";
 import { apiUserUrl } from "../../../urls";
+import { Link } from "react-router-dom";
 
 export const User = () => {
 	const { data, error } = useSWR<IDataUser>(
@@ -12,7 +13,7 @@ export const User = () => {
 	const user = data?.data;
 
 	return (
-		<a href="user/profile/" className="navigation__profile profile link">
+		<Link to="user/profile/" className="mt-auto">
 			<div className="navigation__profile-picture profile__picture profile-picture">
 				<img
 					src={user?.picture}
@@ -24,6 +25,6 @@ export const User = () => {
 				<div className="profile__name">{user?.username}</div>
 				<div className="profile__slug">#1204</div>
 			</div>
-		</a>
+		</Link>
 	);
 };

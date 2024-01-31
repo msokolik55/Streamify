@@ -1,7 +1,6 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../models/fetcher";
-import ErrorBlock from "./ErrorBlock";
 import { useSetRecoilState } from "recoil";
 import { userUsernamesAtom } from "../atom";
 import { useEffect } from "react";
@@ -9,7 +8,7 @@ import { shiftUserUsernames } from "../App";
 import { IDataUser } from "../models/IDataUser";
 import { apiUrl } from "../env";
 import { apiLiveUrl, apiUserUrl } from "../urls";
-import MainWindowError from "./MainWindowError";
+import MainWindowError from "./errors/MainWindowError";
 
 const ProfilePage = () => {
 	const { username } = useParams();
@@ -56,24 +55,58 @@ const ProfilePage = () => {
 		);
 	}
 
-	return (
-		<div>
-			<h1>Profile</h1>
-			<p>{user.username}</p>
+	// TODO: create attribute streams in Prisma
+	const userStreams: { link: string; image: string; title: string }[] = [
+		{ link: "#", image: "", title: "Stream 1" },
+		{ link: "#", image: "", title: "Stream 2" },
+		{ link: "#", image: "", title: "Stream 3" },
+	];
+	// ENDTODO
 
+	return (
+		<div className="px-8 pt-6 flex flex-col gap-8">
+			<div className="flex flex-row gap-x-4 items-center">
+				<div className="w-20 h-20">
+					<img src={user.picture} className="rounded-full" />
+				</div>
+
+				<h1 className="font-semibold text-2xl">{user.username}</h1>
+			</div>
+
+			<div className="flex flex-row gap-4 overflow-auto flex-wrap">
+				{userStreams.map((userStream, id) => (
+					<div
+						key={`stream-${userStream.title}-${id}`}
+						className="flex flex-col gap-1 rounded-md border"
+					>
+						<img
+							alt="stream's picture"
+							src=""
+							className="min-w-72"
+						/>
+
+						<div className="flex flex-col">
+							<span className="font-semibold">
+								{userStream.title}
+							</span>
+							<span className="text-sm">{user.username}</span>
+						</div>
+					</div>
+				))}
+			</div>
+
+			{/* TODO: move to user's profile */}
+			<hr />
 			<p>
 				Stream key: {user.streamKey !== null ? user.streamKey : "none"}
 			</p>
-
-			<div>
-				<img src={user.picture} style={{ width: "5em" }} />
-			</div>
 
 			{user.streamKey === null ? (
 				<button onClick={() => goLive(true)}>Go live</button>
 			) : (
 				<button onClick={() => goLive(false)}>End live</button>
 			)}
+			{/* ENDTODO */}
 		</div>
 	);
 };
