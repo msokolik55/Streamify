@@ -1,12 +1,13 @@
-import { Link, useParams } from "react-router-dom";
-import useSWR, { useSWRConfig } from "swr";
-import fetcher from "../models/fetcher";
-import { useSetRecoilState } from "recoil";
-import { userUsernamesAtom } from "../atom";
 import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import useSWR, { useSWRConfig } from "swr";
+
 import { shiftUserUsernames } from "../App";
-import { IDataUser } from "../models/IDataUser";
+import { userUsernamesAtom } from "../atom";
 import { apiUrl } from "../env";
+import { IDataUser } from "../models/IDataUser";
+import fetcher from "../models/fetcher";
 import { apiLiveUrl, apiUserUrl } from "../urls";
 import MainWindowError from "./errors/MainWindowError";
 
@@ -15,7 +16,7 @@ const ProfilePage = () => {
 
 	const { data, error } = useSWR<IDataUser, Error>(
 		`${apiUserUrl}/${username}`,
-		fetcher
+		fetcher,
 	);
 	const user = data?.data;
 

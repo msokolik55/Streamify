@@ -1,14 +1,15 @@
+import { Link } from "react-router-dom";
 import useSWR from "swr";
+
+import { IDataUser } from "../../../models/IDataUser";
 import fetcher from "../../../models/fetcher";
 import { userId } from "../../../store/user";
-import { IDataUser } from "../../../models/IDataUser";
 import { apiUserUrl } from "../../../urls";
-import { Link } from "react-router-dom";
 
 export const User = () => {
 	const { data, error } = useSWR<IDataUser>(
 		`${apiUserUrl}/${userId}`,
-		fetcher
+		fetcher,
 	);
 	const user = data?.data;
 

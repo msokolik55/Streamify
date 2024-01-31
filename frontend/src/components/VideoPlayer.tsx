@@ -1,7 +1,7 @@
-import { streamUrl } from "../env";
 import { BigPlayButton, Player } from "video-react";
-
 import "video-react/dist/video-react.css";
+
+import { streamUrl } from "../env";
 import HlsSource from "./HlsSource";
 
 interface IVideoPlayerProps {

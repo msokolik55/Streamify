@@ -2,16 +2,17 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
+
 import { shiftUserUsernames } from "../App";
 import { userUsernamesAtom } from "../atom";
 import { IDataUser } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
-import VideoPlayer from "./VideoPlayer";
-import { apiUserUrl } from "../urls";
-import Counter from "./Counter";
-import MainWindowError from "./errors/MainWindowError";
 import colors from "../styles/colors";
+import { apiUserUrl } from "../urls";
 import CircleLive from "./CircleLive";
+import Counter from "./Counter";
+import VideoPlayer from "./VideoPlayer";
+import MainWindowError from "./errors/MainWindowError";
 
 const StreamPage = () => {
 	const { username } = useParams();
@@ -19,7 +20,7 @@ const StreamPage = () => {
 
 	const { data, error } = useSWR<IDataUser, Error>(
 		`${pageUrl}/${username}`,
-		fetcher
+		fetcher,
 	);
 	const user = data?.data;
 

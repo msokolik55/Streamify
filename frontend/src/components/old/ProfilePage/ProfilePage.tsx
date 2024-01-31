@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useSWR, { useSWRConfig } from "swr";
+
+import { IDataUser } from "../../../models/IDataUser";
 import fetcher from "../../../models/fetcher";
 import { userId } from "../../../store/user";
-import { ProfileNavigation } from "./ProfileNavigation";
-import { IDataUser } from "../../../models/IDataUser";
 import { apiUserUrl } from "../../../urls";
+import { ProfileNavigation } from "./ProfileNavigation";
 
 interface IFormInput {
 	name: string;

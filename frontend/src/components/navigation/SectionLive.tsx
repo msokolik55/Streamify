@@ -1,14 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
+
 import { shiftUserUsernames } from "../../App";
 import { userUsernamesAtom } from "../../atom";
-import fetcher from "../../models/fetcher";
-import ErrorBlock from "../errors/ErrorBlock";
 import { IDataUsers } from "../../models/IDataUser";
-import { apiLiveUrl, livePath } from "../../urls";
+import fetcher from "../../models/fetcher";
 import colors from "../../styles/colors";
+import { apiLiveUrl, livePath } from "../../urls";
 import Counter from "../Counter";
+import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
 
 const SectionLive = () => {

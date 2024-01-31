@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
 import useSWR from "swr";
-import fetcher from "../../models/fetcher";
-import ErrorBlock from "../errors/ErrorBlock";
+
 import { IDataUsers } from "../../models/IDataUser";
-import { apiUserUrl, profilePath } from "../../urls";
-import SectionHeader from "./SectionHeader";
+import fetcher from "../../models/fetcher";
 import colors from "../../styles/colors";
+import { apiUserUrl, profilePath } from "../../urls";
+import ErrorBlock from "../errors/ErrorBlock";
+import SectionHeader from "./SectionHeader";
 
 const SectionProfiles = () => {
 	const pageUrl = apiUserUrl;

@@ -1,8 +1,8 @@
+import colors from "../../styles/colors";
 import { User } from "../old/MainPage/User";
 import NavigationHeader from "./NavigationHeader";
-import SectionProfiles from "./SectionProfiles";
 import SectionLive from "./SectionLive";
-import colors from "../../styles/colors";
+import SectionProfiles from "./SectionProfiles";
 
 export const MainNavigation = () => {
 	return (
