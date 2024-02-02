@@ -28,7 +28,6 @@
 
 ## Frontend
 
--   Tailwind CSS
 -   presunut sukromne casti z ProfilePage do osobneho profilu (po dokonceni autentizacie)
 -   upravit dizajn <iframe> vo VideoPlayer (pouzit <video-react>)
 -   opravit zvysovanie count (App.tsx):
