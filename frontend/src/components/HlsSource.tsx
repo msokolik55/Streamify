@@ -1,5 +1,5 @@
 import Hls from "hls.js";
-import { Component, useEffect } from "react";
+import { useEffect } from "react";
 
 interface IHlsSourceProps {
 	src: string;

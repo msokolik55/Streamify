@@ -29,10 +29,10 @@ export const App = () => {
 	useEffect(() => {
 		const pageUrl = apiUserUrl;
 
-		const update = async () => {
-			if (userIds.old) await fetch(`${pageUrl}/${userIds.old}/dec`);
-			if (userIds.curr) await fetch(`${pageUrl}/${userIds.curr}/inc`);
-		};
+		// const update = async () => {
+		// 	if (userIds.old) await fetch(`${pageUrl}/${userIds.old}/dec`);
+		// 	if (userIds.curr) await fetch(`${pageUrl}/${userIds.curr}/inc`);
+		// };
 
 		// update();
 		mutate(`${pageUrl}${userIds.curr}`);
