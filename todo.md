@@ -30,11 +30,11 @@
 ## Frontend
 
 -   upravit dizajn <iframe> vo VideoPlayer (pouzit <video-react>)
--   opravit zvysovanie count (App.tsx):
+-   opravit zvysovanie count (App.tsx) - pozriet moznosti API:
     -   upravit /inc, /dec cez streamKey
     -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
--   pridat SnackBar pri prihlaseni
+-   \*pridat SnackBar pri prihlaseni
 
 # Refactor (na konci)
 
