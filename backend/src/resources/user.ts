@@ -21,6 +21,7 @@ const findByUsername = async (username: string) => {
 			count: true,
 			live: true,
 			streamKey: true,
+			password: true,
 		},
 	});
 
@@ -170,20 +171,14 @@ export const updateLive = async (req: Request, res: Response) => {
 };
 
 /**
- *
+ * Check user login attempt
  */
-export const CheckLogin = async (req: Request, res: Response) => {
+export const checkLogin = async (req: Request, res: Response) => {
 	const { username, password } = req.body;
 
-	const user = await prisma.user.findUnique({
-		where: {
-			username: username,
-		},
-		select: {
-			username: true,
-			password: true,
-		},
-	});
-
-	return sendResponseSuccess(res, user && user.password === password);
+	const user = await findByUsername(username);
+	return sendResponseSuccess(
+		res,
+		user !== null && user.password === password
+	);
 };

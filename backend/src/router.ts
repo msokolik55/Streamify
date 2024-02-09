@@ -18,7 +18,7 @@ router.get(`${userPath}/:id/dec`, user.decreaseCount);
 router.get(`${livePath}`, user.getByLive);
 router.put(`${livePath}`, user.updateLive);
 
-router.post(loginPath, user.CheckLogin);
+router.post(loginPath, user.checkLogin);
 
 router.get("*", (_: Request, res: Response) => {
 	res.status(404).send({ error: "Path not found" });
