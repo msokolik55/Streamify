@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 
@@ -14,6 +15,7 @@ const LoginPage = () => {
 	} = useForm<LoginInputs>();
 
 	const setIsSignedInAtom = useSetRecoilState(isSignedInAtom);
+	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const onSubmit = async (data: LoginInputs) => {
 		const res = await fetch(apiLoginUrl, {
@@ -25,9 +27,12 @@ const LoginPage = () => {
 		});
 
 		const resData = await res.json();
+
 		const loginSuccess = resData.data;
+		const loginError = resData.error;
 
 		if (loginSuccess) setIsSignedInAtom(true);
+		else setErrorMessage(loginError);
 	};
 
 	return (
@@ -73,6 +78,8 @@ const LoginPage = () => {
 							/>
 						</div>
 					</div>
+
+					<div className="">{errorMessage}</div>
 
 					<div>
 						<button

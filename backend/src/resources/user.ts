@@ -1,6 +1,6 @@
 import prisma from "../client";
 import { Request, Response } from "express";
-import { sendResponseSuccess } from "./response";
+import { sendResponseError, sendResponseSuccess } from "./response";
 import { randomUUID } from "crypto";
 
 const ops = {
@@ -36,19 +36,13 @@ const alterCount = async (
 	const id = req.params.id;
 
 	if (!id || id === "") {
-		return res.status(400).send({
-			status: "error",
-			error: "Missing id.",
-		});
+		return sendResponseError(res, 400, "Missing id.");
 	}
 
 	const user = await findByUsername(id);
 
 	if (!user) {
-		return res.status(404).send({
-			status: "error",
-			data: `Cannot find user with given id.`,
-		});
+		return sendResponseError(res, 404, "Cannot find user with given id.");
 	}
 
 	const newCount = Math.max(0, op(user.count));
@@ -178,11 +172,16 @@ export const checkLogin = async (req: Request, res: Response) => {
 
 	const user = await findByUsername(username);
 	if (user === null) {
-		return res.status(404).send({
-			status: "error",
-			data: `Cannot find user with given username.`,
-		});
+		return sendResponseError(
+			res,
+			404,
+			"Cannot find user with given username."
+		);
 	}
 
-	return sendResponseSuccess(res, user.password === password);
+	if (user.password !== password) {
+		return sendResponseError(res, 400, "Wrong password.");
+	}
+
+	return sendResponseSuccess(res, true);
 };

@@ -6,3 +6,14 @@ export const sendResponseSuccess = (res: Response, data: any) => {
 		data: data,
 	});
 };
+
+export const sendResponseError = (
+	res: Response,
+	status: number,
+	message: string
+) => {
+	return res.status(status).send({
+		status: "error",
+		error: message,
+	});
+};
