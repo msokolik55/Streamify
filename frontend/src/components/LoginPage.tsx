@@ -1,3 +1,5 @@
+import { useForm } from "react-hook-form";
+
 type FormLabelProps = {
 	title: string;
 	for: string;
@@ -13,18 +15,33 @@ const FormLabel = (props: FormLabelProps) => {
 	);
 };
 
+type Inputs = {
+	username: string;
+	password: string;
+};
+
 const LoginPage = () => {
+	const { register, handleSubmit } = useForm<Inputs>();
+
+	const onSubmit = (data: Inputs) => {
+		console.log(data);
+	};
+
 	return (
 		<div>
 			<h1 className="tracking-tight font-bold text-2xl leading-8 text-center mt-10 m-0">
 				Sign in to your account
 			</h1>
 			<div className="max-w-sm w-full mx-auto mt-10">
-				<form className="flex flex-col gap-3">
+				<form
+					className="flex flex-col gap-3"
+					onSubmit={handleSubmit(onSubmit)}
+				>
 					<div>
 						<FormLabel title="Username" for="username" />
 						<div className="mt-2">
 							<input
+								{...register("username", { required: true })}
 								id="username"
 								name="username"
 								type="text"
@@ -38,6 +55,7 @@ const LoginPage = () => {
 						<FormLabel title="Password" for="password" />
 						<div className="mt-2">
 							<input
+								{...register("password", { required: true })}
 								id="password"
 								name="password"
 								type="password"
