@@ -1,9 +1,13 @@
 type FormLabelProps = {
 	title: string;
+	for: string;
 };
 const FormLabel = (props: FormLabelProps) => {
 	return (
-		<label htmlFor="" className="leading-6 font-medium text-sm block">
+		<label
+			htmlFor={props.for}
+			className="leading-6 font-medium text-sm block"
+		>
 			{props.title}
 		</label>
 	);
@@ -18,7 +22,7 @@ const LoginPage = () => {
 			<div className="max-w-sm w-full mx-auto mt-10">
 				<form className="flex flex-col gap-3">
 					<div>
-						<FormLabel title="Username" />
+						<FormLabel title="Username" for="username" />
 						<div className="mt-2">
 							<input
 								id="username"
@@ -31,7 +35,7 @@ const LoginPage = () => {
 					</div>
 
 					<div>
-						<FormLabel title="Password" />
+						<FormLabel title="Password" for="password" />
 						<div className="mt-2">
 							<input
 								id="password"
@@ -44,7 +48,10 @@ const LoginPage = () => {
 					</div>
 
 					<div>
-						<button className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center w-full flex bg-gray-500 mt-2 hover:bg-gray-600">
+						<button
+							className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center w-full flex bg-gray-500 mt-2 hover:bg-gray-600"
+							type="submit"
+						>
 							Sign in
 						</button>
 					</div>
