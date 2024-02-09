@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 
-import { isSignedInAtom } from "../atom";
-import { LoginInputs } from "../models/form";
-import { apiLoginUrl } from "../urls";
+import { loggedUserAtom } from "../../atom";
+import { LoginInputs } from "../../models/form";
+import { apiLoginUrl } from "../../urls";
 import FormLabel from "./FormLabel";
 
 const LoginPage = () => {
@@ -14,7 +14,7 @@ const LoginPage = () => {
 		formState: { errors },
 	} = useForm<LoginInputs>();
 
-	const setIsSignedInAtom = useSetRecoilState(isSignedInAtom);
+	const setLoggedUser = useSetRecoilState(loggedUserAtom);
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const onSubmit = async (data: LoginInputs) => {
@@ -31,7 +31,7 @@ const LoginPage = () => {
 		const loginSuccess = resData.data;
 		const loginError = resData.error;
 
-		if (loginSuccess) setIsSignedInAtom(true);
+		if (loginSuccess) setLoggedUser(data.username);
 		else setErrorMessage(loginError);
 	};
 

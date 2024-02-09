@@ -10,7 +10,8 @@ const HeaderLink = (props: HeaderLinkProps) => {
 		<NavLink
 			to={props.path}
 			className={({ isActive }) =>
-				`flex flex-1 justify-center ${isActive ? "border" : ""}`
+				`flex flex-1 justify-center py-2 font-semibold rounded-md hover:bg-gray-700
+				${isActive ? "bg-gray-700" : ""}`
 			}
 		>
 			{props.title}

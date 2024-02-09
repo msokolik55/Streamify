@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 
 import { shiftUserUsernames } from "../App";
 import { userUsernamesAtom } from "../atom";
-import { apiUrl } from "../env";
 import { IDataUser } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
-import { apiLiveUrl, apiUserUrl } from "../urls";
+import { apiUserUrl } from "../urls";
 import MainWindowError from "./errors/MainWindowError";
 
 const ProfilePage = () => {
@@ -20,8 +19,6 @@ const ProfilePage = () => {
 	);
 	const user = data?.data;
 
-	const { mutate } = useSWRConfig();
-
 	const setUserUsernames = useSetRecoilState(userUsernamesAtom);
 	useEffect(() => {
 		if (!username || username === "") return;
@@ -29,22 +26,6 @@ const ProfilePage = () => {
 
 		return () => shiftUserUsernames(setUserUsernames, "");
 	}, []);
-
-	const goLive = async (live: boolean) => {
-		await fetch(`${apiUrl}/live`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				id: user?.id,
-				live: live,
-			}),
-		});
-
-		mutate(apiLiveUrl);
-		mutate(`${apiUserUrl}/${username}`);
-	};
 
 	if (error) {
 		return <MainWindowError message={error.message} />;
@@ -56,7 +37,7 @@ const ProfilePage = () => {
 		);
 	}
 
-	// TODO: create attribute streams in Prisma
+	// TODO: add attribute Streams in Prisma
 	const userStreams: { link: string; image: string; title: string }[] = [
 		{ link: "#", image: "", title: "Stream 1" },
 		{ link: "#", image: "", title: "Stream 2" },
@@ -95,19 +76,6 @@ const ProfilePage = () => {
 					</div>
 				))}
 			</div>
-
-			{/* TODO: move to user's profile */}
-			<hr />
-			<p>
-				Stream key: {user.streamKey !== null ? user.streamKey : "none"}
-			</p>
-
-			{user.streamKey === null ? (
-				<button onClick={() => goLive(true)}>Go live</button>
-			) : (
-				<button onClick={() => goLive(false)}>End live</button>
-			)}
-			{/* ENDTODO */}
 		</div>
 	);
 };

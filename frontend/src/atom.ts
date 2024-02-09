@@ -12,7 +12,7 @@ export const userUsernamesAtom = atom<userUsernames>({
 	default: { old: defaultUsername, curr: defaultUsername },
 });
 
-export const isSignedInAtom = atom<boolean>({
-	key: "isSignedInAtom",
-	default: false,
+export const loggedUserAtom = atom<string | undefined>({
+	key: "loggedUserAtom",
+	default: undefined,
 });

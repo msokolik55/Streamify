@@ -1,13 +1,10 @@
 # Autentizacia
 
--   pridat stranku na prihlasenie sa
 -   presunut vsetku momentalnu funkcionalitu z ProfilePage do tejto stranky
 -   \*Session key
 
 ## Frontend
 
--   v bocnom menu pridat ikonku na prihlasenie sa
--   pridat formular
 -   upravit `ProfilePage`, aby nezobrazilo, co nema (presunut do novej stranky - vlastny profil)
 -   posielat na BE iba hash hesla
 
@@ -53,6 +50,7 @@
 
 ## Frontend
 
+-   zjednotit design tlacidiel <button>
 -   pridat url cesty do suboru s konstantami
 -   odstranit priecinok `store`
 -   odstranit nepouzite komponenty
