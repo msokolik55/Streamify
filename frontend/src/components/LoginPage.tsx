@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 
+import { apiLoginUrl } from "../urls";
+
 type FormLabelProps = {
 	title: string;
 	for: string;
@@ -23,8 +25,18 @@ type Inputs = {
 const LoginPage = () => {
 	const { register, handleSubmit } = useForm<Inputs>();
 
-	const onSubmit = (data: Inputs) => {
-		console.log(data);
+	const onSubmit = async (data: Inputs) => {
+		const res = await fetch(apiLoginUrl, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		});
+
+		const resData = await res.json();
+		const loginSuccess = resData.data;
+		console.log(loginSuccess);
 	};
 
 	return (
