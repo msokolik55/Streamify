@@ -3,9 +3,9 @@ import { apiUrl } from "./env";
 /**
  * Frontend paths
  */
-const userPath = "/user";
-export const livePath = `/live`;
-export const profilePath = `/profile`;
+export const livePath = "/live";
+export const profilePath = "/profile";
+export const userPath = "/user";
 
 /**
  * Backend (API) paths

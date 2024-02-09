@@ -3,6 +3,7 @@ import colors from "../../styles/colors";
 import NavigationHeader from "./NavigationHeader";
 import SectionLive from "./SectionLive";
 import SectionProfiles from "./SectionProfiles";
+import SectionUser from "./SectionUser";
 
 export const MainNavigation = () => {
 	return (
@@ -17,7 +18,7 @@ export const MainNavigation = () => {
 						<SectionLive />
 						<SectionProfiles />
 
-						{/* <User /> */}
+						<SectionUser />
 					</ul>
 				</nav>
 			</div>
