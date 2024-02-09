@@ -177,8 +177,12 @@ export const checkLogin = async (req: Request, res: Response) => {
 	const { username, password } = req.body;
 
 	const user = await findByUsername(username);
-	return sendResponseSuccess(
-		res,
-		user !== null && user.password === password
-	);
+	if (user === null) {
+		return res.status(404).send({
+			status: "error",
+			data: `Cannot find user with given username.`,
+		});
+	}
+
+	return sendResponseSuccess(res, user.password === password);
 };
