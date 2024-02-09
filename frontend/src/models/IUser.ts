@@ -4,6 +4,5 @@ export interface IUser {
 	picture: string;
 	email: string;
 	count: number;
-	live: boolean;
 	streamKey: string | null;
 }

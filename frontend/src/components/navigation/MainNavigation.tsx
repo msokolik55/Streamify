@@ -1,5 +1,4 @@
 import colors from "../../styles/colors";
-// import { User } from "../old/MainPage/User";
 import NavigationHeader from "./NavigationHeader";
 import SectionLive from "./SectionLive";
 import SectionProfiles from "./SectionProfiles";

@@ -11,12 +11,11 @@ model User {
   id        String   @id @default(uuid())
   username  String   @unique
   email     String
-  password  String   @default("")
+  password  String
   picture   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   count     Int      @default(0)
-  live      Boolean  @default(false)
   streamKey String?  @unique
 
   streams Stream[]

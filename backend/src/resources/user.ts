@@ -19,7 +19,6 @@ const findByUsername = async (username: string) => {
 			picture: true,
 			email: true,
 			count: true,
-			live: true,
 			streamKey: true,
 			password: true,
 		},
@@ -130,7 +129,6 @@ export const decreaseCount = async (req: Request, res: Response) => {
 export const getByLive = async (req: Request, res: Response) => {
 	const users = await prisma.user.findMany({
 		where: {
-			// live: true,
 			NOT: { streamKey: null },
 		},
 		select: {
@@ -156,7 +154,6 @@ export const updateLive = async (req: Request, res: Response) => {
 			id,
 		},
 		data: {
-			live,
 			streamKey: live ? randomUUID() : null,
 		},
 	});
