@@ -1,40 +1,31 @@
-# Autentizacia
+# TODOs
 
--   presunut vsetku momentalnu funkcionalitu z ProfilePage do tejto stranky
+## Autentizacia
+
 -   \*Session key
 
-## Frontend
+### Frontend
 
--   upravit `ProfilePage`, aby nezobrazilo, co nema (presunut do novej stranky - vlastny profil)
--   posielat na BE iba hash hesla
+-   posielat na BE iba hash hesla (najskor si nechat vygenerovat tie hesla)
 
-## Backend
-
--   API pre overenie uzivatela podla username a jeho hesla
-
-# Registracia
+## Registracia
 
 -   pridat stranku s moznostou registracie (CRUD pre User)
-
-# TODOs
 
 ## Backend
 
 -   \*pridat testy
 -   \*pridat demo data
 -   \*pridat Swagger (na konci podla endpointov)
--   pridat vsetky migracie
 
 ## Frontend
 
--   presunut sukromne casti z ProfilePage do osobneho profilu (po dokonceni autentizacie)
 -   upravit dizajn <iframe> vo VideoPlayer (pouzit <video-react>)
 -   opravit zvysovanie count (App.tsx):
     -   upravit /inc, /dec cez streamKey
     -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
 -   pridat SnackBar pri prihlaseni
--   tlacidlo "Sign in" sa posuva az uplne dole (ak je stranka vacsia ako 100vh, nevidno ho)
 
 # Refactor (na konci)
 
