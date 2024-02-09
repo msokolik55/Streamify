@@ -7,7 +7,12 @@ import { apiLoginUrl } from "../urls";
 import FormLabel from "./FormLabel";
 
 const LoginPage = () => {
-	const { register, handleSubmit } = useForm<LoginInputs>();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<LoginInputs>();
+
 	const setIsSignedInAtom = useSetRecoilState(isSignedInAtom);
 
 	const onSubmit = async (data: LoginInputs) => {
@@ -45,6 +50,9 @@ const LoginPage = () => {
 								type="text"
 								required={true}
 								className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+								aria-invalid={
+									errors.username ? "true" : "false"
+								}
 							/>
 						</div>
 					</div>
@@ -59,6 +67,9 @@ const LoginPage = () => {
 								type="password"
 								required={true}
 								className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+								aria-invalid={
+									errors.password ? "true" : "false"
+								}
 							/>
 						</div>
 					</div>
