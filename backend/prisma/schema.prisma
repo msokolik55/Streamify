@@ -8,49 +8,14 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  username    String    @unique
-  email       String
-  password    String    @default("")
-  phoneNumber String?
-  picture     String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  messages    Message[]
-  count       Int       @default(0)
-  live        Boolean   @default(false)
-  streamKey   String?   @unique
-}
-
-model ChannelCategory {
-  id        String    @id @default(uuid())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  channels  Channel[]
-}
-
-model Channel {
-  id         String          @id @default(uuid())
-  name       String
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
-  deletedAt  DateTime?
-  categories ChannelCategory @relation(fields: [categoryId], references: [id])
-  categoryId String
-  messages   Message[]
-}
-
-model Message {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  content   String
-  edited    Boolean   @default(false)
-  channel   Channel   @relation(fields: [channelId], references: [id])
-  channelId String
-  sender    User      @relation(fields: [senderId], references: [id])
-  senderId  String
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String
+  password  String   @default("")
+  picture   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  count     Int      @default(0)
+  live      Boolean  @default(false)
+  streamKey String?  @unique
 }
