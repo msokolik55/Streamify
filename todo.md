@@ -9,6 +9,7 @@
 -   v bocnom menu pridat ikonku na prihlasenie sa
 -   pridat formular
 -   upravit `ProfilePage`, aby nezobrazilo, co nema (presunut do novej stranky - vlastny profil)
+-   posielat na BE iba hash hesla
 
 ## Backend
 

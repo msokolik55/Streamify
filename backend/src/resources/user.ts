@@ -168,3 +168,22 @@ export const updateLive = async (req: Request, res: Response) => {
 
 	return sendResponseSuccess(res, user);
 };
+
+/**
+ *
+ */
+export const CheckLogin = async (req: Request, res: Response) => {
+	const { username, password } = req.body;
+
+	const user = await prisma.user.findUnique({
+		where: {
+			username: username,
+		},
+		select: {
+			username: true,
+			password: true,
+		},
+	});
+
+	return sendResponseSuccess(res, user.password === password);
+};
