@@ -5,7 +5,12 @@ import { apiUrl } from "./env";
  */
 export const livePath = "/live";
 export const profilePath = "/profile";
+
 export const userPath = "/user";
+export const userProfilePath = `${userPath}/profile`;
+export const userVideosPath = `${userPath}/video`;
+export const userStreamKeyPath = `${userPath}/stream-key`;
+
 export const loginPath = "/login";
 
 /**

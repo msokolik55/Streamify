@@ -9,7 +9,15 @@ import ProfilePage from "./components/ProfilePage";
 import StreamPage from "./components/StreamPage";
 import UserPage from "./components/UserPage";
 import ErrorPage from "./components/errors/ErrorPage";
-import { apiUserUrl, livePath, profilePath, userPath } from "./urls";
+import {
+	apiUserUrl,
+	livePath,
+	profilePath,
+	userPath,
+	userProfilePath,
+	userStreamKeyPath,
+	userVideosPath,
+} from "./urls";
 
 export const shiftUserUsernames = (
 	setUserUsernames: SetterOrUpdater<userUsernames>,
@@ -51,7 +59,11 @@ export const App = () => {
 						path={`${livePath}/:username`}
 						element={<StreamPage />}
 					/>
-					<Route path={`${userPath}`} element={<UserPage />} />
+					<Route path={`${userPath}`} element={<UserPage />}>
+						<Route path={userProfilePath} />
+						<Route path={userVideosPath} />
+						<Route path={userStreamKeyPath} />
+					</Route>
 					<Route path="*" element={<ErrorPage />} />
 				</Route>
 				<Route path="*" element={<ErrorPage />} />
