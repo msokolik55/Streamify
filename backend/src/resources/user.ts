@@ -185,5 +185,5 @@ export const CheckLogin = async (req: Request, res: Response) => {
 		},
 	});
 
-	return sendResponseSuccess(res, user.password === password);
+	return sendResponseSuccess(res, user && user.password === password);
 };
