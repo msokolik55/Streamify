@@ -1,3 +1,12 @@
+1. zobrazit vsetky streamy, ktore patria uzivatelovi s danym `username`
+
+-   podla `username` ziskat vsetky data o uzivatelovi (aj jeho streamy)
+-   zobrazit v gride jeho streamy
+
+2. zobrazit konkretny stream s danym `stream key` z archivu
+
+-   dany `stream key` je nazov priecinka, v ktorom sa nachadza hladane .mp4 video
+
 # TODOs
 
 ## Autentizacia

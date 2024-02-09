@@ -1,18 +1,18 @@
 version: '3'
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - 4000:4000
+  # backend:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 4000:4000
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - 8080:8080
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8080:8080
   
   stream:
     image: bluenviron/mediamtx:latest
@@ -21,3 +21,10 @@ services:
       - 8554:8554
       - 8888:8888
       - 8889:8889
+    volumes:
+      - shared-volume:/recordings
+      - ./mediamtx.yml:/mediamtx.yml
+
+volumes:
+  shared-volume:
+    name: shared-data
