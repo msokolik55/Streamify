@@ -34,6 +34,7 @@
     -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
 -   pridat SnackBar pri prihlaseni
+-   tlacidlo "Sign in" sa posuva az uplne dole (ak je stranka vacsia ako 100vh, nevidno ho)
 
 # Refactor (na konci)
 

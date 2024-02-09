@@ -1,21 +1,29 @@
 import { NavLink } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { loggedUserAtom } from "../../atom";
 import colors from "../../styles/colors";
 import { userPath } from "../../urls";
 
 const SectionUser = () => {
-	const loggedUser = useRecoilValue(loggedUserAtom);
+	const [loggedUser, setLoggedUser] = useRecoilState(loggedUserAtom);
 
 	return (
-		<li className={`flex flex-col gap-4 flex-1 justify-end`}>
+		<li className={`flex flex-row gap-4 justify-between`}>
 			<NavLink
 				to={userPath}
-				className={`p-3 ${colors.text.selected} font-semibold rounded-md  ${colors.bg.navigation.item} hover:bg-gray-900 flex justify-center`}
+				className={`flex-1 p-3 ${colors.text.selected} font-semibold rounded-md  ${colors.bg.navigation.item} hover:bg-gray-900 flex justify-center`}
 			>
 				{!loggedUser ? "Sign in" : "Your profile"}
 			</NavLink>
+			{loggedUser && (
+				<button
+					onClick={() => setLoggedUser(undefined)}
+					className={`flex-1 p-3 ${colors.text.selected} font-semibold rounded-md  ${colors.bg.navigation.item} hover:bg-gray-900 flex justify-center`}
+				>
+					Sign out
+				</button>
+			)}
 		</li>
 	);
 };

@@ -17,8 +17,6 @@ const StreamKeyPage = () => {
 	);
 	const user = data?.data;
 
-	const { mutate } = useSWRConfig();
-
 	if (error) {
 		return <MainWindowError message={error.message} />;
 	}
@@ -28,6 +26,8 @@ const StreamKeyPage = () => {
 			<MainWindowError message="Cannot find user with given username." />
 		);
 	}
+
+	const { mutate } = useSWRConfig();
 
 	const goLive = async (live: boolean) => {
 		await fetch(`${apiUrl}/live`, {
@@ -45,10 +45,13 @@ const StreamKeyPage = () => {
 		mutate(`${apiUserUrl}/${loggedUser}`);
 	};
 
-	return (
-		<div>
-			<p>Key: {user.streamKey !== null ? user.streamKey : "none"}</p>
+	const copyStreamKey = () => {
+		navigator.clipboard.writeText(user.streamKey ?? "");
+		window.alert("Stream key copied to clipboard.");
+	};
 
+	return (
+		<div className="flex flex-col gap-4">
 			{user.streamKey === null ? (
 				<button
 					onClick={() => goLive(true)}
@@ -64,6 +67,20 @@ const StreamKeyPage = () => {
 					End live
 				</button>
 			)}
+
+			<div className="flex gap-2 items-center">
+				<span>
+					Key: {user.streamKey !== null ? user.streamKey : "(none)"}
+				</span>
+				{user.streamKey !== null && (
+					<button
+						className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+						onClick={copyStreamKey}
+					>
+						Copy
+					</button>
+				)}
+			</div>
 		</div>
 	);
 };
