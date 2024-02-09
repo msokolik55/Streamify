@@ -1,31 +1,16 @@
 import { useForm } from "react-hook-form";
+import { useSetRecoilState } from "recoil";
 
+import { isSignedInAtom } from "../atom";
+import { LoginInputs } from "../models/form";
 import { apiLoginUrl } from "../urls";
-
-type FormLabelProps = {
-	title: string;
-	for: string;
-};
-const FormLabel = (props: FormLabelProps) => {
-	return (
-		<label
-			htmlFor={props.for}
-			className="leading-6 font-medium text-sm block"
-		>
-			{props.title}
-		</label>
-	);
-};
-
-type Inputs = {
-	username: string;
-	password: string;
-};
+import FormLabel from "./FormLabel";
 
 const LoginPage = () => {
-	const { register, handleSubmit } = useForm<Inputs>();
+	const { register, handleSubmit } = useForm<LoginInputs>();
+	const setIsSignedInAtom = useSetRecoilState(isSignedInAtom);
 
-	const onSubmit = async (data: Inputs) => {
+	const onSubmit = async (data: LoginInputs) => {
 		const res = await fetch(apiLoginUrl, {
 			method: "POST",
 			headers: {
@@ -36,7 +21,8 @@ const LoginPage = () => {
 
 		const resData = await res.json();
 		const loginSuccess = resData.data;
-		console.log(loginSuccess);
+
+		if (loginSuccess) setIsSignedInAtom(true);
 	};
 
 	return (
