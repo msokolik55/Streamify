@@ -26,6 +26,7 @@
 -   \*pridat testy
 -   \*pridat demo data
 -   \*pridat Swagger (na konci podla endpointov)
+-   pridat vsetky migracie
 
 ## Frontend
 
