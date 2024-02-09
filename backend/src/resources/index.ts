@@ -1,9 +1,3 @@
-import * as user from './user';
-import * as channel from './channel';
-import * as message from './message';
+import * as user from "./user";
 
-export {
-  user,
-  channel,
-  message,
-}
+export { user };
