@@ -111,29 +111,31 @@ const StreamKeyPage = () => {
 			) : (
 				<>
 					<table>
-						<tr>
-							<td>Key:</td>
-							<td>{user.streamKey}</td>
-							<td>
-								<button
-									className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-									onClick={copyStreamKey}
-								>
-									Copy
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>Name:</td>
-							<td>
-								{
-									user.streams.filter(
-										(stream) =>
-											stream.path === user.streamKey,
-									)[0].name
-								}
-							</td>
-						</tr>
+						<tbody>
+							<tr>
+								<td>Key:</td>
+								<td>{user.streamKey}</td>
+								<td>
+									<button
+										className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+										onClick={copyStreamKey}
+									>
+										Copy
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td>Name:</td>
+								<td>
+									{
+										user.streams.filter(
+											(stream) =>
+												stream.path === user.streamKey,
+										)[0].name
+									}
+								</td>
+							</tr>
+						</tbody>
 					</table>
 
 					<button
