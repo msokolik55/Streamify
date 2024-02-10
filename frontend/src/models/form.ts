@@ -6,3 +6,8 @@ export type LoginInputs = {
 export type StreamKeyInputs = {
 	name: string;
 };
+
+export type StreamEditInputs = {
+	id: string;
+	name: string;
+};

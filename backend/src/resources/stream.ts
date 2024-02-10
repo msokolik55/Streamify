@@ -168,3 +168,25 @@ export const createStream = async (req: Request, res: Response) => {
 
 	return sendResponseSuccess(res, stream);
 };
+
+/**
+ * Edits stream
+ */
+export const editStream = async (req: Request, res: Response) => {
+	const { id, name } = req.body;
+
+	if (!id || id === "") {
+		return sendResponseError(res, 400, "Missing stream id.");
+	}
+
+	const stream = await prisma.stream.update({
+		where: {
+			id: id,
+		},
+		data: {
+			name: name,
+		},
+	});
+
+	return sendResponseSuccess(res, stream);
+};

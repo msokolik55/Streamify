@@ -10,10 +10,12 @@ import { apiStreamUrl, apiUserUrl } from "../../urls";
 import StreamCard from "../StreamCard";
 import MainWindowError from "../errors/MainWindowError";
 import DeleteDialog from "./DeleteDialog";
+import EditDialog from "./EditDialog";
 
 const VideoPage = () => {
 	const loggedUser = useRecoilValue(loggedUserAtom);
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+	const [showEditDialog, setShowEditDialog] = useState(false);
 
 	const { data, error } = useSWR<IDataUser, Error>(
 		`${apiUserUrl}/${loggedUser}`,
@@ -61,15 +63,14 @@ const VideoPage = () => {
 
 						<div className="flex flex-row gap-2">
 							<button
-								className="flex-1 bg-gray-800 font-semibold rounded-md py-2"
-								disabled={true}
+								onClick={() => setShowEditDialog(true)}
+								className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
 							>
 								Edit
 							</button>
 							<button
 								onClick={() => setShowDeleteDialog(true)}
 								className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
-								disabled={false}
 							>
 								Delete
 							</button>
@@ -80,6 +81,13 @@ const VideoPage = () => {
 						<DeleteDialog
 							setShow={setShowDeleteDialog}
 							delete={deleteStream}
+							stream={stream}
+						/>
+					)}
+
+					{showEditDialog && (
+						<EditDialog
+							setShow={setShowEditDialog}
 							stream={stream}
 						/>
 					)}
