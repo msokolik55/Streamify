@@ -21,6 +21,13 @@ const findByUsername = async (username: string) => {
 			count: true,
 			streamKey: true,
 			password: true,
+			streams: {
+				select: {
+					createdAt: true,
+					name: true,
+					path: true,
+				},
+			},
 		},
 	});
 

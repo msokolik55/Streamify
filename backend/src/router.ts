@@ -14,6 +14,7 @@ router.get(`${userPath}/:username`, user.getByUsername);
 // TODO: change to PUT
 router.get(`${userPath}/:id/inc`, user.increaseCount);
 router.get(`${userPath}/:id/dec`, user.decreaseCount);
+// ENDTODO
 
 router.get(`${livePath}`, user.getByLive);
 router.put(`${livePath}`, user.updateLive);
