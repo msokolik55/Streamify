@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { sendResponseError, sendResponseSuccess } from "./response";
 import path from "path";
 import fs from "fs";
+import { findByUsername } from "./user";
 
 /**
  * Return list of all streams
@@ -130,13 +131,38 @@ export const deleteStream = async (req: Request, res: Response) => {
 		});
 
 		fs.rmdirSync(folderPath);
-	} else {
-		return sendResponseError(res, 404, "File not found");
 	}
 
 	const stream = await prisma.stream.delete({
 		where: {
 			id: streamId,
+		},
+	});
+
+	return sendResponseSuccess(res, stream);
+};
+
+/**
+ * Creates stream
+ */
+export const createStream = async (req: Request, res: Response) => {
+	const { name, username } = req.body;
+
+	const user = await findByUsername(username);
+	if (user === null) {
+		console.error("here");
+		return sendResponseError(
+			res,
+			404,
+			"Cannot find user with given username."
+		);
+	}
+
+	const stream = await prisma.stream.create({
+		data: {
+			name: name,
+			path: user.streamKey ?? "",
+			userId: user.id,
 		},
 	});
 

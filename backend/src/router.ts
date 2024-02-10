@@ -24,7 +24,8 @@ router.post(loginPath, login.checkLogin);
 
 // router.get(`${streamPath}/:folderName`, stream.getVideoName);
 router.get(`${streamPath}/:id`, stream.getById);
-router.delete(`${streamPath}`, stream.deleteStream);
+router.post(streamPath, stream.createStream);
+router.delete(streamPath, stream.deleteStream);
 
 router.post(passwordPath, password.generatePassword);
 

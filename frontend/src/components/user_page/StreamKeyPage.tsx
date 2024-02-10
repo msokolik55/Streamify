@@ -1,11 +1,14 @@
+import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
-import { apiLiveUrl, apiUserUrl } from "../../urls";
+import { StreamKeyInputs } from "../../models/form";
+import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import MainWindowError from "../errors/MainWindowError";
+import FormLabel from "../login_page/FormLabel";
 
 const StreamKeyPage = () => {
 	const loggedUser = useRecoilValue(loggedUserAtom);
@@ -15,6 +18,12 @@ const StreamKeyPage = () => {
 		fetcher,
 	);
 	const user = data?.data;
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<StreamKeyInputs>();
 
 	if (error) {
 		return <MainWindowError message={error.message} />;
@@ -28,17 +37,34 @@ const StreamKeyPage = () => {
 
 	const { mutate } = useSWRConfig();
 
-	const goLive = async (live: boolean) => {
+	const createStream = async (name: string) => {
+		await fetch(apiStreamUrl, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name: name,
+				username: user.username,
+			}),
+		});
+	};
+
+	const onSubmit = async (data: StreamKeyInputs) => {
 		await fetch(apiLiveUrl, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: user?.id,
-				live: live,
+				id: user.id,
+				live: user.streamKey === null,
 			}),
 		});
+
+		if (user.streamKey === null) {
+			await createStream(data.name);
+		}
 
 		mutate(apiLiveUrl);
 		mutate(`${apiUserUrl}/${loggedUser}`);
@@ -51,21 +77,38 @@ const StreamKeyPage = () => {
 
 	return (
 		<div className="flex flex-col gap-4">
-			{user.streamKey === null ? (
-				<button
-					onClick={() => goLive(true)}
-					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-				>
-					Go live
-				</button>
-			) : (
-				<button
-					onClick={() => goLive(false)}
-					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-				>
-					End live
-				</button>
-			)}
+			<form
+				className="flex flex-col gap-3"
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<div>
+					<FormLabel title="Stream name" for="name" />
+					<div className="mt-2">
+						<input
+							{...register("name", {
+								required: true,
+								minLength: 3,
+							})}
+							id="name"
+							name="name"
+							type="text"
+							required={true}
+							minLength={3}
+							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+							aria-invalid={errors.name ? "true" : "false"}
+						/>
+					</div>
+				</div>
+
+				<div>
+					<button
+						className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+						type="submit"
+					>
+						{user.streamKey === null ? "Go live" : "End live"}
+					</button>
+				</div>
+			</form>
 
 			<div className="flex gap-2 items-center">
 				<span>
