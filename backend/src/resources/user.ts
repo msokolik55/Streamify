@@ -102,7 +102,11 @@ export const getByUsername = async (req: Request, res: Response) => {
  * Update user
  */
 export const update = async (req: Request, res: Response) => {
-	const { id, username, email } = req.body;
+	const { id, username, email, picture } = req.body;
+
+	if (!id || id === "") {
+		return sendResponseError(res, 400, "Missing user id.");
+	}
 
 	const user = await prisma.user.update({
 		where: {
@@ -111,6 +115,7 @@ export const update = async (req: Request, res: Response) => {
 		data: {
 			username,
 			email,
+			picture,
 		},
 	});
 
@@ -156,6 +161,10 @@ export const getByLive = async (req: Request, res: Response) => {
  */
 export const updateLive = async (req: Request, res: Response) => {
 	const { id, live } = req.body;
+
+	if (!id || id === "") {
+		return sendResponseError(res, 400, "Missing user id.");
+	}
 
 	const user = await prisma.user.update({
 		where: {

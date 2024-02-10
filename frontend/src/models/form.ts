@@ -11,3 +11,10 @@ export type StreamEditInputs = {
 	id: string;
 	name: string;
 };
+
+export type UserEditInputs = {
+	id: string;
+	username: string;
+	email: string;
+	picture: string;
+};

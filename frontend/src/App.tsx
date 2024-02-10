@@ -11,6 +11,7 @@ import StreamPage from "./components/StreamPage";
 import ErrorPage from "./components/errors/ErrorPage";
 import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
+import UserProfilePage from "./components/user_page/UserProfilePage";
 import VideoPage from "./components/user_page/VideoPage";
 import {
 	apiUserUrl,
@@ -67,8 +68,11 @@ export const App = () => {
 						path={`${livePath}/:username`}
 						element={<StreamPage />}
 					/>
-					<Route path={`${userPath}`} element={<UserPage />}>
-						<Route path={userProfilePath} />
+					<Route path={userPath} element={<UserPage />}>
+						<Route
+							path={userProfilePath}
+							element={<UserProfilePage />}
+						/>
 						<Route path={userVideosPath} element={<VideoPage />} />
 						<Route
 							path={userStreamKeyPath}

@@ -1,6 +1,5 @@
-1. uprava ulozenych videi (nazov)
-2. uprava osobnych udajov v User/Profile
-3. registracny formular
+1. uprava osobnych udajov v User/Profile
+2. registracny formular
 
 # TODOs
 
@@ -17,6 +16,7 @@
 -   \*pridat testy
 -   \*pridat demo data
 -   \*pridat Swagger (na konci podla endpointov)
+-   pridat try-catch bloky do Prismy (pri `create`, `update`, `delete`)
 
 ## Frontend
 
@@ -26,6 +26,7 @@
     -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
 -   \*pridat SnackBar pri prihlaseni
+-   upravit zmenu profilovej fotky v UserProfilePage (momentalne je `<input>` disabled)
 
 # Refactor (na konci)
 

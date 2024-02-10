@@ -17,6 +17,7 @@ const VideoPage = () => {
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditDialog, setShowEditDialog] = useState(false);
 
+	const { mutate } = useSWRConfig();
 	const { data, error } = useSWR<IDataUser, Error>(
 		`${apiUserUrl}/${loggedUser}`,
 		fetcher,
@@ -33,7 +34,6 @@ const VideoPage = () => {
 		);
 	}
 
-	const { mutate } = useSWRConfig();
 	const deleteStream = async (stream: IStream) => {
 		await fetch(apiStreamUrl, {
 			method: "DELETE",
