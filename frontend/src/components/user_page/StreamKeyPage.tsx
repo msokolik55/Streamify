@@ -50,7 +50,7 @@ const StreamKeyPage = () => {
 		});
 	};
 
-	const onSubmit = async (data: StreamKeyInputs) => {
+	const onSubmit = async (data: StreamKeyInputs | null = null) => {
 		await fetch(apiLiveUrl, {
 			method: "PUT",
 			headers: {
@@ -62,7 +62,7 @@ const StreamKeyPage = () => {
 			}),
 		});
 
-		if (user.streamKey === null) {
+		if (user.streamKey === null && data !== null) {
 			await createStream(data.name);
 		}
 
@@ -77,52 +77,73 @@ const StreamKeyPage = () => {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<form
-				className="flex flex-col gap-3"
-				onSubmit={handleSubmit(onSubmit)}
-			>
-				<div>
-					<FormLabel title="Stream name" for="name" />
-					<div className="mt-2">
-						<input
-							{...register("name", {
-								required: true,
-								minLength: 3,
-							})}
-							id="name"
-							name="name"
-							type="text"
-							required={true}
-							minLength={3}
-							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
-							aria-invalid={errors.name ? "true" : "false"}
-						/>
+			{user.streamKey === null ? (
+				<form
+					className="flex flex-col gap-3"
+					onSubmit={handleSubmit(onSubmit)}
+				>
+					<div>
+						<FormLabel title="Stream name" for="name" />
+						<div className="mt-2">
+							<input
+								{...register("name", {
+									required: true,
+									minLength: 3,
+								})}
+								id="name"
+								name="name"
+								type="text"
+								required={true}
+								minLength={3}
+								className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+								aria-invalid={errors.name ? "true" : "false"}
+							/>
+						</div>
 					</div>
-				</div>
 
-				<div>
 					<button
 						className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
 						type="submit"
 					>
-						{user.streamKey === null ? "Go live" : "End live"}
+						Go live
 					</button>
-				</div>
-			</form>
+				</form>
+			) : (
+				<>
+					<table>
+						<tr>
+							<td>Key:</td>
+							<td>{user.streamKey}</td>
+							<td>
+								<button
+									className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+									onClick={copyStreamKey}
+								>
+									Copy
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td>Name:</td>
+							<td>
+								{
+									user.streams.filter(
+										(stream) =>
+											stream.path === user.streamKey,
+									)[0].name
+								}
+							</td>
+						</tr>
+					</table>
 
-			<div className="flex gap-2 items-center">
-				<span>
-					Key: {user.streamKey !== null ? user.streamKey : "(none)"}
-				</span>
-				{user.streamKey !== null && (
 					<button
 						className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-						onClick={copyStreamKey}
+						onClick={async () => await onSubmit()}
 					>
-						Copy
+						End live
 					</button>
-				)}
-			</div>
+				</>
+			)}
 		</div>
 	);
 };

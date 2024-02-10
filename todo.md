@@ -1,12 +1,12 @@
+1. uprava ulozenych videi (nazov)
+2. uprava osobnych udajov v User/Profile
+3. registracny formular
+
 # TODOs
 
 ## Autentizacia
 
 -   \*Session key
-
-### Frontend
-
--   posielat na BE iba hash hesla (najskor si nechat vygenerovat tie hesla)
 
 ## Registracia
 

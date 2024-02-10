@@ -8,7 +8,7 @@ interface IStreamCardProps {
 const StreamCard = (props: IStreamCardProps) => {
 	return (
 		<div className="flex flex-col gap-1 rounded-md hover:bg-gray-800">
-			<video className="w-72 rounded-md">
+			<video className="w-72 rounded-md bg-black">
 				<source
 					src={`/recordings/${props.stream.path}/video.mp4`}
 					type="video/mp4"
