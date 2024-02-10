@@ -7,7 +7,7 @@ import { findByUsername } from "./user";
 /**
  * Generate password
  */
-export const generatePassword = async (req: Request, res: Response) => {
+export const changePassword = async (req: Request, res: Response) => {
 	const { username, oldPassword, newPassword } = req.body;
 
 	const oldUser = await findByUsername(username);

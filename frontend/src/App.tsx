@@ -7,6 +7,7 @@ import { userUsernames, userUsernamesAtom } from "./atom";
 import MainPage from "./components/MainPage";
 import ProfilePage from "./components/ProfilePage";
 import RecordingPage from "./components/RecordingPage";
+import RegisterPage from "./components/RegisterPage";
 import StreamPage from "./components/StreamPage";
 import ErrorPage from "./components/errors/ErrorPage";
 import StreamKeyPage from "./components/user_page/StreamKeyPage";
@@ -17,6 +18,7 @@ import {
 	apiUserUrl,
 	livePath,
 	profilePath,
+	registerPath,
 	streamPath,
 	userPath,
 	userProfilePath,
@@ -68,6 +70,7 @@ export const App = () => {
 						path={`${livePath}/:username`}
 						element={<StreamPage />}
 					/>
+					<Route path={registerPath} element={<RegisterPage />} />
 					<Route path={userPath} element={<UserPage />}>
 						<Route
 							path={userProfilePath}

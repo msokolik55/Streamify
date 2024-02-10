@@ -1,5 +1,5 @@
-1. uprava osobnych udajov v User/Profile
-2. registracny formular
+1. registracny formular
+2. zmena hesla
 
 # TODOs
 
@@ -27,6 +27,7 @@
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
 -   \*pridat SnackBar pri prihlaseni
 -   upravit zmenu profilovej fotky v UserProfilePage (momentalne je `<input>` disabled)
+-   pridat default picture, ak chyba niekomu obrazok
 
 # Refactor (na konci)
 

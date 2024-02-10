@@ -2,6 +2,7 @@ import prisma from "../client";
 import { Request, Response } from "express";
 import { sendResponseError, sendResponseSuccess } from "./response";
 import { randomUUID } from "crypto";
+import bcrypt from "bcrypt";
 
 const ops = {
 	inc: (a: number) => a + 1,
@@ -116,6 +117,24 @@ export const update = async (req: Request, res: Response) => {
 			username,
 			email,
 			picture,
+		},
+	});
+
+	return sendResponseSuccess(res, user);
+};
+
+/**
+ * Create user
+ */
+export const create = async (req: Request, res: Response) => {
+	const { username, email, picture, password } = req.body;
+
+	const user = await prisma.user.create({
+		data: {
+			username,
+			email,
+			picture,
+			password: bcrypt.hashSync(password, 10),
 		},
 	});
 

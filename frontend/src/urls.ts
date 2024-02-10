@@ -13,6 +13,7 @@ export const userStreamKeyPath = `${userPath}/stream-key`;
 
 export const loginPath = "/login";
 export const streamPath = "/stream";
+export const registerPath = "/register";
 
 /**
  * Backend (API) paths

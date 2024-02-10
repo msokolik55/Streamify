@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 import { loggedUserAtom } from "../../atom";
 import { LoginInputs } from "../../models/form";
-import { apiLoginUrl } from "../../urls";
+import { apiLoginUrl, registerPath } from "../../urls";
 import FormLabel from "./FormLabel";
 
 const LoginPage = () => {
@@ -90,6 +91,12 @@ const LoginPage = () => {
 						</button>
 					</div>
 				</form>
+
+				<Link to={registerPath}>
+					<div className="text-sm text-blue-300 mt-2 hover:text-blue-500">
+						Don't you have an account? Register here
+					</div>
+				</Link>
 			</div>
 		</div>
 	);

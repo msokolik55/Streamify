@@ -10,6 +10,7 @@ const streamPath = "/stream";
 const passwordPath = "/password";
 
 router.get(userPath, user.get);
+router.post(userPath, user.create);
 router.put(userPath, user.update);
 router.get(`${userPath}/:username`, user.getByUsername);
 // TODO: change to PUT
@@ -28,7 +29,7 @@ router.post(streamPath, stream.createStream);
 router.put(streamPath, stream.editStream);
 router.delete(streamPath, stream.deleteStream);
 
-router.post(passwordPath, password.generatePassword);
+router.post(passwordPath, password.changePassword);
 
 router.get("*", (_: Request, res: Response) => {
 	res.status(404).send({ error: "Path not found" });

@@ -18,3 +18,10 @@ export type UserEditInputs = {
 	email: string;
 	picture: string;
 };
+
+export type UserCreateInputs = {
+	username: string;
+	email: string;
+	picture?: string;
+	password: string;
+};
