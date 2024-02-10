@@ -1,12 +1,3 @@
-1. zobrazit vsetky streamy, ktore patria uzivatelovi s danym `username`
-
--   podla `username` ziskat vsetky data o uzivatelovi (aj jeho streamy)
--   zobrazit v gride jeho streamy
-
-2. zobrazit konkretny stream s danym `stream key` z archivu
-
--   dany `stream key` je nazov priecinka, v ktorom sa nachadza hladane .mp4 video
-
 # TODOs
 
 ## Autentizacia
@@ -29,12 +20,13 @@
 
 ## Frontend
 
--   upravit dizajn <iframe> vo VideoPlayer (pouzit <video-react>)
+-   upravit dizajn `<iframe>` vo VideoPlayer (pouzit `<video-react>`)
 -   opravit zvysovanie count (App.tsx) - pozriet moznosti API:
     -   upravit /inc, /dec cez streamKey
     -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
 -   \*pridat SnackBar pri prihlaseni
+-   pridat `<dialog>` pred odstranenim videa
 
 # Refactor (na konci)
 
@@ -45,6 +37,7 @@
 -   zlucenie DB modelov cez TS typy (aj FE, aj BE)
 -   zjednotit nazov "Login" a "SignIn"
 -   zjednotit "interface" a "type"
+-   zjednotnit nazov "recording", "video", "stream"
 -   ulozit globalne nazov ulozeneho videa (momentalne `video.mp4`)
 
 ## Backend
@@ -53,7 +46,7 @@
 
 ## Frontend
 
--   zjednotit design tlacidiel <button>
+-   zjednotit design tlacidiel `<button>`
 -   pridat url cesty do suboru s konstantami
 -   odstranit priecinok `store`
 -   odstranit nepouzite komponenty

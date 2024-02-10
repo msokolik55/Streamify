@@ -8,7 +8,7 @@ const ops = {
 	dec: (a: number) => a - 1,
 };
 
-const findByUsername = async (username: string) => {
+export const findByUsername = async (username: string) => {
 	const user = await prisma.user.findUnique({
 		where: {
 			username: username,
@@ -167,26 +167,4 @@ export const updateLive = async (req: Request, res: Response) => {
 	});
 
 	return sendResponseSuccess(res, user);
-};
-
-/**
- * Check user login attempt
- */
-export const checkLogin = async (req: Request, res: Response) => {
-	const { username, password } = req.body;
-
-	const user = await findByUsername(username);
-	if (user === null) {
-		return sendResponseError(
-			res,
-			404,
-			"Cannot find user with given username."
-		);
-	}
-
-	if (user.password !== password) {
-		return sendResponseError(res, 400, "Wrong password.");
-	}
-
-	return sendResponseSuccess(res, true);
 };
