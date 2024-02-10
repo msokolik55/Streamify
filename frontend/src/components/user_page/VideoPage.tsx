@@ -54,11 +54,8 @@ const VideoPage = () => {
 		<div className="flex flex-row gap-4 overflow-auto flex-wrap">
 			{user.streams.length === 0 && <p>No videos to show.</p>}
 			{user.streams.map((stream, id) => (
-				<>
-					<div
-						className="flex flex-col gap-2"
-						key={`stream-${stream.name}-${id}`}
-					>
+				<div key={`stream-${stream.name}-${id}`}>
+					<div className="flex flex-col gap-2">
 						<StreamCard stream={stream} username={user.username} />
 
 						<div className="flex flex-row gap-2">
@@ -91,7 +88,7 @@ const VideoPage = () => {
 							stream={stream}
 						/>
 					)}
-				</>
+				</div>
 			))}
 		</div>
 	);
