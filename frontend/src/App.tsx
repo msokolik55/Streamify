@@ -10,6 +10,7 @@ import RecordingPage from "./components/RecordingPage";
 import RegisterPage from "./components/RegisterPage";
 import StreamPage from "./components/StreamPage";
 import ErrorPage from "./components/errors/ErrorPage";
+import PasswordPage from "./components/user_page/PasswordPage";
 import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
 import UserProfilePage from "./components/user_page/UserProfilePage";
@@ -20,6 +21,7 @@ import {
 	profilePath,
 	registerPath,
 	streamPath,
+	userPasswordPath,
 	userPath,
 	userProfilePath,
 	userStreamKeyPath,
@@ -80,6 +82,10 @@ export const App = () => {
 						<Route
 							path={userStreamKeyPath}
 							element={<StreamKeyPage />}
+						/>
+						<Route
+							path={userPasswordPath}
+							element={<PasswordPage />}
 						/>
 					</Route>
 					<Route path="*" element={<ErrorPage />} />

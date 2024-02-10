@@ -25,3 +25,9 @@ export type UserCreateInputs = {
 	picture?: string;
 	password: string;
 };
+
+export type PasswordEditInputs = {
+	oldPassword: string;
+	newPassword: string;
+	confirmNewPassword: string;
+};

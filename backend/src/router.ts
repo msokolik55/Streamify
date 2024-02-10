@@ -30,7 +30,7 @@ router.post(streamPath, stream.createStream);
 router.put(streamPath, stream.editStream);
 router.delete(streamPath, stream.deleteStream);
 
-router.post(passwordPath, password.changePassword);
+router.put(passwordPath, password.changePassword);
 
 router.get("*", (_: Request, res: Response) => {
 	res.status(404).send({ error: "Path not found" });

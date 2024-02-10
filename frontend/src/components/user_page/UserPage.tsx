@@ -2,7 +2,12 @@ import { Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { loggedUserAtom } from "../../atom";
-import { userProfilePath, userStreamKeyPath, userVideosPath } from "../../urls";
+import {
+	userPasswordPath,
+	userProfilePath,
+	userStreamKeyPath,
+	userVideosPath,
+} from "../../urls";
 import LoginPage from "../login_page/LoginPage";
 import HeaderLink from "./HeaderLink";
 
@@ -22,6 +27,7 @@ const UserPage = () => {
 							path={userStreamKeyPath}
 							title="Stream key"
 						/>
+						<HeaderLink path={userPasswordPath} title="Password" />
 					</nav>
 
 					<Outlet />
