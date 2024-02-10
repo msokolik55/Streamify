@@ -12,6 +12,7 @@ const passwordPath = "/password";
 router.get(userPath, user.get);
 router.post(userPath, user.create);
 router.put(userPath, user.update);
+router.delete(userPath, user.deleteUser);
 router.get(`${userPath}/:username`, user.getByUsername);
 // TODO: change to PUT
 router.get(`${userPath}/:id/inc`, user.increaseCount);

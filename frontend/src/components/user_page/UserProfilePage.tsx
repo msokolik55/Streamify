@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Navigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
@@ -7,13 +8,14 @@ import { loggedUserAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
-import { apiLiveUrl, apiUserUrl } from "../../urls";
+import { apiLiveUrl, apiUserUrl, userPath } from "../../urls";
 import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
 const UserProfilePage = () => {
 	const [loggedUser, setLoggedUser] = useRecoilState(loggedUserAtom);
 	const [edit, setEdit] = useState(false);
+	const [deleted, setDeleted] = useState(false);
 
 	const {
 		register,
@@ -42,6 +44,27 @@ const UserProfilePage = () => {
 
 		if (res.status === 200) setLoggedUser(data.username);
 		setEdit(false);
+	};
+
+	const deleteAccount = async () => {
+		const res = await fetch(apiUserUrl, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				username: loggedUser,
+			}),
+		});
+
+		mutate(`${apiUserUrl}/${loggedUser}`);
+		mutate(apiUserUrl);
+		mutate(apiLiveUrl);
+
+		if (res.status === 200) {
+			setLoggedUser(undefined);
+			setDeleted(true);
+		}
 	};
 
 	const { data, error } = useSWR<IDataUser, Error>(
@@ -156,12 +179,21 @@ const UserProfilePage = () => {
 				)}
 			</form>
 			{!edit && (
-				<button
-					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-					onClick={() => setEdit(true)}
-				>
-					Edit
-				</button>
+				<div className="flex flex-col gap-2">
+					<button
+						className="w-full leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+						onClick={() => setEdit(true)}
+					>
+						Edit
+					</button>
+					<button
+						onClick={deleteAccount}
+						className="w-full leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600 mt-8"
+					>
+						Delete account
+					</button>
+					{deleted && <Navigate to={userPath} />}
+				</div>
 			)}
 		</div>
 	);

@@ -1,5 +1,4 @@
-1. registracny formular
-2. zmena hesla
+1. zmena hesla
 
 # TODOs
 
@@ -25,7 +24,8 @@
     -   upravit /inc, /dec cez streamKey
     -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
--   \*pridat SnackBar pri prihlaseni
+-   \*pridat SnackBar pri prihlaseni / editacii / odstraneni
+-   \*pridat `<dialogy>` pri editacii / odstraneni
 -   upravit zmenu profilovej fotky v UserProfilePage (momentalne je `<input>` disabled)
 -   pridat default picture, ak chyba niekomu obrazok
 

@@ -124,6 +124,25 @@ export const update = async (req: Request, res: Response) => {
 };
 
 /**
+ * Delete user
+ */
+export const deleteUser = async (req: Request, res: Response) => {
+	const { username } = req.body;
+
+	if (!username || username === "") {
+		return sendResponseError(res, 400, "Missing user username.");
+	}
+
+	const user = await prisma.user.delete({
+		where: {
+			username: username,
+		},
+	});
+
+	return sendResponseSuccess(res, user);
+};
+
+/**
  * Create user
  */
 export const create = async (req: Request, res: Response) => {
