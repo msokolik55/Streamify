@@ -1,3 +1,5 @@
+import { IStream } from "./IStream";
+
 export interface IUser {
 	id: string;
 	username: string;
@@ -5,4 +7,5 @@ export interface IUser {
 	email: string;
 	count: number;
 	streamKey: string | null;
+	streams: IStream[];
 }

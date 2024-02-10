@@ -44,6 +44,7 @@
 -   usporiadat importy
 -   zlucenie DB modelov cez TS typy (aj FE, aj BE)
 -   zjednotit nazov "Login" a "SignIn"
+-   zjednotit "interface" a "type"
 
 ## Backend
 
