@@ -45,6 +45,7 @@
 -   zlucenie DB modelov cez TS typy (aj FE, aj BE)
 -   zjednotit nazov "Login" a "SignIn"
 -   zjednotit "interface" a "type"
+-   ulozit globalne nazov ulozeneho videa (momentalne `video.mp4`)
 
 ## Backend
 

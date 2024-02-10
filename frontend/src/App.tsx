@@ -6,6 +6,7 @@ import { useSWRConfig } from "swr";
 import { userUsernames, userUsernamesAtom } from "./atom";
 import MainPage from "./components/MainPage";
 import ProfilePage from "./components/ProfilePage";
+import RecordingPage from "./components/RecordingPage";
 import StreamPage from "./components/StreamPage";
 import ErrorPage from "./components/errors/ErrorPage";
 import StreamKeyPage from "./components/user_page/StreamKeyPage";
@@ -14,6 +15,7 @@ import {
 	apiUserUrl,
 	livePath,
 	profilePath,
+	streamPath,
 	userPath,
 	userProfilePath,
 	userStreamKeyPath,
@@ -55,6 +57,10 @@ export const App = () => {
 					<Route
 						path={`${profilePath}/:username`}
 						element={<ProfilePage />}
+					/>
+					<Route
+						path={`${streamPath}/:streamId`}
+						element={<RecordingPage />}
 					/>
 					<Route
 						path={`${livePath}/:username`}

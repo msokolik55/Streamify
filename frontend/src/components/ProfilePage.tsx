@@ -8,6 +8,7 @@ import { userUsernamesAtom } from "../atom";
 import { IDataUser } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
 import { apiUserUrl } from "../urls";
+import StreamCard from "./StreamCard";
 import MainWindowError from "./errors/MainWindowError";
 
 const ProfilePage = () => {
@@ -37,14 +38,6 @@ const ProfilePage = () => {
 		);
 	}
 
-	// TODO: add attribute Streams in Prisma
-	const userStreams: { link: string; image: string; title: string }[] = [
-		{ link: "#", image: "", title: "Stream 1" },
-		{ link: "#", image: "", title: "Stream 2" },
-		{ link: "#", image: "", title: "Stream 3" },
-	];
-	// ENDTODO
-
 	return (
 		<div className="px-8 pt-6 flex flex-col gap-8">
 			<div className="flex flex-row gap-x-4 items-center">
@@ -56,24 +49,13 @@ const ProfilePage = () => {
 			</div>
 
 			<div className="flex flex-row gap-4 overflow-auto flex-wrap">
-				{userStreams.map((userStream, id) => (
-					<div
-						key={`stream-${userStream.title}-${id}`}
-						className="flex flex-col gap-1 rounded-md border"
-					>
-						<img
-							alt="stream's picture"
-							src=""
-							className="min-w-72"
-						/>
-
-						<div className="flex flex-col">
-							<span className="font-semibold">
-								{userStream.title}
-							</span>
-							<span className="text-sm">{user.username}</span>
-						</div>
-					</div>
+				{user.streams.length === 0 && <p>No videos to show.</p>}
+				{user.streams.map((stream, id) => (
+					<StreamCard
+						key={`stream-${stream.name}-${id}`}
+						stream={stream}
+						username={user.username}
+					/>
 				))}
 			</div>
 		</div>
