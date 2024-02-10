@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
@@ -8,9 +9,11 @@ import fetcher from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 import StreamCard from "../StreamCard";
 import MainWindowError from "../errors/MainWindowError";
+import DeleteDialog from "./DeleteDialog";
 
 const VideoPage = () => {
 	const loggedUser = useRecoilValue(loggedUserAtom);
+	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
 	const { data, error } = useSWR<IDataUser, Error>(
 		`${apiUserUrl}/${loggedUser}`,
@@ -42,34 +45,45 @@ const VideoPage = () => {
 		});
 
 		mutate(`${apiUserUrl}/${loggedUser}`);
+		setShowDeleteDialog(false);
 	};
 
 	return (
 		<div className="flex flex-row gap-4 overflow-auto flex-wrap">
 			{user.streams.length === 0 && <p>No videos to show.</p>}
 			{user.streams.map((stream, id) => (
-				<div
-					className="flex flex-col gap-2"
-					key={`stream-${stream.name}-${id}`}
-				>
-					<StreamCard stream={stream} username={user.username} />
+				<>
+					<div
+						className="flex flex-col gap-2"
+						key={`stream-${stream.name}-${id}`}
+					>
+						<StreamCard stream={stream} username={user.username} />
 
-					<div className="flex flex-row gap-2">
-						<button
-							className="flex-1 bg-gray-800 font-semibold rounded-md py-2"
-							disabled={true}
-						>
-							Edit
-						</button>
-						<button
-							onClick={() => deleteStream(stream)}
-							className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
-							disabled={false}
-						>
-							Delete
-						</button>
+						<div className="flex flex-row gap-2">
+							<button
+								className="flex-1 bg-gray-800 font-semibold rounded-md py-2"
+								disabled={true}
+							>
+								Edit
+							</button>
+							<button
+								onClick={() => setShowDeleteDialog(true)}
+								className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
+								disabled={false}
+							>
+								Delete
+							</button>
+						</div>
 					</div>
-				</div>
+
+					{showDeleteDialog && (
+						<DeleteDialog
+							setShow={setShowDeleteDialog}
+							delete={deleteStream}
+							stream={stream}
+						/>
+					)}
+				</>
 			))}
 		</div>
 	);
