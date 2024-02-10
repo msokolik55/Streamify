@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
 
@@ -7,7 +7,7 @@ import { shiftUserUsernames } from "../App";
 import { userUsernamesAtom } from "../atom";
 import { IDataUser } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
-import { apiUserUrl } from "../urls";
+import { apiUserUrl, streamPath } from "../urls";
 import StreamCard from "./StreamCard";
 import MainWindowError from "./errors/MainWindowError";
 
@@ -51,11 +51,13 @@ const ProfilePage = () => {
 			<div className="flex flex-row gap-4 overflow-auto flex-wrap">
 				{user.streams.length === 0 && <p>No videos to show.</p>}
 				{user.streams.map((stream, id) => (
-					<StreamCard
-						key={`stream-${stream.name}-${id}`}
-						stream={stream}
-						username={user.username}
-					/>
+					<Link to={`${streamPath}/${stream.id}`}>
+						<StreamCard
+							key={`stream-${stream.name}-${id}`}
+							stream={stream}
+							username={user.username}
+						/>
+					</Link>
 				))}
 			</div>
 		</div>

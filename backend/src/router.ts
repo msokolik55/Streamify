@@ -24,6 +24,7 @@ router.post(loginPath, user.checkLogin);
 
 // router.get(`${streamPath}/:folderName`, stream.getVideoName);
 router.get(`${streamPath}/:id`, stream.getById);
+router.delete(`${streamPath}`, stream.deleteStream);
 
 router.get("*", (_: Request, res: Response) => {
 	res.status(404).send({ error: "Path not found" });

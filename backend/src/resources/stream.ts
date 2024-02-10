@@ -1,8 +1,8 @@
 import prisma from "../client";
 import { Request, Response } from "express";
 import { sendResponseError, sendResponseSuccess } from "./response";
-// import path from "path";
-// import fs from "fs";
+import path from "path";
+import fs from "fs";
 
 /**
  * Return list of all streams
@@ -107,3 +107,38 @@ export const getById = async (req: Request, res: Response) => {
 // 		sendResponseSuccess(res, mp4File);
 // 	});
 // };
+
+/**
+ * Deletes stream
+ */
+export const deleteStream = async (req: Request, res: Response) => {
+	const { streamId, filePath } = req.body;
+
+	if (!filePath || filePath === "") {
+		return sendResponseError(res, 400, "Missing folder path.");
+	}
+
+	if (!streamId || streamId === "") {
+		return sendResponseError(res, 400, "Missing stream id.");
+	}
+
+	const folderPath = path.join("recordings", filePath);
+	if (fs.existsSync(folderPath)) {
+		fs.readdirSync(folderPath).forEach((file) => {
+			const fullPath = path.join(folderPath, file);
+			fs.unlinkSync(fullPath);
+		});
+
+		fs.rmdirSync(folderPath);
+	} else {
+		return sendResponseError(res, 404, "File not found");
+	}
+
+	const stream = await prisma.stream.delete({
+		where: {
+			id: streamId,
+		},
+	});
+
+	return sendResponseSuccess(res, stream);
+};

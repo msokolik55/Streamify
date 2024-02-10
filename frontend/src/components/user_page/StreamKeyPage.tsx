@@ -54,14 +54,14 @@ const StreamKeyPage = () => {
 			{user.streamKey === null ? (
 				<button
 					onClick={() => goLive(true)}
-					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 mt-2 hover:bg-gray-600"
+					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
 				>
 					Go live
 				</button>
 			) : (
 				<button
 					onClick={() => goLive(false)}
-					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 mt-2 hover:bg-gray-600"
+					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
 				>
 					End live
 				</button>
