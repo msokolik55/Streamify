@@ -51,12 +51,11 @@ const ProfilePage = () => {
 			<div className="flex flex-row gap-4 overflow-auto flex-wrap">
 				{user.streams.length === 0 && <p>No videos to show.</p>}
 				{user.streams.map((stream, id) => (
-					<Link to={`${streamPath}/${stream.id}`}>
-						<StreamCard
-							key={`stream-${stream.name}-${id}`}
-							stream={stream}
-							username={user.username}
-						/>
+					<Link
+						key={`stream-${stream.name}-${id}`}
+						to={`${streamPath}/${stream.id}`}
+					>
+						<StreamCard stream={stream} username={user.username} />
 					</Link>
 				))}
 			</div>
