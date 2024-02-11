@@ -1,3 +1,8 @@
+# Kubernetes
+
+-   pridat Frontend
+-   pridat Backend
+
 # TODOs
 
 ## Formulare (FE)
