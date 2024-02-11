@@ -1,23 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mediamtx-deployment
+  name: stream-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mediamtx
+      app: stream
   template:
     metadata:
       labels:
-        app: mediamtx
+        app: stream
     spec:
       containers:
-        - name: mediamtx
+        - name: stream
           image: bluenviron/mediamtx:latest
           volumeMounts:
             - name: shared-volume
               mountPath: /recordings
+            - name: config-volume
+              mountPath: /mediamtx.yml
+              subPath: mediamtx.yml
       volumes:
         - name: shared-volume
           emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: stream-config
