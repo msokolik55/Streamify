@@ -1,14 +1,8 @@
-1. zmena hesla
-
 # TODOs
 
 ## Autentizacia
 
 -   \*Session key
-
-## Registracia
-
--   pridat stranku s moznostou registracie (CRUD pre User)
 
 ## Backend
 
@@ -24,10 +18,20 @@
     -   upravit /inc, /dec cez streamKey
     -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
     -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
--   \*pridat SnackBar pri prihlaseni / editacii / odstraneni
--   \*pridat `<dialogy>` pri editacii / odstraneni
 -   upravit zmenu profilovej fotky v UserProfilePage (momentalne je `<input>` disabled)
 -   pridat default picture, ak chyba niekomu obrazok
+
+### Formulare
+
+-   zahrna vsetky `<form>`
+-   pri chybe / uspechu
+
+    1. `errorMessage` ako pri `LoginPage`
+    2. `alert()`
+    3. `Snackbar`
+
+-   \*pridat SnackBar pri prihlaseni / editacii / odstraneni
+-   \*pridat `<dialogy>` pri editacii / odstraneni
 
 # Refactor (na konci)
 
