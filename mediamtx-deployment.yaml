@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: mediamtx-deployment
+  name: mediamtx-deployment
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: mediamtx
-    template:
-        metadata:
-            labels:
-                app: mediamtx
-        spec:
-            containers:
-                - name: mediamtx
-                  image: bluenviron/mediamtx:latest
-                  volumeMounts:
-                      - name: shared-volume
-                        mountPath: /recordings
-            volumes:
-                - name: shared-volume
-                  emptyDir: {}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediamtx
+  template:
+    metadata:
+      labels:
+        app: mediamtx
+    spec:
+      containers:
+        - name: mediamtx
+          image: bluenviron/mediamtx:latest
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /recordings
+      volumes:
+        - name: shared-volume
+          emptyDir: {}
