@@ -1,27 +1,6 @@
 # TODOs
 
-## Autentizacia
-
--   \*Session key
-
-## Backend
-
--   \*pridat testy
--   \*pridat demo data
--   \*pridat Swagger (na konci podla endpointov)
--   pridat try-catch bloky do Prismy (pri `create`, `update`, `delete`)
-
-## Frontend
-
--   upravit dizajn `<iframe>` vo VideoPlayer (pouzit `<video-react>`)
--   opravit zvysovanie count (App.tsx) - pozriet moznosti API:
-    -   upravit /inc, /dec cez streamKey
-    -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
-    -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
--   upravit zmenu profilovej fotky v UserProfilePage (momentalne je `<input>` disabled)
--   pridat default picture, ak chyba niekomu obrazok
-
-### Formulare
+## Formulare (FE)
 
 -   zahrna vsetky `<form>`
 -   pri chybe / uspechu
@@ -33,6 +12,27 @@
 -   \*pridat SnackBar pri prihlaseni / editacii / odstraneni
 -   \*pridat `<dialogy>` pri editacii / odstraneni
 
+## Backend
+
+-   \*pridat testy
+-   \*pridat demo data
+-   \*pridat Swagger (na konci podla endpointov)
+-   pridat try-catch bloky do Prismy (pri `create`, `update`, `delete`)
+
+## Frontend
+
+-   pridat default picture, ak chyba niekomu obrazok
+-   upravit dizajn `<iframe>` vo VideoPlayer (pouzit `<video-react>`)
+-   opravit zvysovanie count (App.tsx) - pozriet moznosti API:
+    -   upravit /inc, /dec cez streamKey
+    -   sekcia Profiles/Link nema zvysovat count uzivatelovi (momentalne zvysuje)
+    -   \*opravit pricitavanie count-ov (momentalne sa pricita +2, nie +1)
+-   upravit zmenu profilovej fotky v UserProfilePage (momentalne je `<input>` disabled)
+
+## Autentizacia (BE, FE)
+
+-   \*Session key
+
 # Refactor (na konci)
 
 -   odstranit nepouzite funkcie
@@ -43,17 +43,17 @@
 -   zjednotit nazov "Login" a "SignIn"
 -   zjednotit "interface" a "type"
 -   zjednotnit nazov "recording", "video", "stream"
--   ulozit globalne nazov ulozeneho videa (momentalne `video.mp4`)
+-   ulozit globalny nazov ukladaneho videa (momentalne `video.mp4`)
 
 ## Backend
 
 -   pridat vsade status kody
+    -   zistit, ake status kody existuju (uspech 2xx / chyba 4xx)
 
 ## Frontend
 
 -   zjednotit design tlacidiel `<button>`
 -   pridat url cesty do suboru s konstantami
--   odstranit priecinok `store`
 -   odstranit nepouzite komponenty
 -   odstranit nepouzite veci z `/public`
 -   odstranit nepouzite veci z `/assets`
