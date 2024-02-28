@@ -1,3 +1,18 @@
+-   pridat fotky k uzivatelom (default obrazok, ktory sa zobrazi, ak uzivatel nema nastavenu fotku) (uzivatel "perro" nema)
+-   precistit data (videa), s ktorymi som implementoval feature-y, a zacat pracovat s realnymi datami
+-   pridat ikonky ku tlacidlam
+-   zmenit ikonku pri editacii videa na stranke profilu
+-   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)
+-   responzivny dizajn
+-   pridat udaj k formularovym polozkam ohladom minimalnej dlzky, required, ...
+-   zobrazenie ulozenych videi po streamovani
+    -   pri kliknuti na "Go live" sa vytvori zaznam v databaze
+    -   ked OBS Studio skonci streaming, tak sa zaznam ulozi do spolocneho volume
+    -   ak OBS Studio nezacne streaming, potom je vytvoreny zaznam bez realneho videa
+        -   odstranit zaznam v databaze
+        -   pri kliknuti na tlacidlo v profile "End live" skontrolovat, ci existuje nejaky subor - ak nie, odstranit zaznam
+        -   skontrolovat na strane FE, ci dane video nehodi chybu (podla console v prehliadaci)
+
 # Kubernetes
 
 -   pridat Frontend

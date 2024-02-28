@@ -23,7 +23,7 @@ services:
       - 8889:8889
     volumes:
       - shared-volume:/recordings
-      - ./mediamtx.yml:/mediamtx.yml
+      - ./k8s/mediamtx.yml:/mediamtx.yml
 
 volumes:
   shared-volume:
