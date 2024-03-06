@@ -41,7 +41,6 @@ const VideoPage = () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				streamId: stream.id,
 				filePath: stream.path,
 			}),
 		});

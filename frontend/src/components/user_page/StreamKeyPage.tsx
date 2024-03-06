@@ -64,6 +64,18 @@ const StreamKeyPage = () => {
 
 		if (user.streamKey === null && data !== null) {
 			await createStream(data.name);
+		} else {
+			await fetch(apiStreamUrl, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					filePath: user.streamKey,
+				}),
+			});
+
+			mutate(`${apiUserUrl}/${loggedUser}`);
 		}
 
 		mutate(apiLiveUrl);
@@ -118,6 +130,17 @@ const StreamKeyPage = () => {
 					<table>
 						<tbody>
 							<tr>
+								<td>Name:</td>
+								<td>
+									{
+										user.streams.filter(
+											(stream) =>
+												stream.path === user.streamKey,
+										)[0].name
+									}
+								</td>
+							</tr>
+							<tr>
 								<td>Key:</td>
 								<td>{user.streamKey}</td>
 								<td>
@@ -127,17 +150,6 @@ const StreamKeyPage = () => {
 									>
 										Copy
 									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Name:</td>
-								<td>
-									{
-										user.streams.filter(
-											(stream) =>
-												stream.path === user.streamKey,
-										)[0].name
-									}
 								</td>
 							</tr>
 						</tbody>
