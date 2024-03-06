@@ -87,7 +87,7 @@ const EditDialog = (props: EditDialogProps) => {
 												defaultValue={props.stream.id}
 												type="hidden"
 											/>
-											<label>Name: </label>
+											<label>*Name (min. 3): </label>
 											<input
 												{...register("name", {
 													required: true,
