@@ -42,7 +42,10 @@ const ProfilePage = () => {
 		<div className="px-8 pt-6 flex flex-col gap-8">
 			<div className="flex flex-row gap-x-4 items-center">
 				<div className="w-20 h-20">
-					<img src={user.picture} className="rounded-full" />
+					<img
+						src={user.picture ?? "/profile_picture.jpg"}
+						className="rounded-full"
+					/>
 				</div>
 
 				<h1 className="font-semibold text-2xl">{user.username}</h1>

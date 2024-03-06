@@ -1,4 +1,3 @@
--   pridat fotky k uzivatelom (default obrazok, ktory sa zobrazi, ak uzivatel nema nastavenu fotku) (uzivatel "perro" nema)
 -   precistit data (videa), s ktorymi som implementoval feature-y, a zacat pracovat s realnymi datami
 -   pridat ikonky ku tlacidlam
 -   zmenit ikonku pri editacii videa na stranke profilu
