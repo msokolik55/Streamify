@@ -68,6 +68,7 @@ const RegisterPage = () => {
 							type="text"
 							required={true}
 							minLength={3}
+							pattern="[a-zA-Z0-9_]{3,}"
 							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
 							aria-invalid={errors.username ? "true" : "false"}
 						/>
