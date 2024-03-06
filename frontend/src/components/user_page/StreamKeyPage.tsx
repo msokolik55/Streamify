@@ -83,7 +83,12 @@ const StreamKeyPage = () => {
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<div>
-						<FormLabel title="Stream name" for="name" />
+						<FormLabel
+							title="Stream name"
+							for="name"
+							required={true}
+							minLength={3}
+						/>
 						<div className="mt-2">
 							<input
 								{...register("name", {

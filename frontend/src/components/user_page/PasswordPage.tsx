@@ -56,7 +56,12 @@ const PasswordPage = () => {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div>
-					<FormLabel title="Old password" for="oldPassword" />
+					<FormLabel
+						title="Old password"
+						for="oldPassword"
+						required={true}
+						minLength={5}
+					/>
 					<div className="mt-2">
 						<input
 							{...register("oldPassword", {
@@ -74,7 +79,12 @@ const PasswordPage = () => {
 					</div>
 				</div>
 				<div>
-					<FormLabel title="New password" for="newPassword" />
+					<FormLabel
+						title="New password"
+						for="newPassword"
+						required={true}
+						minLength={5}
+					/>
 					<div className="mt-2">
 						<input
 							{...register("newPassword", {
@@ -95,6 +105,8 @@ const PasswordPage = () => {
 					<FormLabel
 						title="Confirm new password"
 						for="confirmNewPassword"
+						required={true}
+						minLength={5}
 					/>
 					<div className="mt-2">
 						<input

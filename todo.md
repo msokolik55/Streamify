@@ -1,9 +1,3 @@
--   precistit data (videa), s ktorymi som implementoval feature-y, a zacat pracovat s realnymi datami
--   pridat ikonky ku tlacidlam
--   zmenit ikonku pri editacii videa na stranke profilu
--   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)
--   responzivny dizajn
--   pridat udaj k formularovym polozkam ohladom minimalnej dlzky, required, ...
 -   zobrazenie ulozenych videi po streamovani
     -   pri kliknuti na "Go live" sa vytvori zaznam v databaze
     -   ked OBS Studio skonci streaming, tak sa zaznam ulozi do spolocneho volume
@@ -11,6 +5,10 @@
         -   odstranit zaznam v databaze
         -   pri kliknuti na tlacidlo v profile "End live" skontrolovat, ci existuje nejaky subor - ak nie, odstranit zaznam
         -   skontrolovat na strane FE, ci dane video nehodi chybu (podla console v prehliadaci)
+-   pridat ikonky ku tlacidlam
+-   zmenit ikonku pri editacii videa na stranke profilu
+-   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)
+-   responzivny dizajn
 
 # Kubernetes
 

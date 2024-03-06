@@ -51,7 +51,12 @@ const RegisterPage = () => {
 				className="flex flex-col gap-3"
 			>
 				<div>
-					<FormLabel title="Username" for="username" />
+					<FormLabel
+						title="Username"
+						for="username"
+						required={true}
+						minLength={3}
+					/>
 					<div className="mt-2">
 						<input
 							{...register("username", {
@@ -69,7 +74,12 @@ const RegisterPage = () => {
 					</div>
 				</div>
 				<div>
-					<FormLabel title="Email" for="email" />
+					<FormLabel
+						title="Email"
+						for="email"
+						required={false}
+						minLength={5}
+					/>
 					<div className="mt-2">
 						<input
 							{...register("email", {
@@ -85,7 +95,7 @@ const RegisterPage = () => {
 					</div>
 				</div>
 				{/* <div>
-					<FormLabel title="Picture" for="picture" />
+					<FormLabel title="Picture" for="picture" required={true} />
 					<div className="mt-2">
 						<input
 							{...register("picture", {
@@ -101,7 +111,12 @@ const RegisterPage = () => {
 					</div>
 				</div> */}
 				<div>
-					<FormLabel title="Password" for="password" />
+					<FormLabel
+						title="Password"
+						for="password"
+						required={true}
+						minLength={5}
+					/>
 					<div className="mt-2">
 						<input
 							{...register("password", {

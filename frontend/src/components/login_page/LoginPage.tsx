@@ -47,7 +47,11 @@ const LoginPage = () => {
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<div>
-						<FormLabel title="Username" for="username" />
+						<FormLabel
+							title="Username"
+							for="username"
+							required={false}
+						/>
 						<div className="mt-2">
 							<input
 								{...register("username", { required: true })}
@@ -64,7 +68,11 @@ const LoginPage = () => {
 					</div>
 
 					<div>
-						<FormLabel title="Password" for="password" />
+						<FormLabel
+							title="Password"
+							for="password"
+							required={false}
+						/>
 						<div className="mt-2">
 							<input
 								{...register("password", { required: true })}
