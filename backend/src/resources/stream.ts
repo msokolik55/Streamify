@@ -4,7 +4,6 @@ import { sendResponseError, sendResponseSuccess } from "./response";
 import path from "path";
 import fs from "fs";
 import { findByUsername } from "./user";
-import { Stream } from "@prisma/client";
 
 /**
  * Return list of all streams

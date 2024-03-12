@@ -1,4 +1,9 @@
 -   otestovat, ci sa mi nevymaze zaznam, aj ked je spravne nahraty (pridalo sa odstranovanie zaznamu z DB bez realneho video zaznamu)
+-   nezobrazit aktualny stream medzi ulozenymi videami
+    -   momentalne - zobrazi sa ako ulozene video
+    -   ak OBS nestreamuje, tento zaznam sa z DB vymaze
+    -   z BE posielat zoznam videi, kde stream je uz ulozeny (treba pridat atribut `bool show` pri streamoch)
+-   pridat iframe / video aktualneho streamovaneho zaznamu na stranku profilu pouzivatela, sekcia `Stream key` (moze si pozriet, ako stream vyzera)
 -   pridat ikonky ku tlacidlam
 -   zmenit ikonku pri editacii videa na stranke profilu
 -   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)
