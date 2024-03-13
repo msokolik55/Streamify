@@ -4,10 +4,6 @@
     -   **spravene** - ak OBS nestreamuje, tento zaznam sa z DB vymaze
     -   z BE posielat zoznam videi, kde stream je uz ulozeny (treba pridat atribut `bool show` pri streamoch)
 
--   pridat iframe / video aktualneho streamovaneho zaznamu na stranku profilu pouzivatela, sekcia `Stream key` (moze si pozriet, ako stream vyzera)
-
-    -   vytvorit komponentu, aby sa dal stream pouzivat na viacerych miestach
-
 -   pridat ikonky ku tlacidlam
 -   zmenit ikonku pri editacii videa na stranke profilu
 -   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)
@@ -41,7 +37,6 @@
 
 ## Frontend
 
--   pridat default picture, ak chyba niekomu obrazok
 -   upravit dizajn `<iframe>` vo VideoPlayer (pouzit `<video-react>`)
 -   opravit zvysovanie count (App.tsx) - pozriet moznosti API:
     -   upravit /inc, /dec cez streamKey

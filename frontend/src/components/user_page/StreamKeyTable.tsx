@@ -5,6 +5,7 @@ import { LoggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
+import VideoPlayer from "../VideoPlayer";
 import MainWindowError from "../errors/MainWindowError";
 
 const StreamKeyTable = () => {
@@ -108,6 +109,8 @@ const StreamKeyTable = () => {
 					</tr>
 				</tbody>
 			</table>
+
+			<VideoPlayer streamKey={user.streamKey ?? ""} />
 
 			<button
 				className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
