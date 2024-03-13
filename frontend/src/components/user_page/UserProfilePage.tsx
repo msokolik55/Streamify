@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { loggedUserAtom } from "../../atom";
+import { LoggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
@@ -13,7 +13,7 @@ import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
 const UserProfilePage = () => {
-	const [loggedUser, setLoggedUser] = useRecoilState(loggedUserAtom);
+	const [LoggedUserId, setLoggedUserId] = useRecoilState(LoggedUserIdAtom);
 	const [edit, setEdit] = useState(false);
 	const [deleted, setDeleted] = useState(false);
 
@@ -38,11 +38,11 @@ const UserProfilePage = () => {
 			}),
 		});
 
-		mutate(`${apiUserUrl}/${loggedUser}`);
+		mutate(`${apiUserUrl}/${LoggedUserId}`);
 		mutate(apiUserUrl);
 		mutate(apiLiveUrl);
 
-		if (res.status === 200) setLoggedUser(data.username);
+		if (res.status === 200) setLoggedUserId(data.username);
 		setEdit(false);
 	};
 
@@ -53,22 +53,22 @@ const UserProfilePage = () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				username: loggedUser,
+				username: LoggedUserId,
 			}),
 		});
 
-		mutate(`${apiUserUrl}/${loggedUser}`);
+		mutate(`${apiUserUrl}/${LoggedUserId}`);
 		mutate(apiUserUrl);
 		mutate(apiLiveUrl);
 
 		if (res.status === 200) {
-			setLoggedUser(undefined);
+			setLoggedUserId(undefined);
 			setDeleted(true);
 		}
 	};
 
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${loggedUser}`,
+		`${apiUserUrl}/${LoggedUserId}`,
 		fetcher,
 	);
 	const user = data?.data;

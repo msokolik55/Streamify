@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import useSWR from "swr";
 
-import { loggedUserAtom } from "../../atom";
+import { LoggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import { apiUserUrl } from "../../urls";
@@ -10,10 +10,10 @@ import StreamKeyForm from "./StreamKeyForm";
 import StreamKeyTable from "./StreamKeyTable";
 
 const StreamKeyPage = () => {
-	const loggedUser = useRecoilValue(loggedUserAtom);
+	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
 
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${loggedUser}`,
+		`${apiUserUrl}/${LoggedUserId}`,
 		fetcher,
 	);
 	const user = data?.data;
@@ -30,11 +30,7 @@ const StreamKeyPage = () => {
 
 	return (
 		<div className="flex flex-col gap-4">
-			{user.streamKey === null ? (
-				<StreamKeyForm user={user} />
-			) : (
-				<StreamKeyTable user={user} />
-			)}
+			{user.streamKey === null ? <StreamKeyForm /> : <StreamKeyTable />}
 		</div>
 	);
 };

@@ -1,20 +1,31 @@
 import { useRecoilValue } from "recoil";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
-import { loggedUserAtom } from "../../atom";
-import { IUser } from "../../models/IUser";
+import { LoggedUserIdAtom } from "../../atom";
+import { IDataUser } from "../../models/IDataUser";
+import fetcher from "../../models/fetcher";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
+import MainWindowError from "../errors/MainWindowError";
 
-type StreamKeyTableProps = {
-	user: IUser;
-};
+const StreamKeyTable = () => {
+	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
 
-const StreamKeyTable = (props: StreamKeyTableProps) => {
-	const loggedUser = useRecoilValue(loggedUserAtom);
+	const { data } = useSWR<IDataUser, Error>(
+		`${apiUserUrl}/${LoggedUserId}`,
+		fetcher,
+	);
+	const user = data?.data;
+
+	if (!user) {
+		return (
+			<MainWindowError message="Cannot find user with given username." />
+		);
+	}
+
 	const { mutate } = useSWRConfig();
 
 	const copyStreamKey = () => {
-		navigator.clipboard.writeText(props.user.streamKey ?? "");
+		navigator.clipboard.writeText(user.streamKey ?? "");
 		window.alert("Stream key copied to clipboard.");
 	};
 
@@ -25,7 +36,7 @@ const StreamKeyTable = (props: StreamKeyTableProps) => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: props.user.id,
+				id: user.id,
 				live: false,
 			}),
 		});
@@ -33,7 +44,7 @@ const StreamKeyTable = (props: StreamKeyTableProps) => {
 
 	const streamExists = async () => {
 		const sourceExistsRes = await fetch(
-			`${apiStreamUrl}/${props.user.streamKey}/exists`,
+			`${apiStreamUrl}/${user.streamKey}/exists`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -52,11 +63,11 @@ const StreamKeyTable = (props: StreamKeyTableProps) => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				filePath: props.user.streamKey,
+				filePath: user.streamKey,
 			}),
 		});
 
-		mutate(`${apiUserUrl}/${loggedUser}`);
+		mutate(`${apiUserUrl}/${LoggedUserId}`);
 	};
 
 	const endLive = async () => {
@@ -66,7 +77,7 @@ const StreamKeyTable = (props: StreamKeyTableProps) => {
 		if (!streamSourceExists) deleteStream();
 
 		mutate(apiLiveUrl);
-		mutate(`${apiUserUrl}/${loggedUser}`);
+		mutate(`${apiUserUrl}/${LoggedUserId}`);
 	};
 
 	return (
@@ -77,16 +88,15 @@ const StreamKeyTable = (props: StreamKeyTableProps) => {
 						<td>Name:</td>
 						<td>
 							{
-								props.user.streams.filter(
-									(stream) =>
-										stream.path === props.user.streamKey,
+								user.streams.filter(
+									(stream) => stream.path === user.streamKey,
 								)[0].name
 							}
 						</td>
 					</tr>
 					<tr>
 						<td>Key:</td>
-						<td>{props.user.streamKey}</td>
+						<td>{user.streamKey}</td>
 						<td>
 							<button
 								className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"

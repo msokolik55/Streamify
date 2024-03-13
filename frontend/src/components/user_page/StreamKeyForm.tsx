@@ -1,19 +1,29 @@
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
-import { loggedUserAtom } from "../../atom";
-import { IUser } from "../../models/IUser";
+import { LoggedUserIdAtom } from "../../atom";
+import { IDataUser } from "../../models/IDataUser";
+import fetcher from "../../models/fetcher";
 import { StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
+import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
-type StreamKeyFormProps = {
-	user: IUser;
-};
+const StreamKeyForm = () => {
+	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
 
-const StreamKeyForm = (props: StreamKeyFormProps) => {
-	const loggedUser = useRecoilValue(loggedUserAtom);
+	const { data } = useSWR<IDataUser, Error>(
+		`${apiUserUrl}/${LoggedUserId}`,
+		fetcher,
+	);
+	const user = data?.data;
+
+	if (!user) {
+		return (
+			<MainWindowError message="Cannot find user with given username." />
+		);
+	}
 
 	const {
 		register,
@@ -30,7 +40,7 @@ const StreamKeyForm = (props: StreamKeyFormProps) => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: props.user.id,
+				id: user.id,
 				live: true,
 			}),
 		});
@@ -44,7 +54,7 @@ const StreamKeyForm = (props: StreamKeyFormProps) => {
 			},
 			body: JSON.stringify({
 				name: name,
-				username: props.user.username,
+				username: user.username,
 			}),
 		});
 	};
@@ -54,7 +64,7 @@ const StreamKeyForm = (props: StreamKeyFormProps) => {
 		await createStream(data.name);
 
 		mutate(apiLiveUrl);
-		mutate(`${apiUserUrl}/${loggedUser}`);
+		mutate(`${apiUserUrl}/${LoggedUserId}`);
 	};
 
 	return (

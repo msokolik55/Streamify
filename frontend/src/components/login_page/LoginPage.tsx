@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import { loggedUserAtom } from "../../atom";
+import { LoggedUserIdAtom } from "../../atom";
 import { LoginInputs } from "../../models/form";
 import { apiLoginUrl, registerPath } from "../../urls";
 import FormLabel from "./FormLabel";
@@ -15,7 +15,7 @@ const LoginPage = () => {
 		formState: { errors },
 	} = useForm<LoginInputs>();
 
-	const setLoggedUser = useSetRecoilState(loggedUserAtom);
+	const setLoggedUserId = useSetRecoilState(LoggedUserIdAtom);
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const onSubmit = async (data: LoginInputs) => {
@@ -32,7 +32,7 @@ const LoginPage = () => {
 		const loginSuccess = resData.data;
 		const loginError = resData.error;
 
-		if (loginSuccess) setLoggedUser(data.username);
+		if (loginSuccess) setLoggedUserId(data.username);
 		else setErrorMessage(loginError);
 	};
 
