@@ -45,6 +45,7 @@ router.delete(streamPath, stream.deleteStream);
 
 router.get(`${streamPath}/:id`, stream.getById);
 router.get(`${streamPath}/:filePath/exists`, stream.streamSourceExists);
+router.put(`${streamPath}/:streamPath/end`, stream.endStream);
 
 //#endregion Stream
 
@@ -55,7 +56,7 @@ router.put(passwordPath, password.changePassword);
 //#endregion Password
 
 router.get("*", (_: Request, res: Response) => {
-  res.status(404).send({ error: "Path not found" });
+	res.status(404).send({ error: "Path not found" });
 });
 
 export default router;

@@ -1,9 +1,3 @@
--   nezobrazit aktualny stream medzi ulozenymi videami
-
-    -   momentalne - zobrazi sa ako ulozene video
-    -   **spravene** - ak OBS nestreamuje, tento zaznam sa z DB vymaze
-    -   z BE posielat zoznam videi, kde stream je uz ulozeny (treba pridat atribut `bool show` pri streamoch)
-
 -   pridat ikonky ku tlacidlam
 -   zmenit ikonku pri editacii videa na stranke profilu
 -   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)

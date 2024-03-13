@@ -71,11 +71,26 @@ const StreamKeyTable = () => {
 		mutate(`${apiUserUrl}/${LoggedUserId}`);
 	};
 
+	const endStream = async () => {
+		await fetch(`${apiStreamUrl}/${user.streamKey}/end`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				streamPath: user.streamKey,
+			}),
+		});
+
+		mutate(`${apiUserUrl}/${LoggedUserId}`);
+	};
+
 	const endLive = async () => {
 		await setUserLive();
 
 		const streamSourceExists = await streamExists();
-		if (!streamSourceExists) deleteStream();
+		if (!streamSourceExists) await deleteStream();
+		else await endStream();
 
 		mutate(apiLiveUrl);
 		mutate(`${apiUserUrl}/${LoggedUserId}`);

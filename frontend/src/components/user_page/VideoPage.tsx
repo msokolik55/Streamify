@@ -51,44 +51,51 @@ const VideoPage = () => {
 
 	return (
 		<div className="flex flex-row gap-4 overflow-auto flex-wrap">
-			{user.streams.length === 0 && <p>No videos to show.</p>}
-			{user.streams.map((stream, id) => (
-				<div key={`stream-${stream.name}-${id}`}>
-					<div className="flex flex-col gap-2">
-						<StreamCard stream={stream} username={user.username} />
+			{user.streams.filter((stream) => stream.ended).length === 0 && (
+				<p>No videos to show.</p>
+			)}
+			{user.streams
+				.filter((stream) => stream.ended)
+				.map((stream, id) => (
+					<div key={`stream-${stream.name}-${id}`}>
+						<div className="flex flex-col gap-2">
+							<StreamCard
+								stream={stream}
+								username={user.username}
+							/>
 
-						<div className="flex flex-row gap-2">
-							<button
-								onClick={() => setShowEditDialog(true)}
-								className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
-							>
-								Edit
-							</button>
-							<button
-								onClick={() => setShowDeleteDialog(true)}
-								className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
-							>
-								Delete
-							</button>
+							<div className="flex flex-row gap-2">
+								<button
+									onClick={() => setShowEditDialog(true)}
+									className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
+								>
+									Edit
+								</button>
+								<button
+									onClick={() => setShowDeleteDialog(true)}
+									className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
+								>
+									Delete
+								</button>
+							</div>
 						</div>
+
+						{showDeleteDialog && (
+							<DeleteDialog
+								setShow={setShowDeleteDialog}
+								delete={deleteStream}
+								stream={stream}
+							/>
+						)}
+
+						{showEditDialog && (
+							<EditDialog
+								setShow={setShowEditDialog}
+								stream={stream}
+							/>
+						)}
 					</div>
-
-					{showDeleteDialog && (
-						<DeleteDialog
-							setShow={setShowDeleteDialog}
-							delete={deleteStream}
-							stream={stream}
-						/>
-					)}
-
-					{showEditDialog && (
-						<EditDialog
-							setShow={setShowEditDialog}
-							stream={stream}
-						/>
-					)}
-				</div>
-			))}
+				))}
 		</div>
 	);
 };

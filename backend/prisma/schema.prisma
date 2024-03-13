@@ -25,6 +25,7 @@ model Stream {
   id        String   @id @default(uuid())
   name      String
   path      String   @unique
+  ended     Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
