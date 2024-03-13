@@ -110,6 +110,20 @@ export const getById = async (req: Request, res: Response) => {
 // };
 
 /**
+ * Check if stream source exists
+ */
+export const streamSourceExists = async (req: Request, res: Response) => {
+  const filePath = req.params.filePath;
+
+  if (!filePath || filePath === "") {
+    return sendResponseError(res, 400, "Missing folder path.");
+  }
+
+  const folderPath = path.join("recordings", filePath);
+  return sendResponseSuccess(res, fs.existsSync(folderPath));
+};
+
+/**
  * Deletes stream
  */
 export const deleteStream = async (req: Request, res: Response) => {

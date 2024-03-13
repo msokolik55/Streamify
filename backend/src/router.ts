@@ -9,6 +9,8 @@ const loginPath = "/login";
 const streamPath = "/stream";
 const passwordPath = "/password";
 
+//#region User
+
 router.get(userPath, user.get);
 router.post(userPath, user.create);
 router.put(userPath, user.update);
@@ -19,21 +21,41 @@ router.get(`${userPath}/:id/inc`, user.increaseCount);
 router.get(`${userPath}/:id/dec`, user.decreaseCount);
 // ENDTODO
 
+//#endregion User
+
+//#region Live
+
 router.get(livePath, user.getByLive);
 router.put(livePath, user.updateLive);
 
+//#endregion Live
+
+//#region Login
+
 router.post(loginPath, login.checkLogin);
 
+//#endregion Login
+
+//#region Stream
+
 // router.get(`${streamPath}/:folderName`, stream.getVideoName);
-router.get(`${streamPath}/:id`, stream.getById);
 router.post(streamPath, stream.createStream);
 router.put(streamPath, stream.editStream);
 router.delete(streamPath, stream.deleteStream);
 
+router.get(`${streamPath}/:id`, stream.getById);
+router.get(`${streamPath}/:filePath/exists`, stream.streamSourceExists);
+
+//#endregion Stream
+
+//#region Password
+
 router.put(passwordPath, password.changePassword);
 
+//#endregion Password
+
 router.get("*", (_: Request, res: Response) => {
-	res.status(404).send({ error: "Path not found" });
+  res.status(404).send({ error: "Path not found" });
 });
 
 export default router;
