@@ -5,6 +5,7 @@ import { BigPlayButton, Player } from "video-react";
 import { IDataStream } from "../models/IDataStream";
 import fetcher from "../models/fetcher";
 import { apiStreamUrl, profilePath } from "../urls";
+import ProfilePicture from "./ProfilePicture";
 import MainWindowError from "./errors/MainWindowError";
 
 const RecordingPage = () => {
@@ -36,15 +37,10 @@ const RecordingPage = () => {
 			</div>
 
 			<div className="flex flex-row">
-				<Link to={`${profilePath}/${stream.user.username}`}>
-					<div className="m-2 h-20 w-20 flex justify-center items-center">
-						<img
-							className="rounded-full"
-							alt="logo"
-							src={stream.user.picture}
-						/>
-					</div>
-				</Link>
+				<ProfilePicture
+					src={stream.user.picture}
+					username={stream.user.username}
+				/>
 
 				<div className="flex flex-col flex-1 p-2 gap-2">
 					<div className="flex">

@@ -8,12 +8,6 @@
 
     -   vytvorit komponentu, aby sa dal stream pouzivat na viacerych miestach
 
--   premenovat atom pre `loggedUser` na `loggedUserId`
-
--   na FE `/live/:username`, default ikonka nie je
-
-    -   vytvorit komponentu pre logo pouzivatela a pouzit ju na viacerych miestach
-
 -   pridat ikonky ku tlacidlam
 -   zmenit ikonku pri editacii videa na stranke profilu
 -   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)

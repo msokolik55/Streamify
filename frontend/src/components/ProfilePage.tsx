@@ -8,6 +8,7 @@ import { userUsernamesAtom } from "../atom";
 import { IDataUser } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
 import { apiUserUrl, streamPath } from "../urls";
+import ProfilePicture from "./ProfilePicture";
 import StreamCard from "./StreamCard";
 import MainWindowError from "./errors/MainWindowError";
 
@@ -41,13 +42,7 @@ const ProfilePage = () => {
 	return (
 		<div className="px-8 pt-6 flex flex-col gap-8">
 			<div className="flex flex-row gap-x-4 items-center">
-				<div className="w-20 h-20">
-					<img
-						src={user.picture ?? "/profile_picture.jpg"}
-						className="rounded-full"
-					/>
-				</div>
-
+				<ProfilePicture src={user.picture} username={user.username} />
 				<h1 className="font-semibold text-2xl">{user.username}</h1>
 			</div>
 

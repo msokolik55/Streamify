@@ -9,6 +9,7 @@ import { IDataUser } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
 import { apiUserUrl } from "../urls";
 import Counter from "./Counter";
+import ProfilePicture from "./ProfilePicture";
 import VideoPlayer from "./VideoPlayer";
 import MainWindowError from "./errors/MainWindowError";
 
@@ -51,13 +52,7 @@ const StreamPage = () => {
 			<VideoPlayer streamKey={user.streamKey} />
 
 			<div className="flex flex-row">
-				<div className="m-2 h-20 w-20 flex justify-center items-center">
-					<img
-						className="rounded-full"
-						alt="logo"
-						src={user.picture}
-					/>
-				</div>
+				<ProfilePicture src={user.picture} username={user.username} />
 
 				<div className="flex flex-col flex-1 p-2 gap-2">
 					<div className="flex">
