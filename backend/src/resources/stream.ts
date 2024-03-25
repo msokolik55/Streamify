@@ -21,6 +21,7 @@ export const get = async (req: Request, res: Response) => {
 					username: true,
 				},
 			},
+			ended: true,
 		},
 	});
 

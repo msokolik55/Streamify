@@ -28,6 +28,7 @@ export const findByUsername = async (username: string) => {
 					createdAt: true,
 					name: true,
 					path: true,
+					ended: true,
 				},
 			},
 		},
