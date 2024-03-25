@@ -43,33 +43,33 @@ const StreamKeyTable = () => {
 		});
 	};
 
-	const streamExists = async () => {
-		const sourceExistsRes = await fetch(
-			`${apiStreamUrl}/${user.streamKey}/exists`,
-			{
-				headers: {
-					"Content-Type": "application/json",
-				},
-			},
-		);
+	// const streamExists = async () => {
+	// 	const sourceExistsRes = await fetch(
+	// 		`${apiStreamUrl}/${user.streamKey}/exists`,
+	// 		{
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 		},
+	// 	);
 
-		const sourceExists = await sourceExistsRes.json();
-		return sourceExists.data;
-	};
+	// 	const sourceExists = await sourceExistsRes.json();
+	// 	return sourceExists.data;
+	// };
 
-	const deleteStream = async () => {
-		await fetch(apiStreamUrl, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				filePath: user.streamKey,
-			}),
-		});
+	// const deleteStream = async () => {
+	// 	await fetch(apiStreamUrl, {
+	// 		method: "DELETE",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify({
+	// 			filePath: user.streamKey,
+	// 		}),
+	// 	});
 
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
-	};
+	// 	mutate(`${apiUserUrl}/${LoggedUserId}`);
+	// };
 
 	const endStream = async () => {
 		await fetch(`${apiStreamUrl}/${user.streamKey}/end`, {
@@ -88,9 +88,10 @@ const StreamKeyTable = () => {
 	const endLive = async () => {
 		await setUserLive();
 
-		const streamSourceExists = await streamExists();
-		if (!streamSourceExists) await deleteStream();
-		else await endStream();
+		// const streamSourceExists = await streamExists();
+		// if (!streamSourceExists) await deleteStream();
+		// else await endStream();
+		await endStream();
 
 		mutate(apiLiveUrl);
 		mutate(`${apiUserUrl}/${LoggedUserId}`);

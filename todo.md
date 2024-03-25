@@ -1,3 +1,6 @@
+-   nastudovat si `ffmpeg` (redirecting)
+    -   is publishing **spravne** rozpozna vcodec a acodec
+    -   is reading **nerozpozna** acodec (mozno treba uviest explicitne)
 -   pridat ikonky ku tlacidlam
 -   zmenit ikonku pri editacii videa na stranke profilu
 -   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)

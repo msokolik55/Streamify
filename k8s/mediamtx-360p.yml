@@ -42,7 +42,7 @@ udpMaxPayloadSize: 1472
 externalAuthenticationURL:
 
 # Enable Prometheus-compatible metrics.
-metrics: yes
+metrics: no
 # Address of the metrics listener.
 metricsAddress: 127.0.0.1:9998
 
@@ -312,7 +312,7 @@ pathDefaults:
   # Path of recording segments.
   # Extension is added automatically.
   # Available variables are %path (path name), %Y %m %d %H %M %S %f %s (time in strftime format)
-  recordPath: ./recordings/%path/video
+  recordPath: ./recordings/%path/video-360p
   # Format of recorded segments.
   # Available formats are "fmp4" (fragmented MP4) and "mpegts" (MPEG-TS).
   recordFormat: fmp4
@@ -516,14 +516,12 @@ pathDefaults:
   #   a regular expression.
   # * MTX_SOURCE_TYPE: source type
   # * MTX_SOURCE_ID: source ID
-  runOnReady:
-  # runOnReady: >
-  #   ffmpeg -analyzeduration 10000000 -probesize 10000000
-  #   -i rtsp://localhost:$RTSP_PORT/$MTX_PATH
-  #   -c copy
-  #   -f rtsp rtsp://localhost:$RTSP_PORT/copied
+  runOnReady: >
+    ffmpeg -i rtsp://localhost:$RTSP_PORT/$MTX_PATH
+    -c copy
+    -f rtsp rtsp://localhost:$RTSP_PORT/$MTX_PATH
   # Restart the command if it exits.
-  runOnReadyRestart: no
+  runOnReadyRestart: yes
   # Command to run when the stream is not available anymore.
   # Environment variables are the same of runOnReady.
   runOnNotReady:
