@@ -35,7 +35,9 @@ const SectionLive = () => {
 					<NavLink
 						key={`li-${user.username}`}
 						to={`${livePath}/${user.username}`}
-						onClick={() => shiftUserUsernames(setUserIds, user.id)}
+						onClick={() =>
+							shiftUserUsernames(setUserIds, user.username)
+						}
 						className={({ isActive }) =>
 							`${
 								isActive
