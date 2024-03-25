@@ -1,6 +1,9 @@
 -   nastudovat si `ffmpeg` (redirecting)
     -   is publishing **spravne** rozpozna vcodec a acodec
     -   is reading **nerozpozna** acodec (mozno treba uviest explicitne)
+-   prerobit BE endpointy, aby pouzivali parametre
+    -   user.streams.ended (do Prismy sa prida `where { ended: true }`, na FE nemusim riesit filtrovanie)
+    -   `/inc`, `/dec`
 -   pridat ikonky ku tlacidlam
 -   zmenit ikonku pri editacii videa na stranke profilu
 -   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)

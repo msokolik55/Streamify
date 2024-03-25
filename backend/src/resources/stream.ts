@@ -129,6 +129,8 @@ export const streamSourceExists = async (req: Request, res: Response) => {
 	}
 
 	const folderPath = path.join("recordings", filePath);
+	console.log(folderPath);
+	console.log(fs.existsSync(path.join("dist")));
 	return sendResponseSuccess(res, fs.existsSync(folderPath));
 };
 

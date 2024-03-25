@@ -48,37 +48,41 @@ const StreamKeyTable = () => {
 		});
 	};
 
-	// const streamExists = async () => {
-	// console.log(`${getLocaleTimeString()}: Fetching: StreamKeyTable.streamExists`);
+	const streamExists = async () => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: StreamKeyTable.streamExists`,
+		);
 
-	// 	const sourceExistsRes = await fetch(
-	// 		`${apiStreamUrl}/${user.streamKey}/exists`,
-	// 		{
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 		},
-	// 	);
+		const sourceExistsRes = await fetch(
+			`${apiStreamUrl}/${user.streamKey}/exists`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			},
+		);
 
-	// 	const sourceExists = await sourceExistsRes.json();
-	// 	return sourceExists.data;
-	// };
+		const sourceExists = await sourceExistsRes.json();
+		return sourceExists.data;
+	};
 
-	// const deleteStream = async () => {
-	// 	console.log(`${getLocaleTimeString()}: Fetching: StreamKeyTable.deleteStream`);
+	const deleteStream = async () => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: StreamKeyTable.deleteStream`,
+		);
 
-	// 	await fetch(apiStreamUrl, {
-	// 		method: "DELETE",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify({
-	// 			filePath: user.streamKey,
-	// 		}),
-	// 	});
+		await fetch(apiStreamUrl, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				filePath: user.streamKey,
+			}),
+		});
 
-	// 	mutate(`${apiUserUrl}/${LoggedUserId}`);
-	// };
+		mutate(`${apiUserUrl}/${LoggedUserId}`);
+	};
 
 	const endStream = async () => {
 		console.log(
@@ -101,10 +105,10 @@ const StreamKeyTable = () => {
 	const endLive = async () => {
 		await setUserLive();
 
-		// const streamSourceExists = await streamExists();
-		// if (!streamSourceExists) await deleteStream();
-		// else await endStream();
-		await endStream();
+		const streamSourceExists = await streamExists();
+		console.log(streamSourceExists);
+		if (!streamSourceExists) await deleteStream();
+		else await endStream();
 
 		mutate(apiLiveUrl);
 		mutate(`${apiUserUrl}/${LoggedUserId}`);
