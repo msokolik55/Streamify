@@ -21,6 +21,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
 	},
-	"include": ["src"],
+	"include": ["src", "time.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }],
 }

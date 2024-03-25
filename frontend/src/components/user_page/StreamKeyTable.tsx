@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
+import { getLocaleTimeString } from "../../../time";
 import { LoggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -31,6 +32,10 @@ const StreamKeyTable = () => {
 	};
 
 	const setUserLive = async () => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: StreamKeyTable.setUserLive`,
+		);
+
 		await fetch(apiLiveUrl, {
 			method: "PUT",
 			headers: {
@@ -44,6 +49,8 @@ const StreamKeyTable = () => {
 	};
 
 	// const streamExists = async () => {
+	// console.log(`${getLocaleTimeString()}: Fetching: StreamKeyTable.streamExists`);
+
 	// 	const sourceExistsRes = await fetch(
 	// 		`${apiStreamUrl}/${user.streamKey}/exists`,
 	// 		{
@@ -58,6 +65,8 @@ const StreamKeyTable = () => {
 	// };
 
 	// const deleteStream = async () => {
+	// 	console.log(`${getLocaleTimeString()}: Fetching: StreamKeyTable.deleteStream`);
+
 	// 	await fetch(apiStreamUrl, {
 	// 		method: "DELETE",
 	// 		headers: {
@@ -72,6 +81,10 @@ const StreamKeyTable = () => {
 	// };
 
 	const endStream = async () => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: StreamKeyTable.endStream`,
+		);
+
 		await fetch(`${apiStreamUrl}/${user.streamKey}/end`, {
 			method: "PUT",
 			headers: {

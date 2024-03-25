@@ -10,6 +10,8 @@ const ops = {
 };
 
 export const findByUsername = async (username: string) => {
+	console.log("Method called: user.findByUsername");
+
 	const user = await prisma.user.findUnique({
 		where: {
 			username: username,
@@ -42,6 +44,8 @@ const alterCount = async (
 	res: Response,
 	op: (a: number) => number
 ) => {
+	console.log("Method called: user.alterCount");
+
 	const id = req.params.id;
 
 	if (!id || id === "") {
@@ -77,6 +81,8 @@ const alterCount = async (
  * Return list of all users
  */
 export const get = async (req: Request, res: Response) => {
+	console.log("Method called: user.get");
+
 	const users = await prisma.user.findMany({
 		select: {
 			id: true,
@@ -94,6 +100,8 @@ export const get = async (req: Request, res: Response) => {
  * Return one user
  */
 export const getByUsername = async (req: Request, res: Response) => {
+	console.log("Method called: user.getByUsername");
+
 	const username = req.params.username!;
 
 	const user = await findByUsername(username);
@@ -104,6 +112,8 @@ export const getByUsername = async (req: Request, res: Response) => {
  * Update user
  */
 export const update = async (req: Request, res: Response) => {
+	console.log("Method called: user.update");
+
 	const { id, username, email, picture } = req.body;
 
 	if (!id || id === "") {
@@ -128,6 +138,8 @@ export const update = async (req: Request, res: Response) => {
  * Delete user
  */
 export const deleteUser = async (req: Request, res: Response) => {
+	console.log("Method called: user.deleteUser");
+
 	const { username } = req.body;
 
 	if (!username || username === "") {
@@ -147,6 +159,8 @@ export const deleteUser = async (req: Request, res: Response) => {
  * Create user
  */
 export const create = async (req: Request, res: Response) => {
+	console.log("Method called: user.create");
+
 	const { username, email, picture, password } = req.body;
 
 	const user = await prisma.user.create({
@@ -165,6 +179,8 @@ export const create = async (req: Request, res: Response) => {
  * Increase user count
  */
 export const increaseCount = async (req: Request, res: Response) => {
+	console.log("Method called: user.increaseCount");
+
 	return alterCount(req, res, ops.inc);
 };
 
@@ -172,6 +188,8 @@ export const increaseCount = async (req: Request, res: Response) => {
  * Decrease user count
  */
 export const decreaseCount = async (req: Request, res: Response) => {
+	console.log("Method called: user.decreaseCount");
+
 	return alterCount(req, res, ops.dec);
 };
 
@@ -179,6 +197,8 @@ export const decreaseCount = async (req: Request, res: Response) => {
  * Return all live users
  */
 export const getByLive = async (req: Request, res: Response) => {
+	console.log("Method called: user.getByLive");
+
 	const users = await prisma.user.findMany({
 		where: {
 			NOT: { streamKey: null },
@@ -199,6 +219,8 @@ export const getByLive = async (req: Request, res: Response) => {
  * Update live
  */
 export const updateLive = async (req: Request, res: Response) => {
+	console.log("Method called: user.updateLive");
+
 	const { id, live } = req.body;
 
 	if (!id || id === "") {

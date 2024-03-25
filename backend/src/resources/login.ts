@@ -7,6 +7,8 @@ import { findByUsername } from "./user";
  * Check user login attempt
  */
 export const checkLogin = async (req: Request, res: Response) => {
+	console.log("Method called: login.checkLogin");
+
 	const { username, password } = req.body;
 
 	const user = await findByUsername(username);

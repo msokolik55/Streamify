@@ -8,6 +8,8 @@ import { findByUsername } from "./user";
  * Generate password
  */
 export const changePassword = async (req: Request, res: Response) => {
+	console.log("Method called: password.changePassword");
+
 	const { username, oldPassword, newPassword } = req.body;
 
 	const oldUser = await findByUsername(username);

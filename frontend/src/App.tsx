@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
+// import { getLocaleTimeString } from "../time";
 import { userUsernames, userUsernamesAtom } from "./atom";
 import MainPage from "./components/MainPage";
 import ProfilePage from "./components/ProfilePage";
@@ -48,7 +49,10 @@ export const App = () => {
 		const pageUrl = apiUserUrl;
 
 		// const update = async () => {
+		// console.log(`${getLocaleTimeString()}: Fetching: App.dec`);
 		// 	if (userIds.old) await fetch(`${pageUrl}/${userIds.old}/dec`);
+
+		// console.log(`${getLocaleTimeString()}: Fetching: App.inc`);
 		// 	if (userIds.curr) await fetch(`${pageUrl}/${userIds.curr}/inc`);
 		// };
 

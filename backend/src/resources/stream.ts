@@ -9,6 +9,8 @@ import { findByUsername } from "./user";
  * Return list of all streams
  */
 export const get = async (req: Request, res: Response) => {
+	console.log("Method called: stream.get");
+
 	const streams = await prisma.stream.findMany({
 		select: {
 			id: true,
@@ -32,6 +34,8 @@ export const get = async (req: Request, res: Response) => {
  * Return streams for a specific user
  */
 export const getByUsername = async (req: Request, res: Response) => {
+	console.log("Method called: stream.getByUsername");
+
 	const { username } = req.body;
 
 	const streams = await prisma.stream.findMany({
@@ -61,6 +65,8 @@ export const getByUsername = async (req: Request, res: Response) => {
  * Return stream with a specific id
  */
 export const getById = async (req: Request, res: Response) => {
+	console.log("Method called: stream.getById");
+
 	const id = req.params.id;
 
 	const streams = await prisma.stream.findUnique({
@@ -114,6 +120,8 @@ export const getById = async (req: Request, res: Response) => {
  * Check if stream source exists
  */
 export const streamSourceExists = async (req: Request, res: Response) => {
+	console.log("Method called: streamSourceExists");
+
 	const filePath = req.params.filePath;
 
 	if (!filePath || filePath === "") {
@@ -128,6 +136,8 @@ export const streamSourceExists = async (req: Request, res: Response) => {
  * Deletes stream
  */
 export const deleteStream = async (req: Request, res: Response) => {
+	console.log("Method called: stream.deleteStream");
+
 	const { filePath } = req.body;
 
 	if (!filePath || filePath === "") {
@@ -157,6 +167,8 @@ export const deleteStream = async (req: Request, res: Response) => {
  * Creates stream
  */
 export const createStream = async (req: Request, res: Response) => {
+	console.log("Method called: stream.createStream");
+
 	const { name, username } = req.body;
 
 	const user = await findByUsername(username);
@@ -185,6 +197,8 @@ export const createStream = async (req: Request, res: Response) => {
  * Edits stream
  */
 export const editStream = async (req: Request, res: Response) => {
+	console.log("Method called: stream.editStream");
+
 	const { id, name } = req.body;
 
 	if (!id || id === "") {
@@ -207,6 +221,8 @@ export const editStream = async (req: Request, res: Response) => {
  * Ends stream
  */
 export const endStream = async (req: Request, res: Response) => {
+	console.log("Method called: stream.endStream");
+
 	const { streamPath } = req.body;
 
 	if (!streamPath || streamPath === "") {

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
+import { getLocaleTimeString } from "../../../time";
 import { LoggedUserIdAtom } from "../../atom";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
@@ -24,6 +25,10 @@ const PasswordPage = () => {
 			setErrorMessage("Different value in Confirm new password.");
 			return;
 		}
+
+		console.log(
+			`${getLocaleTimeString()}: Fetching: PasswordPage.onSubmit`,
+		);
 
 		const res = await fetch(apiPasswordUrl, {
 			method: "PUT",

@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
+import { getLocaleTimeString } from "../../../time";
 import { LoggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -25,6 +26,10 @@ const UserProfilePage = () => {
 
 	const { mutate } = useSWRConfig();
 	const onSubmit = async (data: UserEditInputs) => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: UserProfilePage.onSubmit`,
+		);
+
 		const res = await fetch(apiUserUrl, {
 			method: "PUT",
 			headers: {
@@ -47,6 +52,10 @@ const UserProfilePage = () => {
 	};
 
 	const deleteAccount = async () => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: UserProfilePage.deleteAccount`,
+		);
+
 		const res = await fetch(apiUserUrl, {
 			method: "DELETE",
 			headers: {

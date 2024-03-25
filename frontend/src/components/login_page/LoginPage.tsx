@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
+import { getLocaleTimeString } from "../../../time";
 import { LoggedUserIdAtom } from "../../atom";
 import { LoginInputs } from "../../models/form";
 import { apiLoginUrl, registerPath } from "../../urls";
@@ -19,6 +20,8 @@ const LoginPage = () => {
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const onSubmit = async (data: LoginInputs) => {
+		console.log(`${getLocaleTimeString()}: Fetching: LoginPage.onSubmit`);
+
 		const res = await fetch(apiLoginUrl, {
 			method: "POST",
 			headers: {

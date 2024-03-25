@@ -1,4 +1,4 @@
-import { BigPlayButton, Player } from "video-react";
+// import { BigPlayButton, Player } from "video-react";
 import "video-react/dist/video-react.css";
 
 import { streamUrl } from "../env";
@@ -14,18 +14,18 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 	const iframeUrl = baseUrl;
 
-	const hlsExtension = "index.m3u8";
-	const hlsUrl = `${baseUrl}/${hlsExtension}`;
+	// const hlsExtension = "index.m3u8";
+	// const hlsUrl = `${baseUrl}/${hlsExtension}`;
 
 	return (
 		<>
 			<iframe src={iframeUrl}></iframe>
-			<div>
+			{/* <div>
 				<Player playsInline src={hlsUrl}>
 					<BigPlayButton position="center" />
-					{/* <HlsSource src={hlsUrl} video={videoRef.current!} /> */}
+					<HlsSource src={hlsUrl} video={videoRef.current!} />
 				</Player>
-			</div>
+			</div> */}
 		</>
 	);
 };

@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
+import { getLocaleTimeString } from "../../time";
 import { LoggedUserIdAtom } from "../atom";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
@@ -21,6 +22,10 @@ const RegisterPage = () => {
 
 	const { mutate } = useSWRConfig();
 	const onSubmit = async (data: UserCreateInputs) => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: RegisterPage.onSubmit`,
+		);
+
 		const res = await fetch(apiUserUrl, {
 			method: "POST",
 			headers: {

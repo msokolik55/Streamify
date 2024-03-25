@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
+import { getLocaleTimeString } from "../../../time";
 import { LoggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -34,6 +35,10 @@ const StreamKeyForm = () => {
 	const { mutate } = useSWRConfig();
 
 	const setUserLive = async () => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: StreamKeyForm.setUserLive`,
+		);
+
 		await fetch(apiLiveUrl, {
 			method: "PUT",
 			headers: {
@@ -47,6 +52,10 @@ const StreamKeyForm = () => {
 	};
 
 	const createStream = async (name: string) => {
+		console.log(
+			`${getLocaleTimeString()}: Fetching: StreamKeyForm.createStream`,
+		);
+
 		await fetch(apiStreamUrl, {
 			method: "POST",
 			headers: {
