@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -10,10 +10,10 @@ import VideoPlayer from "../VideoPlayer";
 import MainWindowError from "../errors/MainWindowError";
 
 const StreamKeyTable = () => {
-	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
+	const loggedUserId = useRecoilValue(loggedUserIdAtom);
 
 	const { data } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${LoggedUserId}`,
+		`${apiUserUrl}/${loggedUserId}`,
 		fetcher,
 	);
 	const user = data?.data;
@@ -34,13 +34,12 @@ const StreamKeyTable = () => {
 	const setUserLive = async () => {
 		logInfo("Fetching: StreamKeyTable.setUserLive");
 
-		await fetch(apiLiveUrl, {
-			method: "PUT",
+		await fetch(`${apiLiveUrl}/${user.id}`, {
+			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: user.id,
 				live: false,
 			}),
 		});
@@ -65,17 +64,14 @@ const StreamKeyTable = () => {
 	const deleteStream = async () => {
 		logInfo("Fetching: StreamKeyTable.deleteStream");
 
-		await fetch(apiStreamUrl, {
+		await fetch(`${apiStreamUrl}/${user.streamKey}`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				filePath: user.streamKey,
-			}),
 		});
 
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 	};
 
 	const endStream = async () => {
@@ -86,24 +82,20 @@ const StreamKeyTable = () => {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				streamPath: user.streamKey,
-			}),
 		});
 
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 	};
 
 	const endLive = async () => {
 		await setUserLive();
 
 		const streamSourceExists = await streamExists();
-		console.log(streamSourceExists);
 		if (!streamSourceExists) await deleteStream();
 		else await endStream();
 
 		mutate(apiLiveUrl);
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 	};
 
 	return (

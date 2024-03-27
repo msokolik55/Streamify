@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -12,10 +12,10 @@ import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
 const StreamKeyForm = () => {
-	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
+	const loggedUserId = useRecoilValue(loggedUserIdAtom);
 
 	const { data } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${LoggedUserId}`,
+		`${apiUserUrl}/${loggedUserId}`,
 		fetcher,
 	);
 	const user = data?.data;
@@ -37,13 +37,12 @@ const StreamKeyForm = () => {
 	const setUserLive = async () => {
 		logInfo("Fetching: StreamKeyForm.setUserLive");
 
-		await fetch(apiLiveUrl, {
-			method: "PUT",
+		await fetch(`${apiLiveUrl}/${user.id}`, {
+			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: user.id,
 				live: true,
 			}),
 		});
@@ -69,7 +68,7 @@ const StreamKeyForm = () => {
 		await createStream(data.name);
 
 		mutate(apiLiveUrl);
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 	};
 
 	return (

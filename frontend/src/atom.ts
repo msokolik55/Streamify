@@ -12,7 +12,7 @@ export const userUsernamesAtom = atom<userUsernames>({
 	default: { old: defaultUsername, curr: defaultUsername },
 });
 
-export const LoggedUserIdAtom = atom<string | undefined>({
-	key: "LoggedUserIdAtom",
+export const loggedUserIdAtom = atom<string | undefined>({
+	key: "loggedUserIdAtom",
 	default: undefined,
 });

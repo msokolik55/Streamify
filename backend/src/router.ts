@@ -5,63 +5,68 @@ import swaggerUi from "swagger-ui-express";
 const router = express.Router();
 const swaggerDocument = require("./swagger.json");
 
-const swaggerPath = "/swagger";
-const userPath = "/user";
-const livePath = "/live";
-const loginPath = "/login";
-const streamPath = "/stream";
-const passwordPath = "/password";
+const swaggerUrl = "/swagger";
+const userUrl = "/users";
+const liveUrl = "/live";
+const loginUrl = "/login";
+const streamUrl = "/streams";
+const passwordUrl = "/password";
+
+const idPart = ":id";
+const usernamePart = ":username";
+const streamPathPart = ":streamPath";
 
 //#region Swagger
 
-router.use(swaggerPath, swaggerUi.serve);
-router.get(swaggerPath, swaggerUi.setup(swaggerDocument));
+router.use(swaggerUrl, swaggerUi.serve);
+router.get(swaggerUrl, swaggerUi.setup(swaggerDocument));
 
 //#endregion Swagger
 
 //#region User
 
-router.get(userPath, user.get);
-router.post(userPath, user.create);
-router.put(userPath, user.update);
-router.delete(userPath, user.deleteUser);
-router.get(`${userPath}/:username`, user.getByUsername);
-// TODO: change to PUT
-router.get(`${userPath}/:id/inc`, user.increaseCount);
-router.get(`${userPath}/:id/dec`, user.decreaseCount);
-// ENDTODO
+router.get(userUrl, user.get);
+router.post(userUrl, user.create);
+
+router.get(`${userUrl}/${usernamePart}`, user.getByUsername);
+router.put(`${userUrl}/${idPart}`, user.update);
+router.delete(`${userUrl}/${usernamePart}`, user.deleteUser);
+
+router.patch(`${userUrl}/${idPart}/inc`, user.increaseCount);
+router.patch(`${userUrl}/${idPart}/dec`, user.decreaseCount);
 
 //#endregion User
 
 //#region Live
 
-router.get(livePath, user.getByLive);
-router.put(livePath, user.updateLive);
+router.get(`${userUrl}${liveUrl}`, user.getByLive);
+router.patch(`${userUrl}${liveUrl}/${idPart}`, user.updateLive);
 
 //#endregion Live
 
 //#region Login
 
-router.post(loginPath, login.checkLogin);
+router.post(loginUrl, login.checkLogin);
 
 //#endregion Login
 
 //#region Stream
 
 // router.get(`${streamPath}/:folderName`, stream.getVideoName);
-router.post(streamPath, stream.createStream);
-router.put(streamPath, stream.editStream);
-router.delete(streamPath, stream.deleteStream);
+router.post(streamUrl, stream.createStream);
 
-router.get(`${streamPath}/:id`, stream.getById);
-router.get(`${streamPath}/:filePath/exists`, stream.streamSourceExists);
-router.put(`${streamPath}/:streamPath/end`, stream.endStream);
+router.get(`${streamUrl}/${idPart}`, stream.getById);
+router.put(`${streamUrl}/${idPart}`, stream.editStream);
+
+router.delete(`${streamUrl}/${streamPathPart}`, stream.deleteStream);
+router.get(`${streamUrl}/${streamPathPart}/exists`, stream.streamSourceExists);
+router.put(`${streamUrl}/${streamPathPart}/end`, stream.endStream);
 
 //#endregion Stream
 
 //#region Password
 
-router.put(passwordPath, password.changePassword);
+router.put(passwordUrl, password.changePassword);
 
 //#endregion Password
 

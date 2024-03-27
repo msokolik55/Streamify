@@ -13,8 +13,7 @@ import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
 
 const SectionLive = () => {
-	const pageUrl = apiLiveUrl;
-	const { data, error } = useSWR<IDataUsers>(pageUrl, fetcher);
+	const { data, error } = useSWR<IDataUsers>(apiLiveUrl, fetcher);
 	const users = data?.data;
 
 	const setUserIds = useSetRecoilState(userUsernamesAtom);

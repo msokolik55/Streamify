@@ -115,7 +115,8 @@ export const getByUsername = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
 	logInfo("Method called: user.update");
 
-	const { id, username, email, picture } = req.body;
+	const id = req.params.id;
+	const { username, email, picture } = req.body;
 
 	if (!id || id === "") {
 		return sendResponseError(res, 400, "Missing user id.");
@@ -141,7 +142,7 @@ export const update = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
 	logInfo("Method called: user.deleteUser");
 
-	const { username } = req.body;
+	const username = req.params.username;
 
 	if (!username || username === "") {
 		return sendResponseError(res, 400, "Missing user username.");
@@ -222,7 +223,8 @@ export const getByLive = async (req: Request, res: Response) => {
 export const updateLive = async (req: Request, res: Response) => {
 	logInfo("Method called: user.updateLive");
 
-	const { id, live } = req.body;
+	const id = req.params.id;
+	const { live } = req.body;
 
 	if (!id || id === "") {
 		return sendResponseError(res, 400, "Missing user id.");

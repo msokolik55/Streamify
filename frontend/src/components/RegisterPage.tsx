@@ -4,14 +4,14 @@ import { Navigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { LoggedUserIdAtom } from "../atom";
+import { loggedUserIdAtom } from "../atom";
 import { logInfo } from "../logger";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
 import FormLabel from "./login_page/FormLabel";
 
 const RegisterPage = () => {
-	const setLoggedUserId = useSetRecoilState(LoggedUserIdAtom);
+	const setLoggedUserId = useSetRecoilState(loggedUserIdAtom);
 	const [success, setSuccess] = useState(false);
 
 	const {

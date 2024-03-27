@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import {
 	userPasswordPath,
 	userProfilePath,
@@ -12,7 +12,7 @@ import LoginPage from "../login_page/LoginPage";
 import HeaderLink from "./HeaderLink";
 
 const UserPage = () => {
-	const isSignedIn = useRecoilValue(LoggedUserIdAtom);
+	const isSignedIn = useRecoilValue(loggedUserIdAtom);
 
 	return (
 		<div>

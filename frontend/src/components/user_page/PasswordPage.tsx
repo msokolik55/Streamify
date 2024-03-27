@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
 import FormLabel from "../login_page/FormLabel";
 
 const PasswordPage = () => {
-	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
+	const loggedUserId = useRecoilValue(loggedUserIdAtom);
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const {
@@ -34,7 +34,7 @@ const PasswordPage = () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				username: LoggedUserId,
+				username: loggedUserId,
 				oldPassword: data.oldPassword,
 				newPassword: data.newPassword,
 			}),
@@ -46,7 +46,7 @@ const PasswordPage = () => {
 		const changeError = resData.error;
 
 		if (changeSuccess) {
-			mutate(`${apiUserUrl}/${LoggedUserId}`);
+			mutate(`${apiUserUrl}/${loggedUserId}`);
 			alert("Password successfully changed");
 			setErrorMessage(undefined);
 		} else setErrorMessage(changeError);

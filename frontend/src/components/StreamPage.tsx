@@ -15,10 +15,9 @@ import MainWindowError from "./errors/MainWindowError";
 
 const StreamPage = () => {
 	const { username } = useParams();
-	const pageUrl = apiUserUrl;
 
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${pageUrl}/${username}`,
+		`${apiUserUrl}/${username}`,
 		fetcher,
 	);
 	const user = data?.data;

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IStream } from "../../models/IStream";
 import { StreamEditInputs } from "../../models/form";
@@ -15,7 +15,7 @@ type EditDialogProps = {
 };
 
 const EditDialog = (props: EditDialogProps) => {
-	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
+	const loggedUserId = useRecoilValue(loggedUserIdAtom);
 
 	const {
 		register,
@@ -29,18 +29,17 @@ const EditDialog = (props: EditDialogProps) => {
 
 		logInfo("Fetching: EditDialog.onSubmit");
 
-		await fetch(apiStreamUrl, {
+		await fetch(`${apiStreamUrl}/${data.id}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: data.id,
 				name: data.name,
 			}),
 		});
 
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 		props.setShow(false);
 	};
 

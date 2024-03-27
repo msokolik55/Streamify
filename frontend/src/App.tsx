@@ -3,7 +3,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-// import {} from "../time";
 import { userUsernames, userUsernamesAtom } from "./atom";
 import MainPage from "./components/MainPage";
 import ProfilePage from "./components/ProfilePage";
@@ -16,6 +15,7 @@ import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
 import UserProfilePage from "./components/user_page/UserProfilePage";
 import VideoPage from "./components/user_page/VideoPage";
+// import { logInfo } from "./logger";
 import {
 	apiUserUrl,
 	livePath,
@@ -46,18 +46,28 @@ export const App = () => {
 	const { mutate } = useSWRConfig();
 
 	useEffect(() => {
-		const pageUrl = apiUserUrl;
-
 		// const update = async () => {
-		// console.log(`${getLocaleTimeString()}: Fetching: App.dec`);
-		// 	if (userIds.old) await fetch(`${pageUrl}/${userIds.old}/dec`);
+		// 	logInfo("Fetching: App.dec");
+		// 	if (userIds.old)
+		// 		await fetch(`${apiUserUrl}/${userIds.old}/dec`, {
+		// 			method: "PATCH",
+		// 			headers: {
+		// 				"Content-Type": "application/json",
+		// 			},
+		// 		});
 
-		// console.log(`${getLocaleTimeString()}: Fetching: App.inc`);
-		// 	if (userIds.curr) await fetch(`${pageUrl}/${userIds.curr}/inc`);
+		// 	logInfo("Fetching: App.inc");
+		// 	if (userIds.curr)
+		// 		await fetch(`${apiUserUrl}/${userIds.curr}/inc`, {
+		// 			method: "PATCH",
+		// 			headers: {
+		// 				"Content-Type": "application/json",
+		// 			},
+		// 		});
 		// };
 
 		// update();
-		mutate(`${pageUrl}${userIds.curr}`);
+		mutate(`${apiUserUrl}${userIds.curr}`);
 	}, [userIds]);
 
 	return (

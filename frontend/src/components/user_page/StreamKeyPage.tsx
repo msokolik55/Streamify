@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import useSWR from "swr";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import { apiUserUrl } from "../../urls";
@@ -10,10 +10,10 @@ import StreamKeyForm from "./StreamKeyForm";
 import StreamKeyTable from "./StreamKeyTable";
 
 const StreamKeyPage = () => {
-	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
+	const loggedUserId = useRecoilValue(loggedUserIdAtom);
 
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${LoggedUserId}`,
+		`${apiUserUrl}/${loggedUserId}`,
 		fetcher,
 	);
 	const user = data?.data;

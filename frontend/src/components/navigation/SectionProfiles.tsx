@@ -9,8 +9,7 @@ import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
 
 const SectionProfiles = () => {
-	const pageUrl = apiUserUrl;
-	const { data, error } = useSWR<IDataUsers>(pageUrl, fetcher);
+	const { data, error } = useSWR<IDataUsers>(apiUserUrl, fetcher);
 	const users = data?.data;
 
 	if (error) return <ErrorBlock error={error} />;

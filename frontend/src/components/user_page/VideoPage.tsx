@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import { IStream } from "../../models/IStream";
@@ -14,13 +14,13 @@ import DeleteDialog from "./DeleteDialog";
 import EditDialog from "./EditDialog";
 
 const VideoPage = () => {
-	const LoggedUserId = useRecoilValue(LoggedUserIdAtom);
+	const loggedUserId = useRecoilValue(loggedUserIdAtom);
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditDialog, setShowEditDialog] = useState(false);
 
 	const { mutate } = useSWRConfig();
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${LoggedUserId}`,
+		`${apiUserUrl}/${loggedUserId}`,
 		fetcher,
 	);
 	const user = data?.data;
@@ -38,17 +38,14 @@ const VideoPage = () => {
 	const deleteStream = async (stream: IStream) => {
 		logInfo("Fetching: VideoPage.deleteStream");
 
-		await fetch(apiStreamUrl, {
+		await fetch(`${apiStreamUrl}/${stream.path}`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				filePath: stream.path,
-			}),
 		});
 
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 		setShowDeleteDialog(false);
 	};
 

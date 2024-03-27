@@ -123,13 +123,13 @@ export const getById = async (req: Request, res: Response) => {
 export const streamSourceExists = async (req: Request, res: Response) => {
 	logInfo("Method called: streamSourceExists");
 
-	const filePath = req.params.filePath;
+	const streamPath = req.params.streamPath;
 
-	if (!filePath || filePath === "") {
+	if (!streamPath || streamPath === "") {
 		return sendResponseError(res, 400, "Missing folder path.");
 	}
 
-	const folderPath = path.join("recordings", filePath);
+	const folderPath = path.join("recordings", streamPath);
 	return sendResponseSuccess(res, fs.existsSync(folderPath));
 };
 
@@ -139,13 +139,13 @@ export const streamSourceExists = async (req: Request, res: Response) => {
 export const deleteStream = async (req: Request, res: Response) => {
 	logInfo("Method called: stream.deleteStream");
 
-	const { filePath } = req.body;
+	const streamPath = req.params.streamPath;
 
-	if (!filePath || filePath === "") {
+	if (!streamPath || streamPath === "") {
 		return sendResponseError(res, 400, "Missing folder path.");
 	}
 
-	const folderPath = path.join("recordings", filePath);
+	const folderPath = path.join("recordings", streamPath);
 	if (fs.existsSync(folderPath)) {
 		fs.readdirSync(folderPath).forEach((file) => {
 			const fullPath = path.join(folderPath, file);
@@ -157,7 +157,7 @@ export const deleteStream = async (req: Request, res: Response) => {
 
 	const stream = await prisma.stream.delete({
 		where: {
-			path: filePath,
+			path: streamPath,
 		},
 	});
 
@@ -200,7 +200,8 @@ export const createStream = async (req: Request, res: Response) => {
 export const editStream = async (req: Request, res: Response) => {
 	logInfo("Method called: stream.editStream");
 
-	const { id, name } = req.body;
+	const id = req.params.id;
+	const { name } = req.body;
 
 	if (!id || id === "") {
 		return sendResponseError(res, 400, "Missing stream id.");
@@ -224,7 +225,7 @@ export const editStream = async (req: Request, res: Response) => {
 export const endStream = async (req: Request, res: Response) => {
 	logInfo("Method called: stream.endStream");
 
-	const { streamPath } = req.body;
+	const streamPath = req.params.streamPath;
 
 	if (!streamPath || streamPath === "") {
 		return sendResponseError(res, 400, "Missing stream path.");

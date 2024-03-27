@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { LoggedUserIdAtom } from "../../atom";
+import { loggedUserIdAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -14,7 +14,7 @@ import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
 const UserProfilePage = () => {
-	const [LoggedUserId, setLoggedUserId] = useRecoilState(LoggedUserIdAtom);
+	const [loggedUserId, setLoggedUserId] = useRecoilState(loggedUserIdAtom);
 	const [edit, setEdit] = useState(false);
 	const [deleted, setDeleted] = useState(false);
 
@@ -28,20 +28,19 @@ const UserProfilePage = () => {
 	const onSubmit = async (data: UserEditInputs) => {
 		logInfo("Fetching: UserProfilePage.onSubmit");
 
-		const res = await fetch(apiUserUrl, {
+		const res = await fetch(`${apiUserUrl}/${data.id}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: data.id,
 				username: data.username,
 				email: data.email,
 				picture: data.picture,
 			}),
 		});
 
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 		mutate(apiUserUrl);
 		mutate(apiLiveUrl);
 
@@ -52,17 +51,14 @@ const UserProfilePage = () => {
 	const deleteAccount = async () => {
 		logInfo("Fetching: UserProfilePage.deleteAccount");
 
-		const res = await fetch(apiUserUrl, {
+		const res = await fetch(`${apiUserUrl}/${loggedUserId}`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				username: LoggedUserId,
-			}),
 		});
 
-		mutate(`${apiUserUrl}/${LoggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserId}`);
 		mutate(apiUserUrl);
 		mutate(apiLiveUrl);
 
@@ -73,7 +69,7 @@ const UserProfilePage = () => {
 	};
 
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${LoggedUserId}`,
+		`${apiUserUrl}/${loggedUserId}`,
 		fetcher,
 	);
 	const user = data?.data;
