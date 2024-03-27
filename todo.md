@@ -33,8 +33,10 @@
 
 -   \*pridat testy
 -   \*pridat demo data
--   \*pridat Swagger (na konci podla endpointov)
 -   pridat try-catch bloky do Prismy (pri `create`, `update`, `delete`)
+-   upravit Swagger
+    -   na konci podla endpointov
+    -   pridat parametre pre body
 
 ## Frontend
 
