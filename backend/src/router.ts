@@ -17,7 +17,7 @@ const passwordPath = "/password";
 router.use(swaggerPath, swaggerUi.serve);
 router.get(swaggerPath, swaggerUi.setup(swaggerDocument));
 
-//#endregion
+//#endregion Swagger
 
 //#region User
 
