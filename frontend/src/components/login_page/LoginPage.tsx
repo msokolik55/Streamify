@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import { logInfo } from "../../../logger";
 import { LoggedUserIdAtom } from "../../atom";
+import { logInfo } from "../../logger";
 import { LoginInputs } from "../../models/form";
 import { apiLoginUrl, registerPath } from "../../urls";
 import FormLabel from "./FormLabel";

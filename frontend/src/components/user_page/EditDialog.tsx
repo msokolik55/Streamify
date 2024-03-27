@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { logInfo } from "../../../logger";
 import { LoggedUserIdAtom } from "../../atom";
+import { logInfo } from "../../logger";
 import { IStream } from "../../models/IStream";
 import { StreamEditInputs } from "../../models/form";
 import { apiStreamUrl, apiUserUrl } from "../../urls";

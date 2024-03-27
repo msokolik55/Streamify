@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { logInfo } from "../../../logger";
 import { LoggedUserIdAtom } from "../../atom";
+import { logInfo } from "../../logger";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
 import FormLabel from "../login_page/FormLabel";

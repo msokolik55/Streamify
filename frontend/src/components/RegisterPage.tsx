@@ -4,8 +4,8 @@ import { Navigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { logInfo } from "../../logger";
 import { LoggedUserIdAtom } from "../atom";
+import { logInfo } from "../logger";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
 import FormLabel from "./login_page/FormLabel";

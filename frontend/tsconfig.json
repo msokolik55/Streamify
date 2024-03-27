@@ -21,6 +21,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
 	},
-	"include": ["src", "logger.ts"],
+	"include": ["src", "src/logger.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }],
 }
