@@ -3,12 +3,13 @@ import { Request, Response } from "express";
 import { sendResponseError, sendResponseSuccess } from "./response";
 import bcrypt from "bcrypt";
 import { findByUsername } from "./user";
+import { logInfo } from "../logger";
 
 /**
  * Generate password
  */
 export const changePassword = async (req: Request, res: Response) => {
-	console.log("Method called: password.changePassword");
+	logInfo("Method called: password.changePassword");
 
 	const { username, oldPassword, newPassword } = req.body;
 

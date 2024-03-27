@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { sendResponseError, sendResponseSuccess } from "./response";
 import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
+import { logInfo } from "../logger";
 
 const ops = {
 	inc: (a: number) => a + 1,
@@ -10,7 +11,7 @@ const ops = {
 };
 
 export const findByUsername = async (username: string) => {
-	console.log("Method called: user.findByUsername");
+	logInfo("Method called: user.findByUsername");
 
 	const user = await prisma.user.findUnique({
 		where: {
@@ -44,7 +45,7 @@ const alterCount = async (
 	res: Response,
 	op: (a: number) => number
 ) => {
-	console.log("Method called: user.alterCount");
+	logInfo("Method called: user.alterCount");
 
 	const id = req.params.id;
 
@@ -81,7 +82,7 @@ const alterCount = async (
  * Return list of all users
  */
 export const get = async (req: Request, res: Response) => {
-	console.log("Method called: user.get");
+	logInfo("Method called: user.get");
 
 	const users = await prisma.user.findMany({
 		select: {
@@ -100,7 +101,7 @@ export const get = async (req: Request, res: Response) => {
  * Return one user
  */
 export const getByUsername = async (req: Request, res: Response) => {
-	console.log("Method called: user.getByUsername");
+	logInfo("Method called: user.getByUsername");
 
 	const username = req.params.username!;
 
@@ -112,7 +113,7 @@ export const getByUsername = async (req: Request, res: Response) => {
  * Update user
  */
 export const update = async (req: Request, res: Response) => {
-	console.log("Method called: user.update");
+	logInfo("Method called: user.update");
 
 	const { id, username, email, picture } = req.body;
 
@@ -138,7 +139,7 @@ export const update = async (req: Request, res: Response) => {
  * Delete user
  */
 export const deleteUser = async (req: Request, res: Response) => {
-	console.log("Method called: user.deleteUser");
+	logInfo("Method called: user.deleteUser");
 
 	const { username } = req.body;
 
@@ -159,7 +160,7 @@ export const deleteUser = async (req: Request, res: Response) => {
  * Create user
  */
 export const create = async (req: Request, res: Response) => {
-	console.log("Method called: user.create");
+	logInfo("Method called: user.create");
 
 	const { username, email, picture, password } = req.body;
 
@@ -179,7 +180,7 @@ export const create = async (req: Request, res: Response) => {
  * Increase user count
  */
 export const increaseCount = async (req: Request, res: Response) => {
-	console.log("Method called: user.increaseCount");
+	logInfo("Method called: user.increaseCount");
 
 	return alterCount(req, res, ops.inc);
 };
@@ -188,7 +189,7 @@ export const increaseCount = async (req: Request, res: Response) => {
  * Decrease user count
  */
 export const decreaseCount = async (req: Request, res: Response) => {
-	console.log("Method called: user.decreaseCount");
+	logInfo("Method called: user.decreaseCount");
 
 	return alterCount(req, res, ops.dec);
 };
@@ -197,7 +198,7 @@ export const decreaseCount = async (req: Request, res: Response) => {
  * Return all live users
  */
 export const getByLive = async (req: Request, res: Response) => {
-	console.log("Method called: user.getByLive");
+	logInfo("Method called: user.getByLive");
 
 	const users = await prisma.user.findMany({
 		where: {
@@ -219,7 +220,7 @@ export const getByLive = async (req: Request, res: Response) => {
  * Update live
  */
 export const updateLive = async (req: Request, res: Response) => {
-	console.log("Method called: user.updateLive");
+	logInfo("Method called: user.updateLive");
 
 	const { id, live } = req.body;
 

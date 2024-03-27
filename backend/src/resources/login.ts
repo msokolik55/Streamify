@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 import { sendResponseError, sendResponseSuccess } from "./response";
 import bcrypt from "bcrypt";
 import { findByUsername } from "./user";
+import { logInfo } from "../logger";
 
 /**
  * Check user login attempt
  */
 export const checkLogin = async (req: Request, res: Response) => {
-	console.log("Method called: login.checkLogin");
+	logInfo("Method called: login.checkLogin");
 
 	const { username, password } = req.body;
 
