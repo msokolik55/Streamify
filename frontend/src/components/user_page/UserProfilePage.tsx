@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { loggedUserIdAtom } from "../../atom";
+import { loggedUserUsernameAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -14,7 +14,9 @@ import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
 const UserProfilePage = () => {
-	const [loggedUserId, setLoggedUserId] = useRecoilState(loggedUserIdAtom);
+	const [loggedUserUsername, setLoggedUserUsername] = useRecoilState(
+		loggedUserUsernameAtom,
+	);
 	const [edit, setEdit] = useState(false);
 	const [deleted, setDeleted] = useState(false);
 
@@ -40,36 +42,36 @@ const UserProfilePage = () => {
 			}),
 		});
 
-		mutate(`${apiUserUrl}/${loggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 		mutate(apiUserUrl);
 		mutate(apiLiveUrl);
 
-		if (res.status === 200) setLoggedUserId(data.username);
+		if (res.status === 200) setLoggedUserUsername(data.username);
 		setEdit(false);
 	};
 
 	const deleteAccount = async () => {
 		logInfo("Fetching: UserProfilePage.deleteAccount");
 
-		const res = await fetch(`${apiUserUrl}/${loggedUserId}`, {
+		const res = await fetch(`${apiUserUrl}/${loggedUserUsername}`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
 			},
 		});
 
-		mutate(`${apiUserUrl}/${loggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 		mutate(apiUserUrl);
 		mutate(apiLiveUrl);
 
 		if (res.status === 200) {
-			setLoggedUserId(undefined);
+			setLoggedUserUsername(undefined);
 			setDeleted(true);
 		}
 	};
 
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${loggedUserId}`,
+		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);
 	const user = data?.data;

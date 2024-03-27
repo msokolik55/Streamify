@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { loggedUserIdAtom } from "../../atom";
+import { loggedUserUsernameAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IStream } from "../../models/IStream";
 import { StreamEditInputs } from "../../models/form";
@@ -15,7 +15,7 @@ type EditDialogProps = {
 };
 
 const EditDialog = (props: EditDialogProps) => {
-	const loggedUserId = useRecoilValue(loggedUserIdAtom);
+	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 
 	const {
 		register,
@@ -39,7 +39,7 @@ const EditDialog = (props: EditDialogProps) => {
 			}),
 		});
 
-		mutate(`${apiUserUrl}/${loggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 		props.setShow(false);
 	};
 

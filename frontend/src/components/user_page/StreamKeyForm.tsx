@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { loggedUserIdAtom } from "../../atom";
+import { loggedUserUsernameAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
@@ -12,10 +12,10 @@ import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
 const StreamKeyForm = () => {
-	const loggedUserId = useRecoilValue(loggedUserIdAtom);
+	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 
 	const { data } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${loggedUserId}`,
+		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);
 	const user = data?.data;
@@ -68,7 +68,7 @@ const StreamKeyForm = () => {
 		await createStream(data.name);
 
 		mutate(apiLiveUrl);
-		mutate(`${apiUserUrl}/${loggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 	};
 
 	return (

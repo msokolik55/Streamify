@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { loggedUserIdAtom } from "../../atom";
+import { loggedUserUsernameAtom } from "../../atom";
 import { logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import { IStream } from "../../models/IStream";
@@ -14,13 +14,13 @@ import DeleteDialog from "./DeleteDialog";
 import EditDialog from "./EditDialog";
 
 const VideoPage = () => {
-	const loggedUserId = useRecoilValue(loggedUserIdAtom);
+	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditDialog, setShowEditDialog] = useState(false);
 
 	const { mutate } = useSWRConfig();
 	const { data, error } = useSWR<IDataUser, Error>(
-		`${apiUserUrl}/${loggedUserId}`,
+		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);
 	const user = data?.data;
@@ -45,7 +45,7 @@ const VideoPage = () => {
 			},
 		});
 
-		mutate(`${apiUserUrl}/${loggedUserId}`);
+		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 		setShowDeleteDialog(false);
 	};
 
