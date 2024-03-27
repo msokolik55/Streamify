@@ -8,6 +8,7 @@
 -   zmenit ikonku pri editacii videa na stranke profilu
 -   zlepsit dizajn (farby, rozlozenie - responzivita, uzsie formulare)
 -   responzivny dizajn
+-   autentizacia pre celu session
 
 # Kubernetes
 
