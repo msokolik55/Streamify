@@ -1,0 +1,270 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Streaming API",
+		"summary": "Users and streams manager.",
+		"description": "Server for managing users and streams."
+	},
+	"basePath": "/",
+	"paths": {
+		"/user": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Get all users",
+				"operationId": "getAllUsers",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			},
+			"post": {
+				"tags": ["Users"],
+				"summary": "Create a new user",
+				"operationId": "createUser",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			},
+			"put": {
+				"tags": ["Users"],
+				"summary": "Update an existing user",
+				"operationId": "updateUser",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Users"],
+				"summary": "Delete a user",
+				"operationId": "deleteUser",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/user/{username}": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Get user by username",
+				"operationId": "getUserByUsername",
+				"parameters": [
+					{
+						"name": "username",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			},
+			"put": {
+				"tags": ["Users"],
+				"summary": "Update user by username",
+				"operationId": "updateUserByUsername",
+				"parameters": [
+					{
+						"name": "username",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/user/{id}/inc": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Increase count by user ID",
+				"operationId": "increaseCount",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/user/{id}/dec": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Decrease count by user ID",
+				"operationId": "decreaseCount",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/live": {
+			"get": {
+				"tags": ["Live"],
+				"summary": "Get users by live",
+				"operationId": "getUsersByLive",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			},
+			"put": {
+				"tags": ["Live"],
+				"summary": "Update live user",
+				"operationId": "updateLiveUser",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"tags": ["Login"],
+				"summary": "Check login credentials",
+				"operationId": "checkLogin",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/stream": {
+			"post": {
+				"tags": ["Streams"],
+				"summary": "Create a new stream",
+				"operationId": "createStream",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			},
+			"put": {
+				"tags": ["Streams"],
+				"summary": "Edit a stream",
+				"operationId": "editStream",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Streams"],
+				"summary": "Delete a stream",
+				"operationId": "deleteStream",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/stream/{id}": {
+			"get": {
+				"tags": ["Streams"],
+				"summary": "Get stream by ID",
+				"operationId": "getStreamById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/stream/{filePath}/exists": {
+			"get": {
+				"tags": ["Streams"],
+				"summary": "Check if stream source exists",
+				"operationId": "streamSourceExists",
+				"parameters": [
+					{
+						"name": "filePath",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/stream/{streamPath}/end": {
+			"put": {
+				"tags": ["Streams"],
+				"summary": "End a stream",
+				"operationId": "endStream",
+				"parameters": [
+					{
+						"name": "streamPath",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		},
+		"/password": {
+			"put": {
+				"tags": ["Passwords"],
+				"summary": "Change password",
+				"operationId": "changePassword",
+				"responses": {
+					"200": {
+						"description": "Successful operation"
+					}
+				}
+			}
+		}
+	}
+}

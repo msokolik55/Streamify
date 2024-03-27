@@ -1,13 +1,23 @@
 import express, { Request, Response } from "express";
 import { login, password, stream, user } from "./resources";
+import swaggerUi from "swagger-ui-express";
 
 const router = express.Router();
+const swaggerDocument = require("./swagger.json");
 
+const swaggerPath = "/swagger";
 const userPath = "/user";
 const livePath = "/live";
 const loginPath = "/login";
 const streamPath = "/stream";
 const passwordPath = "/password";
+
+//#region Swagger
+
+router.use(swaggerPath, swaggerUi.serve);
+router.get(swaggerPath, swaggerUi.setup(swaggerDocument));
+
+//#endregion
 
 //#region User
 
