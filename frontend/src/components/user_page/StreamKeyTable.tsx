@@ -94,7 +94,7 @@ const StreamKeyTable = () => {
 		if (!streamSourceExists) await deleteStream();
 		else await endStream();
 
-		mutate(apiLiveUrl);
+		mutate(`${apiUserUrl}?live=true`);
 		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 	};
 

@@ -84,6 +84,14 @@ const alterCount = async (
 export const get = async (req: Request, res: Response) => {
 	logInfo("Method called: user.get");
 
+	const { live } = req.query;
+	const filter =
+		live === "true"
+			? {
+					NOT: { streamKey: null },
+			  }
+			: undefined;
+
 	const users = await prisma.user.findMany({
 		select: {
 			id: true,
@@ -93,6 +101,7 @@ export const get = async (req: Request, res: Response) => {
 			count: true,
 			streamKey: true,
 		},
+		where: filter,
 	});
 	return sendResponseSuccess(res, users);
 };
@@ -193,28 +202,6 @@ export const decreaseCount = async (req: Request, res: Response) => {
 	logInfo("Method called: user.decreaseCount");
 
 	return alterCount(req, res, ops.dec);
-};
-
-/**
- * Return all live users
- */
-export const getByLive = async (req: Request, res: Response) => {
-	logInfo("Method called: user.getByLive");
-
-	const users = await prisma.user.findMany({
-		where: {
-			NOT: { streamKey: null },
-		},
-		select: {
-			id: true,
-			username: true,
-			count: true,
-		},
-		orderBy: {
-			count: "desc",
-		},
-	});
-	return sendResponseSuccess(res, users);
 };
 
 /**

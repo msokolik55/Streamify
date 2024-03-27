@@ -67,7 +67,7 @@ const StreamKeyForm = () => {
 		await setUserLive();
 		await createStream(data.name);
 
-		mutate(apiLiveUrl);
+		mutate(`${apiUserUrl}?live=true`);
 		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 	};
 

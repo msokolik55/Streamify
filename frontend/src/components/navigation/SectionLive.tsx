@@ -7,13 +7,16 @@ import { userUsernamesAtom } from "../../atom";
 import { IDataUsers } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import colors from "../../styles/colors";
-import { apiLiveUrl, livePath } from "../../urls";
+import { apiUserUrl, livePath } from "../../urls";
 import Counter from "../Counter";
 import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
 
 const SectionLive = () => {
-	const { data, error } = useSWR<IDataUsers>(apiLiveUrl, fetcher);
+	const { data, error } = useSWR<IDataUsers>(
+		`${apiUserUrl}?live=true`,
+		fetcher,
+	);
 	const users = data?.data;
 
 	const setUserIds = useSetRecoilState(userUsernamesAtom);

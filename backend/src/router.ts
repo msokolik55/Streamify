@@ -35,14 +35,9 @@ router.delete(`${userUrl}/${usernamePart}`, user.deleteUser);
 router.patch(`${userUrl}/${idPart}/inc`, user.increaseCount);
 router.patch(`${userUrl}/${idPart}/dec`, user.decreaseCount);
 
-//#endregion User
-
-//#region Live
-
-router.get(`${userUrl}${liveUrl}`, user.getByLive);
 router.patch(`${userUrl}${liveUrl}/${idPart}`, user.updateLive);
 
-//#endregion Live
+//#endregion User
 
 //#region Login
 
