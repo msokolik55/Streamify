@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { getLocaleTimeString } from "../../../time";
+import { logInfo } from "../../../logger";
 import { LoggedUserIdAtom } from "../../atom";
 import { IStream } from "../../models/IStream";
 import { StreamEditInputs } from "../../models/form";
@@ -27,7 +27,7 @@ const EditDialog = (props: EditDialogProps) => {
 	const onSubmit = async (data: StreamEditInputs | null = null) => {
 		if (data === null) return;
 
-		console.log(`${getLocaleTimeString()}: Fetching: EditDialog.onSubmit`);
+		logInfo("Fetching: EditDialog.onSubmit");
 
 		await fetch(apiStreamUrl, {
 			method: "PUT",

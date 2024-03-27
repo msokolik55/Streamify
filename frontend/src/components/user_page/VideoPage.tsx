@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
-import { getLocaleTimeString } from "../../../time";
+import { logInfo } from "../../../logger";
 import { LoggedUserIdAtom } from "../../atom";
 import { IDataUser } from "../../models/IDataUser";
 import { IStream } from "../../models/IStream";
@@ -36,9 +36,7 @@ const VideoPage = () => {
 	}
 
 	const deleteStream = async (stream: IStream) => {
-		console.log(
-			`${getLocaleTimeString()}: Fetching: VideoPage.deleteStream`,
-		);
+		logInfo("Fetching: VideoPage.deleteStream");
 
 		await fetch(apiStreamUrl, {
 			method: "DELETE",

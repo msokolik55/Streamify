@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { getLocaleTimeString } from "../../../time";
+import { logInfo } from "../../../logger";
 import { LoggedUserIdAtom } from "../../atom";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
@@ -26,9 +26,7 @@ const PasswordPage = () => {
 			return;
 		}
 
-		console.log(
-			`${getLocaleTimeString()}: Fetching: PasswordPage.onSubmit`,
-		);
+		logInfo("Fetching: PasswordPage.onSubmit");
 
 		const res = await fetch(apiPasswordUrl, {
 			method: "PUT",
