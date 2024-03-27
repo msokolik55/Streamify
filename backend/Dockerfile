@@ -19,6 +19,7 @@ RUN npm install --omit=dev
 COPY --from=build_stage /app/dist dist
 COPY --from=build_stage /app/prisma prisma
 COPY --from=build_stage /app/.env .
+COPY --from=build_stage /app/src/swagger.json dist/swagger.json
 
 EXPOSE 4000
 CMD ["npm", "start"]
