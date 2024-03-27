@@ -1,5 +1,6 @@
 export const logInfo = (message: string, args: any = undefined) => {
-	console.log(`${getLocaleTimeString()}: ${message} (${args ?? ""})`);
+	const argsMessage = args ? ` ${args}` : "";
+	console.log(`${getLocaleTimeString()}: ${message}${argsMessage}`);
 };
 
 const getLocaleTimeString = () => {
