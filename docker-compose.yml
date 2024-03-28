@@ -9,6 +9,7 @@ services:
       - 5555:5555
     volumes:
       - shared-volume:/app/recordings
+      - ./backend/prisma/dev.db:/app/prisma/dev.db
 
   frontend:
     build:
