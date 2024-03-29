@@ -518,7 +518,8 @@ pathDefaults:
   # * MTX_SOURCE_ID: source ID
   runOnReady: >
     ffmpeg -i rtsp://localhost:$RTSP_PORT/$MTX_PATH
-    -c copy
+    -c:a aac -c:v h264
+    -filter_complex "scale=-1:360"
     -f rtsp rtsp://localhost:$RTSP_PORT/$MTX_PATH
   # Restart the command if it exits.
   runOnReadyRestart: yes

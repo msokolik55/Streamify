@@ -516,12 +516,9 @@ pathDefaults:
   #   a regular expression.
   # * MTX_SOURCE_TYPE: source type
   # * MTX_SOURCE_ID: source ID
-  runOnReady:
-  # runOnReady: >
-  #   ffmpeg -analyzeduration 10000000 -probesize 10000000
-  #   -i rtsp://localhost:$RTSP_PORT/$MTX_PATH
-  #   -c copy
-  #   -f rtsp rtsp://localhost:$RTSP_PORT/copied
+  runOnReady: yes
+  runOnReady: >
+    ffmpeg -i "rtsp://localhost:$RTSP_PORT/$MTX_PATH" -c:v libx264 -preset ultrafast -tune zerolatency -c:a aac -f rtsp "rtsp://localhost:8554/copied"
   # Restart the command if it exits.
   runOnReadyRestart: no
   # Command to run when the stream is not available anymore.
