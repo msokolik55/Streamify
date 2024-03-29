@@ -19,7 +19,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 	return (
 		<>
-			<iframe src={iframeUrl}></iframe>
+			<iframe src={iframeUrl} className="h-screen"></iframe>
 			{/* <div>
 				<Player playsInline src={hlsUrl}>
 					<BigPlayButton position="center" />
