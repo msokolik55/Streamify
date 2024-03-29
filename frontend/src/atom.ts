@@ -19,5 +19,5 @@ export const loggedUserUsernameAtom = atom<string | undefined>({
 
 export const isDarkModeAtom = atom<boolean>({
 	key: "isDarkModeAtom",
-	default: false,
+	default: localStorage.getItem("darkMode") === "true",
 });
