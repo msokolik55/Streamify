@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { userUsernames, userUsernamesAtom } from "./atom";
+import { isDarkModeAtom, userUsernames, userUsernamesAtom } from "./atom";
 import MainPage from "./components/MainPage";
 import ProfilePage from "./components/ProfilePage";
 import RecordingPage from "./components/RecordingPage";
@@ -42,6 +42,11 @@ export const shiftUserUsernames = (
 
 export const App = () => {
 	const userIds = useRecoilValue(userUsernamesAtom);
+	const isDarkMode = useRecoilValue(isDarkModeAtom);
+
+	useEffect(() => {
+		localStorage.setItem("darkMode", isDarkMode ? "true" : "false");
+	}, [isDarkMode]);
 
 	const { mutate } = useSWRConfig();
 
@@ -71,42 +76,47 @@ export const App = () => {
 	}, [userIds]);
 
 	return (
-		<Router>
-			<Routes>
-				<Route path="/" element={<MainPage />}>
-					<Route
-						path={`${profilePath}/:username`}
-						element={<ProfilePage />}
-					/>
-					<Route
-						path={`${streamPath}/:streamId`}
-						element={<RecordingPage />}
-					/>
-					<Route
-						path={`${livePath}/:username`}
-						element={<StreamPage />}
-					/>
-					<Route path={registerPath} element={<RegisterPage />} />
-					<Route path={userPath} element={<UserPage />}>
+		<div className={isDarkMode ? "dark" : ""}>
+			<Router>
+				<Routes>
+					<Route path="/" element={<MainPage />}>
 						<Route
-							path={userProfilePath}
-							element={<UserProfilePage />}
-						/>
-						<Route path={userVideosPath} element={<VideoPage />} />
-						<Route
-							path={userStreamKeyPath}
-							element={<StreamKeyPage />}
+							path={`${profilePath}/:username`}
+							element={<ProfilePage />}
 						/>
 						<Route
-							path={userPasswordPath}
-							element={<PasswordPage />}
+							path={`${streamPath}/:streamId`}
+							element={<RecordingPage />}
 						/>
+						<Route
+							path={`${livePath}/:username`}
+							element={<StreamPage />}
+						/>
+						<Route path={registerPath} element={<RegisterPage />} />
+						<Route path={userPath} element={<UserPage />}>
+							<Route
+								path={userProfilePath}
+								element={<UserProfilePage />}
+							/>
+							<Route
+								path={userVideosPath}
+								element={<VideoPage />}
+							/>
+							<Route
+								path={userStreamKeyPath}
+								element={<StreamKeyPage />}
+							/>
+							<Route
+								path={userPasswordPath}
+								element={<PasswordPage />}
+							/>
+						</Route>
+						<Route path="*" element={<ErrorPage />} />
 					</Route>
 					<Route path="*" element={<ErrorPage />} />
-				</Route>
-				<Route path="*" element={<ErrorPage />} />
-				<Route path={profilePath} element={<ProfilePage />} />
-			</Routes>
-		</Router>
+					<Route path={profilePath} element={<ProfilePage />} />
+				</Routes>
+			</Router>
+		</div>
 	);
 };

@@ -16,3 +16,8 @@ export const loggedUserUsernameAtom = atom<string | undefined>({
 	key: "loggedUserUsernameAtom",
 	default: undefined,
 });
+
+export const isDarkModeAtom = atom<boolean>({
+	key: "isDarkModeAtom",
+	default: false,
+});
