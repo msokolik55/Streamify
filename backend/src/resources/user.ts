@@ -1,9 +1,10 @@
-import prisma from "../client";
-import { Request, Response } from "express";
-import { sendResponseError, sendResponseSuccess } from "./response";
-import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
+import { randomUUID } from "crypto";
+import { Request, Response } from "express";
+
+import prisma from "../client";
 import { logInfo } from "../logger";
+import { sendResponseError, sendResponseSuccess } from "./response";
 
 const ops = {
 	inc: (a: number) => a + 1,
@@ -43,7 +44,7 @@ export const findByUsername = async (username: string) => {
 const alterCount = async (
 	req: Request,
 	res: Response,
-	op: (a: number) => number
+	op: (a: number) => number,
 ) => {
 	logInfo("Method called: user.alterCount");
 
@@ -89,7 +90,7 @@ export const get = async (req: Request, res: Response) => {
 		live === "true"
 			? {
 					NOT: { streamKey: null },
-			  }
+				}
 			: undefined;
 
 	const users = await prisma.user.findMany({

@@ -1,5 +1,5 @@
 {
-	"swagger": "2.0",
+	"openapi": "3.1.0",
 	"info": {
 		"version": "1.0.0",
 		"title": "Streaming API",
@@ -8,260 +8,1042 @@
 	},
 	"basePath": "/",
 	"paths": {
-		"/user": {
+		"/users": {
 			"get": {
-				"tags": ["Users"],
-				"summary": "Get all users",
+				"summary": "Get list of all users",
+				"description": "Returns a list of all users",
 				"operationId": "getAllUsers",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "live",
+						"in": "query",
+						"description": "Filter users by live status",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				],
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/User"
+									}
+								}
+							}
+						}
 					}
 				}
 			},
 			"post": {
-				"tags": ["Users"],
 				"summary": "Create a new user",
+				"description": "Creates a new user with the provided information",
 				"operationId": "createUser",
+				"tags": ["User"],
+				"requestBody": {
+					"description": "User information to create",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserRequest"
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "User created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserCreate"
+								}
+							}
+						}
 					}
 				}
-			},
-			"put": {
-				"tags": ["Users"],
-				"summary": "Update an existing user",
-				"operationId": "updateUser",
+			}
+		},
+		"/users/{username}": {
+			"get": {
+				"summary": "Get user by username",
+				"description": "Returns the user with the specified username",
+				"operationId": "getUserByUsername",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "username",
+						"in": "path",
+						"description": "Username of the user to retrieve",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "User found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserFound"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			},
 			"delete": {
-				"tags": ["Users"],
-				"summary": "Delete a user",
+				"summary": "Delete user",
+				"description": "Deletes the user with the specified username",
 				"operationId": "deleteUser",
-				"responses": {
-					"200": {
-						"description": "Successful operation"
-					}
-				}
-			}
-		},
-		"/user/{username}": {
-			"get": {
-				"tags": ["Users"],
-				"summary": "Get user by username",
-				"operationId": "getUserByUsername",
+				"tags": ["User"],
 				"parameters": [
 					{
 						"name": "username",
 						"in": "path",
+						"description": "Username of the user to delete",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "User deleted successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserCreate"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
-			},
+			}
+		},
+		"/users/{id}": {
 			"put": {
-				"tags": ["Users"],
-				"summary": "Update user by username",
-				"operationId": "updateUserByUsername",
+				"summary": "Update user",
+				"description": "Updates the user with the specified ID",
+				"operationId": "updateUser",
+				"tags": ["User"],
 				"parameters": [
 					{
-						"name": "username",
+						"name": "id",
 						"in": "path",
+						"description": "ID of the user to update",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
+				"requestBody": {
+					"description": "User information to update",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserRequest"
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "User updated successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserCreate"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/user/{id}/inc": {
-			"get": {
-				"tags": ["Users"],
-				"summary": "Increase count by user ID",
+		"/users/{id}/inc": {
+			"patch": {
+				"summary": "Increase user count",
+				"description": "Increments the count of the user with the specified ID",
 				"operationId": "increaseCount",
+				"tags": ["User"],
 				"parameters": [
 					{
 						"name": "id",
 						"in": "path",
+						"description": "ID of the user to update",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "User count increased successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserCount"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/user/{id}/dec": {
-			"get": {
-				"tags": ["Users"],
-				"summary": "Decrease count by user ID",
+		"/users/{id}/dec": {
+			"patch": {
+				"summary": "Decrease user count",
+				"description": "Decrements the count of the user with the specified ID",
 				"operationId": "decreaseCount",
+				"tags": ["User"],
 				"parameters": [
 					{
 						"name": "id",
 						"in": "path",
+						"description": "ID of the user to update",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "User count decreased successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserCount"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/live": {
-			"get": {
-				"tags": ["Live"],
-				"summary": "Get users by live",
-				"operationId": "getUsersByLive",
-				"responses": {
-					"200": {
-						"description": "Successful operation"
+		"/users/live/{id}": {
+			"patch": {
+				"summary": "Update user live status",
+				"description": "Updates the live status of the user with the specified ID",
+				"operationId": "updateLive",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID of the user to update",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
 					}
-				}
-			},
-			"put": {
-				"tags": ["Live"],
-				"summary": "Update live user",
-				"operationId": "updateLiveUser",
+				],
+				"requestBody": {
+					"description": "Live status information",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"live": {
+										"type": "boolean"
+									}
+								},
+								"required": ["live"]
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "User live status updated successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserLive"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
 		"/login": {
 			"post": {
-				"tags": ["Login"],
-				"summary": "Check login credentials",
+				"summary": "Checks user login credentials.",
+				"description": "This method verifies if the given username and password are correct.",
 				"operationId": "checkLogin",
+				"tags": ["Login"],
+				"requestBody": {
+					"description": "User's login credentials",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginCredentials"
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "Login successful",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Wrong password",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Cannot find user with given username",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/stream": {
+		"/streams": {
 			"post": {
-				"tags": ["Streams"],
 				"summary": "Create a new stream",
 				"operationId": "createStream",
-				"responses": {
-					"200": {
-						"description": "Successful operation"
+				"tags": ["Stream"],
+				"requestBody": {
+					"description": "Stream information",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"username": {
+										"type": "string"
+									}
+								},
+								"required": ["name", "username"]
+							}
+						}
 					}
-				}
-			},
-			"put": {
-				"tags": ["Streams"],
-				"summary": "Edit a stream",
-				"operationId": "editStream",
+				},
 				"responses": {
 					"200": {
-						"description": "Successful operation"
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Streams"],
-				"summary": "Delete a stream",
-				"operationId": "deleteStream",
-				"responses": {
-					"200": {
-						"description": "Successful operation"
+						"description": "Stream created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/StreamCreate"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/stream/{id}": {
+		"/streams/{id}": {
 			"get": {
-				"tags": ["Streams"],
 				"summary": "Get stream by ID",
 				"operationId": "getStreamById",
+				"tags": ["Stream"],
 				"parameters": [
 					{
 						"name": "id",
 						"in": "path",
+						"description": "ID of the stream to retrieve",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "Stream retrieved successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/StreamFound"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Stream not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
-			}
-		},
-		"/stream/{filePath}/exists": {
-			"get": {
-				"tags": ["Streams"],
-				"summary": "Check if stream source exists",
-				"operationId": "streamSourceExists",
+			},
+			"put": {
+				"summary": "Update stream by ID",
+				"operationId": "updateStream",
+				"tags": ["Stream"],
 				"parameters": [
 					{
-						"name": "filePath",
+						"name": "id",
 						"in": "path",
+						"description": "ID of the stream to update",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
+				"requestBody": {
+					"description": "Updated stream information",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									}
+								},
+								"required": ["name"]
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "Stream updated successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/StreamUpdate"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Stream not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/stream/{streamPath}/end": {
-			"put": {
-				"tags": ["Streams"],
-				"summary": "End a stream",
-				"operationId": "endStream",
+		"/streams/{streamPath}": {
+			"delete": {
+				"summary": "Delete stream by path",
+				"operationId": "deleteStream",
+				"tags": ["Stream"],
 				"parameters": [
 					{
 						"name": "streamPath",
 						"in": "path",
+						"description": "Path of the stream folder to delete",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "Stream deleted successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/StreamUpdate"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Stream not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/streams/{streamPath}/exists": {
+			"get": {
+				"summary": "Check if stream source exists",
+				"operationId": "streamSourceExists",
+				"tags": ["Stream"],
+				"parameters": [
+					{
+						"name": "streamPath",
+						"in": "path",
+						"description": "Path of the stream folder to check",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/streams/{streamPath}/end": {
+			"put": {
+				"summary": "End stream by path",
+				"operationId": "endStream",
+				"tags": ["Stream"],
+				"parameters": [
+					{
+						"name": "streamPath",
+						"in": "path",
+						"description": "Path of the stream folder to end",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Stream ended successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/StreamUpdate"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Stream not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
 		"/password": {
 			"put": {
-				"tags": ["Passwords"],
 				"summary": "Change password",
 				"operationId": "changePassword",
+				"tags": ["Password"],
+				"requestBody": {
+					"description": "User's credentials and new password",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChangePasswordRequest"
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
-						"description": "Successful operation"
+						"description": "Password changed successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserPassword"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (e.g., wrong password)",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"*": {
+			"get": {
+				"summary": "Handle wildcard route",
+				"description": "Endpoint to handle all undefined routes",
+				"operationId": "handleWildcardRoute",
+				"responses": {
+					"404": {
+						"description": "Path not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"LoginCredentials": {
+				"type": "object",
+				"required": ["username", "password"],
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string",
+						"format": "password"
+					}
+				}
+			},
+			"Error": {
+				"type": "object",
+				"required": ["message"],
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangePasswordRequest": {
+				"type": "object",
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"oldPassword": {
+						"type": "string",
+						"format": "password"
+					},
+					"newPassword": {
+						"type": "string",
+						"format": "password"
+					}
+				},
+				"required": ["username", "oldPassword", "newPassword"]
+			},
+			"UpdateUserRequest": {
+				"type": "object",
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					}
+				}
+			},
+			"CreateUserRequest": {
+				"type": "object",
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": ["username", "email", "password"]
+			},
+			"User": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"username": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"count": {
+						"type": "integer"
+					},
+					"streamKey": {
+						"type": "string"
+					}
+				}
+			},
+			"UserPassword": {
+				"type": "object",
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				}
+			},
+			"UserCreate": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				}
+			},
+			"UserFound": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"count": {
+						"type": "integer"
+					},
+					"streamKey": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"streams": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Stream"
+						}
+					}
+				}
+			},
+			"UserCount": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"count": {
+						"type": "integer"
+					}
+				}
+			},
+			"UserLive": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"streamKey": {
+						"type": "string"
+					}
+				}
+			},
+			"Stream": {
+				"tags": ["Stream"],
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"name": {
+						"type": "string"
+					},
+					"path": {
+						"type": "string"
+					},
+					"ended": {
+						"type": "boolean"
+					}
+				}
+			},
+			"StreamCreate": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"path": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"ended": {
+						"type": "boolean"
+					}
+				}
+			},
+			"StreamFound": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"path": {
+						"type": "string"
+					},
+					"user": {
+						"type": "object",
+						"properties": {
+							"picture": {
+								"type": "string"
+							},
+							"username": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			},
+			"StreamUpdate": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
 					}
 				}
 			}

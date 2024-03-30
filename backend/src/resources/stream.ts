@@ -1,10 +1,11 @@
-import prisma from "../client";
 import { Request, Response } from "express";
-import { sendResponseError, sendResponseSuccess } from "./response";
-import path from "path";
 import fs from "fs";
-import { findByUsername } from "./user";
+import path from "path";
+
+import prisma from "../client";
 import { logInfo } from "../logger";
+import { sendResponseError, sendResponseSuccess } from "./response";
+import { findByUsername } from "./user";
 
 /**
  * Return list of all streams
@@ -178,7 +179,7 @@ export const createStream = async (req: Request, res: Response) => {
 		return sendResponseError(
 			res,
 			404,
-			"Cannot find user with given username."
+			"Cannot find user with given username.",
 		);
 	}
 
@@ -195,10 +196,10 @@ export const createStream = async (req: Request, res: Response) => {
 };
 
 /**
- * Edits stream
+ * Updates stream
  */
-export const editStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.editStream");
+export const updateStream = async (req: Request, res: Response) => {
+	logInfo("Method called: stream.updateStream");
 
 	const id = req.params.id;
 	const { name } = req.body;
