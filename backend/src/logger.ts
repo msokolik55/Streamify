@@ -12,7 +12,7 @@ const log = (
 ) => {
 	const argsMessage = args ? ` ${args}` : "";
 	logFunction(
-		`${getLocaleTimeString()}: ${path}${functionName}: ${message}${argsMessage}`,
+		`${getLocaleTimeString()}: ${path}, ${functionName}: ${message}${argsMessage}`,
 	);
 };
 
