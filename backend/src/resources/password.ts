@@ -1,9 +1,10 @@
-import prisma from "../client";
-import { Request, Response } from "express";
-import { sendResponseError, sendResponseSuccess } from "./response";
 import bcrypt from "bcrypt";
-import { findByUsername } from "./user";
+import { Request, Response } from "express";
+
+import prisma from "../client";
 import { logInfo } from "../logger";
+import { sendResponseError, sendResponseSuccess } from "./response";
+import { getPassword } from "./user";
 
 /**
  * Generate password
@@ -13,12 +14,12 @@ export const changePassword = async (req: Request, res: Response) => {
 
 	const { username, oldPassword, newPassword } = req.body;
 
-	const oldUser = await findByUsername(username);
+	const oldUser = await getPassword(username);
 	if (oldUser === null) {
 		return sendResponseError(
 			res,
 			404,
-			"Cannot find user with given username."
+			"Cannot find user with given username.",
 		);
 	}
 
@@ -27,7 +28,7 @@ export const changePassword = async (req: Request, res: Response) => {
 	}
 
 	const newHashedPassword = bcrypt.hashSync(newPassword, 10);
-	const newUser = await prisma.user.update({
+	await prisma.user.update({
 		where: {
 			username: username,
 		},
@@ -36,5 +37,5 @@ export const changePassword = async (req: Request, res: Response) => {
 		},
 	});
 
-	return sendResponseSuccess(res, newUser);
+	return sendResponseSuccess(res, true);
 };

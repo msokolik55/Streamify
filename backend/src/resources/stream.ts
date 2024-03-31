@@ -5,62 +5,38 @@ import path from "path";
 import prisma from "../client";
 import { logInfo } from "../logger";
 import { sendResponseError, sendResponseSuccess } from "./response";
+import { StreamDetailSelect, StreamSelect } from "./selects";
 import { findByUsername } from "./user";
 
 /**
- * Return list of all streams
+ * Creates stream
  */
-export const get = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.get");
+export const createStream = async (req: Request, res: Response) => {
+	logInfo("Method called: stream.createStream");
 
-	const streams = await prisma.stream.findMany({
-		select: {
-			id: true,
-			name: true,
-			createdAt: true,
-			path: true,
-			user: {
-				select: {
-					picture: true,
-					username: true,
-				},
-			},
-			ended: true,
+	const { name, username } = req.body;
+
+	const user = await findByUsername(username);
+	if (user === null) {
+		console.error("here");
+		return sendResponseError(
+			res,
+			404,
+			"Cannot find user with given username.",
+		);
+	}
+
+	const stream = await prisma.stream.create({
+		data: {
+			name: name,
+			path: user.streamKey ?? "",
+			userId: user.id,
+			ended: false,
 		},
+		select: StreamSelect,
 	});
 
-	return sendResponseSuccess(res, streams);
-};
-
-/**
- * Return streams for a specific user
- */
-export const getByUsername = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.getByUsername");
-
-	const { username } = req.body;
-
-	const streams = await prisma.stream.findMany({
-		where: {
-			user: {
-				username: username,
-			},
-		},
-		select: {
-			id: true,
-			name: true,
-			createdAt: true,
-			path: true,
-			user: {
-				select: {
-					picture: true,
-					username: true,
-				},
-			},
-		},
-	});
-
-	return sendResponseSuccess(res, streams);
+	return sendResponseSuccess(res, stream);
 };
 
 /**
@@ -75,21 +51,66 @@ export const getById = async (req: Request, res: Response) => {
 		where: {
 			id: id,
 		},
-		select: {
-			id: true,
-			name: true,
-			createdAt: true,
-			path: true,
-			user: {
-				select: {
-					picture: true,
-					username: true,
-				},
-			},
-		},
+		select: StreamDetailSelect,
 	});
 
 	return sendResponseSuccess(res, streams);
+};
+
+/**
+ * Updates stream
+ */
+export const updateStream = async (req: Request, res: Response) => {
+	logInfo("Method called: stream.updateStream");
+
+	const id = req.params.id;
+	const { name } = req.body;
+
+	if (!id || id === "") {
+		return sendResponseError(res, 400, "Missing stream id.");
+	}
+
+	await prisma.stream.update({
+		where: {
+			id: id,
+		},
+		data: {
+			name: name,
+		},
+	});
+
+	return sendResponseSuccess(res, true);
+};
+
+/**
+ * Deletes stream
+ */
+export const deleteStream = async (req: Request, res: Response) => {
+	logInfo("Method called: stream.deleteStream");
+
+	const streamPath = req.params.streamPath;
+
+	if (!streamPath || streamPath === "") {
+		return sendResponseError(res, 400, "Missing folder path.");
+	}
+
+	const folderPath = path.join("recordings", streamPath);
+	if (fs.existsSync(folderPath)) {
+		fs.readdirSync(folderPath).forEach((file) => {
+			const fullPath = path.join(folderPath, file);
+			fs.unlinkSync(fullPath);
+		});
+
+		fs.rmdirSync(folderPath);
+	}
+
+	await prisma.stream.delete({
+		where: {
+			path: streamPath,
+		},
+	});
+
+	return sendResponseSuccess(res, true);
 };
 
 /**
@@ -135,92 +156,6 @@ export const streamSourceExists = async (req: Request, res: Response) => {
 };
 
 /**
- * Deletes stream
- */
-export const deleteStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.deleteStream");
-
-	const streamPath = req.params.streamPath;
-
-	if (!streamPath || streamPath === "") {
-		return sendResponseError(res, 400, "Missing folder path.");
-	}
-
-	const folderPath = path.join("recordings", streamPath);
-	if (fs.existsSync(folderPath)) {
-		fs.readdirSync(folderPath).forEach((file) => {
-			const fullPath = path.join(folderPath, file);
-			fs.unlinkSync(fullPath);
-		});
-
-		fs.rmdirSync(folderPath);
-	}
-
-	const stream = await prisma.stream.delete({
-		where: {
-			path: streamPath,
-		},
-	});
-
-	return sendResponseSuccess(res, stream);
-};
-
-/**
- * Creates stream
- */
-export const createStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.createStream");
-
-	const { name, username } = req.body;
-
-	const user = await findByUsername(username);
-	if (user === null) {
-		console.error("here");
-		return sendResponseError(
-			res,
-			404,
-			"Cannot find user with given username.",
-		);
-	}
-
-	const stream = await prisma.stream.create({
-		data: {
-			name: name,
-			path: user.streamKey ?? "",
-			userId: user.id,
-			ended: false,
-		},
-	});
-
-	return sendResponseSuccess(res, stream);
-};
-
-/**
- * Updates stream
- */
-export const updateStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.updateStream");
-
-	const id = req.params.id;
-	const { name } = req.body;
-
-	if (!id || id === "") {
-		return sendResponseError(res, 400, "Missing stream id.");
-	}
-
-	const stream = await prisma.stream.update({
-		where: {
-			id: id,
-		},
-		data: {
-			name: name,
-		},
-	});
-
-	return sendResponseSuccess(res, stream);
-};
-
-/**
  * Ends stream
  */
 export const endStream = async (req: Request, res: Response) => {
@@ -232,7 +167,7 @@ export const endStream = async (req: Request, res: Response) => {
 		return sendResponseError(res, 400, "Missing stream path.");
 	}
 
-	const stream = await prisma.stream.update({
+	await prisma.stream.update({
 		where: {
 			path: streamPath,
 		},
@@ -241,5 +176,5 @@ export const endStream = async (req: Request, res: Response) => {
 		},
 	});
 
-	return sendResponseSuccess(res, stream);
+	return sendResponseSuccess(res, true);
 };

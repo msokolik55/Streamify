@@ -31,9 +31,15 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/User"
+									"type": "object",
+									"properties": {
+										"status": "success",
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/User"
+											}
+										}
 									}
 								}
 							}
@@ -63,7 +69,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserCreate"
+									"type": "object",
+									"properties": {
+										"status": "success",
+										"data": {
+											"type": "object",
+											"$ref": "#/components/schemas/User"
+										}
+									}
 								}
 							}
 						}
@@ -94,7 +107,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserFound"
+									"type": "object",
+									"properties": {
+										"status": "success",
+										"data": {
+											"type": "object",
+											"$ref": "#/components/schemas/UserDetail"
+										}
+									}
 								}
 							}
 						}
@@ -133,7 +153,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserCreate"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -185,7 +205,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserCreate"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -226,7 +246,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserCount"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -277,7 +297,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserCount"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -345,7 +365,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserLive"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -386,12 +406,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"success": {
-											"type": "boolean"
-										}
-									}
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -450,7 +465,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/StreamCreate"
+									"type": "object",
+									"properties": {
+										"status": "success",
+										"data": {
+											"type": "object",
+											"$ref": "#/components/schemas/Stream"
+										}
+									}
 								}
 							}
 						}
@@ -490,7 +512,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/StreamFound"
+									"type": "object",
+									"properties": {
+										"status": "success",
+										"data": {
+											"type": "object",
+											"$ref": "#/components/schemas/StreamDetail"
+										}
+									}
 								}
 							}
 						}
@@ -545,7 +574,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/StreamUpdate"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -595,7 +624,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/StreamUpdate"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -645,7 +674,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "boolean"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -685,7 +714,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/StreamUpdate"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -735,7 +764,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserPassword"
+									"$ref": "#/components/schemas/SuccessfulResponse"
 								}
 							}
 						}
@@ -798,11 +827,21 @@
 					}
 				}
 			},
+			"SuccessfulResponse": {
+				"type": "object",
+				"properties": {
+					"status": "success",
+					"data": {
+						"type": "boolean"
+					}
+				}
+			},
 			"Error": {
 				"type": "object",
 				"required": ["message"],
 				"properties": {
-					"message": {
+					"status": "error",
+					"error": {
 						"type": "string"
 					}
 				}
@@ -866,111 +905,112 @@
 					"username": {
 						"type": "string"
 					},
+					"email": {
+						"type": "string"
+					},
 					"picture": {
 						"type": "string"
 					},
-					"email": {
-						"type": "string"
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"count": {
 						"type": "integer"
 					},
 					"streamKey": {
-						"type": "string"
+						"type": "string",
+						"format": "uuid"
 					}
 				}
 			},
-			"UserPassword": {
+			"UserAvatar": {
 				"type": "object",
 				"properties": {
-					"username": {
+					"picture": {
 						"type": "string"
 					},
-					"password": {
+					"username": {
 						"type": "string"
 					}
 				}
 			},
-			"UserCreate": {
+			"UserDetail": {
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string"
+						"type": "string",
+						"format": "uuid"
 					},
 					"username": {
+						"type": "string"
+					},
+					"email": {
 						"type": "string"
 					},
 					"picture": {
 						"type": "string"
 					},
-					"email": {
-						"type": "string"
-					}
-				}
-			},
-			"UserFound": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string"
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
 					},
-					"username": {
-						"type": "string"
-					},
-					"picture": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"count": {
 						"type": "integer"
 					},
 					"streamKey": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
+						"type": "string",
+						"format": "uuid"
 					},
 					"streams": {
 						"type": "array",
 						"items": {
-							"$ref": "#/components/schemas/Stream"
+							"$ref": "#/components/schemas/StreamInfo"
 						}
-					}
-				}
-			},
-			"UserCount": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"count": {
-						"type": "integer"
-					}
-				}
-			},
-			"UserLive": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"streamKey": {
-						"type": "string"
 					}
 				}
 			},
 			"Stream": {
-				"tags": ["Stream"],
 				"type": "object",
 				"properties": {
 					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"name": {
 						"type": "string"
+					},
+					"path": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"ended": {
+						"type": "boolean"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"StreamInfo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
 					},
 					"createdAt": {
 						"type": "string",
@@ -980,70 +1020,42 @@
 						"type": "string"
 					},
 					"path": {
-						"type": "string"
+						"type": "string",
+						"format": "uuid"
 					},
 					"ended": {
 						"type": "boolean"
 					}
 				}
 			},
-			"StreamCreate": {
+			"StreamDetail": {
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string"
+						"type": "string",
+						"format": "uuid"
 					},
 					"name": {
 						"type": "string"
 					},
 					"path": {
-						"type": "string"
-					},
-					"userId": {
-						"type": "string"
+						"type": "string",
+						"format": "uuid"
 					},
 					"ended": {
 						"type": "boolean"
-					}
-				}
-			},
-			"StreamFound": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
 					},
 					"createdAt": {
 						"type": "string",
 						"format": "date-time"
 					},
-					"path": {
-						"type": "string"
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"user": {
 						"type": "object",
-						"properties": {
-							"picture": {
-								"type": "string"
-							},
-							"username": {
-								"type": "string"
-							}
-						}
-					}
-				}
-			},
-			"StreamUpdate": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
+						"$ref": "#/components/schemas/UserAvatar"
 					}
 				}
 			}

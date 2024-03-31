@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
-import { sendResponseError, sendResponseSuccess } from "./response";
 import bcrypt from "bcrypt";
-import { findByUsername } from "./user";
+import { Request, Response } from "express";
+
 import { logInfo } from "../logger";
+import { sendResponseError, sendResponseSuccess } from "./response";
+import { getPassword } from "./user";
 
 /**
  * Check user login attempt
@@ -12,12 +13,12 @@ export const checkLogin = async (req: Request, res: Response) => {
 
 	const { username, password } = req.body;
 
-	const user = await findByUsername(username);
+	const user = await getPassword(username);
 	if (user === null) {
 		return sendResponseError(
 			res,
 			404,
-			"Cannot find user with given username."
+			"Cannot find user with given username.",
 		);
 	}
 
