@@ -34,8 +34,8 @@ router.get(`${userUrl}/${usernamePart}`, user.getByUsername);
 router.put(`${userUrl}/${idPart}`, user.update);
 router.delete(`${userUrl}/${usernamePart}`, user.deleteUser);
 
-router.patch(`${userUrl}/${idPart}/inc`, user.increaseCount);
-router.patch(`${userUrl}/${idPart}/dec`, user.decreaseCount);
+router.patch(`${userUrl}/${usernamePart}/inc`, user.increaseCount);
+router.patch(`${userUrl}/${usernamePart}/dec`, user.decreaseCount);
 
 router.patch(`${userUrl}${liveUrl}/${idPart}`, user.updateLive);
 

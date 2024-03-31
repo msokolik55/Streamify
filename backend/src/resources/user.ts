@@ -149,13 +149,13 @@ const alterCount = async (
 ) => {
 	logInfo(req.path, alterCount.name, "Method called");
 
-	const id = req.params.id;
+	const username = req.params.username;
 
-	if (!id || id === "") {
-		return sendResponseError(res, 400, "Missing id.");
+	if (!username || username === "") {
+		return sendResponseError(res, 400, "Missing username.");
 	}
 
-	const user = await findByUsername(id);
+	const user = await findByUsername(username);
 
 	if (!user) {
 		return sendResponseError(res, 404, "Cannot find user with given id.");
@@ -165,7 +165,7 @@ const alterCount = async (
 
 	await prisma.user.update({
 		where: {
-			id,
+			username,
 		},
 		data: {
 			count: newCount,
