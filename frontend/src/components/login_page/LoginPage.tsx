@@ -6,6 +6,7 @@ import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
+import { axiosConfig } from "../../models/fetcher";
 import { LoginInputs } from "../../models/form";
 import { apiLoginUrl, registerPath } from "../../urls";
 import FormLabel from "./FormLabel";
@@ -24,11 +25,7 @@ const LoginPage = () => {
 		logInfo(LoginPage.name, onSubmit.name, "Fetching");
 
 		try {
-			const response = await axios.post(apiLoginUrl, data, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			const response = await axios.post(apiLoginUrl, data, axiosConfig);
 
 			const resData = response.data;
 

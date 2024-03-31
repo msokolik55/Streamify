@@ -5,7 +5,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
-import fetcher from "../../models/fetcher";
+import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import VideoPlayer from "../VideoPlayer";
 import MainWindowError from "../errors/MainWindowError";
@@ -41,11 +41,7 @@ const StreamKeyTable = () => {
 				{
 					live: false,
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 		} catch (error) {
 			logError(
@@ -63,11 +59,7 @@ const StreamKeyTable = () => {
 		try {
 			const sourceExistsRes = await axios.get(
 				`${apiStreamUrl}/${user.streamKey}/exists`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 
 			const sourceExists = sourceExistsRes.data;
@@ -86,11 +78,10 @@ const StreamKeyTable = () => {
 		logInfo(StreamKeyTable.name, deleteStream.name, "Fetching");
 
 		try {
-			await axios.delete(`${apiStreamUrl}/${user.streamKey}`, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			await axios.delete(
+				`${apiStreamUrl}/${user.streamKey}`,
+				axiosConfig,
+			);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
 		} catch (error) {
@@ -110,11 +101,7 @@ const StreamKeyTable = () => {
 			await axios.put(
 				`${apiStreamUrl}/${user.streamKey}/end`,
 				{},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);

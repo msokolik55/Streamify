@@ -6,7 +6,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
-import fetcher from "../../models/fetcher";
+import fetcher, { axiosConfig } from "../../models/fetcher";
 import { StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import MainWindowError from "../errors/MainWindowError";
@@ -44,11 +44,7 @@ const StreamKeyForm = () => {
 				{
 					live: true,
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 		} catch (error) {
 			logError(
@@ -70,11 +66,7 @@ const StreamKeyForm = () => {
 					name: name,
 					username: user.username,
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 		} catch (error) {
 			logError(

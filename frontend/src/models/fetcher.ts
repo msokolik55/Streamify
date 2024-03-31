@@ -2,6 +2,12 @@ import axios, { AxiosRequestConfig } from "axios";
 
 import { logInfo } from "../logger";
 
+export const axiosConfig: AxiosRequestConfig = {
+	headers: {
+		"Content-Type": "application/json",
+	},
+};
+
 const fetcher = async (url: string, header: Headers) => {
 	logInfo("global", fetcher.name, `Fetching: ${url}, ${header}`);
 
@@ -11,10 +17,6 @@ const fetcher = async (url: string, header: Headers) => {
 			headersObject[name] = value;
 		});
 	}
-
-	const axiosConfig: AxiosRequestConfig = {
-		headers: headersObject,
-	};
 
 	try {
 		const response = await axios.get(url, axiosConfig);

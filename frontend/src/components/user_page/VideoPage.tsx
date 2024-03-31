@@ -7,7 +7,7 @@ import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import { IStream } from "../../models/IStream";
-import fetcher from "../../models/fetcher";
+import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 import StreamCard from "../StreamCard";
 import MainWindowError from "../errors/MainWindowError";
@@ -40,11 +40,7 @@ const VideoPage = () => {
 		logInfo(VideoPage.name, deleteStream.name, "Fetching");
 
 		try {
-			await axios.delete(`${apiStreamUrl}/${stream.path}`, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			await axios.delete(`${apiStreamUrl}/${stream.path}`, axiosConfig);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
 			setShowDeleteDialog(false);

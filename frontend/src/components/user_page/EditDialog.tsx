@@ -7,6 +7,7 @@ import { useSWRConfig } from "swr";
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IStream } from "../../models/IStream";
+import { axiosConfig } from "../../models/fetcher";
 import { StreamEditInputs } from "../../models/form";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 
@@ -36,11 +37,7 @@ const EditDialog = (props: EditDialogProps) => {
 				{
 					name: data.name,
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);

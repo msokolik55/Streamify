@@ -6,6 +6,7 @@ import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
+import { axiosConfig } from "../../models/fetcher";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
 import FormLabel from "../login_page/FormLabel";
@@ -37,11 +38,7 @@ const PasswordPage = () => {
 					oldPassword: data.oldPassword,
 					newPassword: data.newPassword,
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 
 			const resData = response.data;

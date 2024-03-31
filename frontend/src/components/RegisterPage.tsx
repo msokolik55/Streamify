@@ -7,6 +7,7 @@ import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
 import { logError, logInfo } from "../logger";
+import { axiosConfig } from "../models/fetcher";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
 import FormLabel from "./login_page/FormLabel";
@@ -34,11 +35,7 @@ const RegisterPage = () => {
 					picture: data.picture,
 					password: data.password,
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 
 			mutate(apiUserUrl);

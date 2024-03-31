@@ -8,7 +8,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
-import fetcher from "../../models/fetcher";
+import fetcher, { axiosConfig } from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
 import { apiLiveUrl, apiUserUrl, userPath } from "../../urls";
 import MainWindowError from "../errors/MainWindowError";
@@ -39,11 +39,7 @@ const UserProfilePage = () => {
 					email: data.email,
 					picture: data.picture,
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
@@ -68,11 +64,7 @@ const UserProfilePage = () => {
 		try {
 			const response = await axios.delete(
 				`${apiUserUrl}/${loggedUserUsername}`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
+				axiosConfig,
 			);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
