@@ -1,9 +1,10 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import { logInfo } from "../../logger";
+import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import { StreamKeyInputs } from "../../models/form";
@@ -35,32 +36,54 @@ const StreamKeyForm = () => {
 	const { mutate } = useSWRConfig();
 
 	const setUserLive = async () => {
-		logInfo("Fetching: StreamKeyForm.setUserLive");
+		logInfo(StreamKeyForm.name, setUserLive.name, "Fetching");
 
-		await fetch(`${apiLiveUrl}/${user.id}`, {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				live: true,
-			}),
-		});
+		try {
+			await axios.patch(
+				`${apiLiveUrl}/${user.id}`,
+				{
+					live: true,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+		} catch (error) {
+			logError(
+				StreamKeyForm.name,
+				setUserLive.name,
+				"Error setting user live:",
+				error,
+			);
+		}
 	};
 
 	const createStream = async (name: string) => {
-		logInfo("Fetching: StreamKeyForm.createStream");
+		logInfo(StreamKeyForm.name, createStream.name, "Fetching");
 
-		await fetch(apiStreamUrl, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				name: name,
-				username: user.username,
-			}),
-		});
+		try {
+			await axios.post(
+				apiStreamUrl,
+				{
+					name: name,
+					username: user.username,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+		} catch (error) {
+			logError(
+				StreamKeyForm.name,
+				createStream.name,
+				"Error creating stream:",
+				error,
+			);
+		}
 	};
 
 	const onSubmit = async (data: StreamKeyInputs) => {

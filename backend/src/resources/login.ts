@@ -9,7 +9,7 @@ import { getPassword } from "./user";
  * Check user login attempt
  */
 export const checkLogin = async (req: Request, res: Response) => {
-	logInfo("Method called: login.checkLogin");
+	logInfo(req.path, checkLogin.name, "Method called");
 
 	const { username, password } = req.body;
 

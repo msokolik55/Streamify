@@ -10,7 +10,7 @@ import { getPassword } from "./user";
  * Generate password
  */
 export const changePassword = async (req: Request, res: Response) => {
-	logInfo("Method called: password.changePassword");
+	logInfo(req.path, changePassword.name, "Method called");
 
 	const { username, oldPassword, newPassword } = req.body;
 

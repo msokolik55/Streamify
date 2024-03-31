@@ -1,3 +1,4 @@
+// import axios from "axios";
 import { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
@@ -15,7 +16,7 @@ import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
 import UserProfilePage from "./components/user_page/UserProfilePage";
 import VideoPage from "./components/user_page/VideoPage";
-// import { logInfo } from "./logger";
+// import { logInfo, logError } from "./logger";
 import {
 	apiUserUrl,
 	livePath,
@@ -51,26 +52,28 @@ export const App = () => {
 	const { mutate } = useSWRConfig();
 
 	useEffect(() => {
+		// const patchUser = async (userUsername: string, operation: string) => {
+		// 	try {
+		// 		await axios.patch(
+		// 			`${apiUserUrl}/${userUsername}/${operation}`,
+		// 			{},
+		// 			{
+		// 				headers: {
+		// 					"Content-Type": "application/json",
+		// 				},
+		// 			},
+		// 		);
+		// 	} catch (error) {
+		// logError(App.name, useEffect.name, `Error patching user ${userUsername}:`, error);
+		// 		throw error;
+		// 	}
+		// };
 		// const update = async () => {
 		// 	logInfo("Fetching: App.dec");
-		// 	if (userIds.old)
-		// 		await fetch(`${apiUserUrl}/${userIds.old}/dec`, {
-		// 			method: "PATCH",
-		// 			headers: {
-		// 				"Content-Type": "application/json",
-		// 			},
-		// 		});
-
+		// 	if (userIds.old) await patchUser(userIds.old, "dec");
 		// 	logInfo("Fetching: App.inc");
-		// 	if (userIds.curr)
-		// 		await fetch(`${apiUserUrl}/${userIds.curr}/inc`, {
-		// 			method: "PATCH",
-		// 			headers: {
-		// 				"Content-Type": "application/json",
-		// 			},
-		// 		});
+		// 	if (userIds.curr) await patchUser(userIds.curr, "inc");
 		// };
-
 		// update();
 		mutate(`${apiUserUrl}${userIds.curr}`);
 	}, [userIds]);

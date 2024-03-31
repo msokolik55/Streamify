@@ -1,10 +1,11 @@
+import axios from "axios";
 import { SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import { logInfo } from "../../logger";
+import { logError, logInfo } from "../../logger";
 import { IStream } from "../../models/IStream";
 import { StreamEditInputs } from "../../models/form";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
@@ -27,20 +28,31 @@ const EditDialog = (props: EditDialogProps) => {
 	const onSubmit = async (data: StreamEditInputs | null = null) => {
 		if (data === null) return;
 
-		logInfo("Fetching: EditDialog.onSubmit");
+		logInfo(EditDialog.name, onSubmit.name, "Fetching");
 
-		await fetch(`${apiStreamUrl}/${data.id}`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				name: data.name,
-			}),
-		});
+		try {
+			await axios.put(
+				`${apiStreamUrl}/${data.id}`,
+				{
+					name: data.name,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
 
-		mutate(`${apiUserUrl}/${loggedUserUsername}`);
-		props.setShow(false);
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			props.setShow(false);
+		} catch (error) {
+			logError(
+				EditDialog.name,
+				onSubmit.name,
+				"Error submitting form:",
+				error,
+			);
+		}
 	};
 
 	return (

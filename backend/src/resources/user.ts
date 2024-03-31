@@ -13,7 +13,7 @@ const ops = {
 };
 
 export const getPassword = async (username: string) => {
-	logInfo("Method called: user.getPassword");
+	logInfo("global", getPassword.name, "Method called");
 
 	const user = await prisma.user.findUnique({
 		where: {
@@ -28,7 +28,7 @@ export const getPassword = async (username: string) => {
 };
 
 export const findByUsername = async (username: string) => {
-	logInfo("Method called: user.findByUsername");
+	logInfo("global", findByUsername.name, "Method called");
 
 	const user = await prisma.user.findUnique({
 		where: {
@@ -44,7 +44,7 @@ export const findByUsername = async (username: string) => {
  * Return list of all users
  */
 export const get = async (req: Request, res: Response) => {
-	logInfo("Method called: user.get");
+	logInfo(req.path, get.name, "Method called");
 
 	const { live } = req.query;
 	const filter =
@@ -65,7 +65,7 @@ export const get = async (req: Request, res: Response) => {
  * Create user
  */
 export const create = async (req: Request, res: Response) => {
-	logInfo("Method called: user.create");
+	logInfo(req.path, create.name, "Method called");
 
 	const { username, email, picture, password } = req.body;
 
@@ -86,7 +86,7 @@ export const create = async (req: Request, res: Response) => {
  * Return one user
  */
 export const getByUsername = async (req: Request, res: Response) => {
-	logInfo("Method called: user.getByUsername");
+	logInfo(req.path, getByUsername.name, "Method called");
 
 	const username = req.params.username!;
 
@@ -98,7 +98,7 @@ export const getByUsername = async (req: Request, res: Response) => {
  * Update user
  */
 export const update = async (req: Request, res: Response) => {
-	logInfo("Method called: user.update");
+	logInfo(req.path, update.name, "Method called");
 
 	const id = req.params.id;
 	const { username, email, picture } = req.body;
@@ -125,7 +125,7 @@ export const update = async (req: Request, res: Response) => {
  * Delete user
  */
 export const deleteUser = async (req: Request, res: Response) => {
-	logInfo("Method called: user.deleteUser");
+	logInfo(req.path, deleteUser.name, "Method called");
 
 	const username = req.params.username;
 
@@ -147,7 +147,7 @@ const alterCount = async (
 	res: Response,
 	op: (a: number) => number,
 ) => {
-	logInfo("Method called: user.alterCount");
+	logInfo(req.path, alterCount.name, "Method called");
 
 	const id = req.params.id;
 
@@ -179,7 +179,7 @@ const alterCount = async (
  * Increase user count
  */
 export const increaseCount = async (req: Request, res: Response) => {
-	logInfo("Method called: user.increaseCount");
+	logInfo(req.path, increaseCount.name, "Method called");
 
 	return alterCount(req, res, ops.inc);
 };
@@ -188,7 +188,7 @@ export const increaseCount = async (req: Request, res: Response) => {
  * Decrease user count
  */
 export const decreaseCount = async (req: Request, res: Response) => {
-	logInfo("Method called: user.decreaseCount");
+	logInfo(req.path, decreaseCount.name, "Method called");
 
 	return alterCount(req, res, ops.dec);
 };
@@ -197,7 +197,7 @@ export const decreaseCount = async (req: Request, res: Response) => {
  * Update live
  */
 export const updateLive = async (req: Request, res: Response) => {
-	logInfo("Method called: user.updateLive");
+	logInfo(req.path, updateLive.name, "Method called");
 
 	const id = req.params.id;
 	const { live } = req.body;

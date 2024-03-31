@@ -1,10 +1,11 @@
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import { logInfo } from "../../logger";
+import { logError, logInfo } from "../../logger";
 import { LoginInputs } from "../../models/form";
 import { apiLoginUrl, registerPath } from "../../urls";
 import FormLabel from "./FormLabel";
@@ -20,23 +21,33 @@ const LoginPage = () => {
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const onSubmit = async (data: LoginInputs) => {
-		logInfo("Fetching: LoginPage.onSubmit");
+		logInfo(LoginPage.name, onSubmit.name, "Fetching");
 
-		const res = await fetch(apiLoginUrl, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		});
+		try {
+			const response = await axios.post(apiLoginUrl, data, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
 
-		const resData = await res.json();
+			const resData = response.data;
 
-		const loginSuccess = resData.data;
-		const loginError = resData.error;
+			const loginSuccess = resData.data;
+			const loginError = resData.error;
 
-		if (loginSuccess) setLoggedUserUsername(data.username);
-		else setErrorMessage(loginError);
+			if (loginSuccess) {
+				setLoggedUserUsername(data.username);
+			} else {
+				setErrorMessage(loginError);
+			}
+		} catch (error) {
+			logError(
+				LoginPage.name,
+				onSubmit.name,
+				"Error submitting login form:",
+				error,
+			);
+		}
 	};
 
 	return (

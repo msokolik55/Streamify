@@ -1,10 +1,11 @@
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import { logInfo } from "../../logger";
+import { logError, logInfo } from "../../logger";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
 import FormLabel from "../login_page/FormLabel";
@@ -26,30 +27,43 @@ const PasswordPage = () => {
 			return;
 		}
 
-		logInfo("Fetching: PasswordPage.onSubmit");
+		logInfo(PasswordPage.name, onSubmit.name, "Fetching");
 
-		const res = await fetch(apiPasswordUrl, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				username: loggedUserUsername,
-				oldPassword: data.oldPassword,
-				newPassword: data.newPassword,
-			}),
-		});
+		try {
+			const response = await axios.put(
+				apiPasswordUrl,
+				{
+					username: loggedUserUsername,
+					oldPassword: data.oldPassword,
+					newPassword: data.newPassword,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
 
-		const resData = await res.json();
+			const resData = response.data;
 
-		const changeSuccess = resData.data;
-		const changeError = resData.error;
+			const changeSuccess = resData.data;
+			const changeError = resData.error;
 
-		if (changeSuccess) {
-			mutate(`${apiUserUrl}/${loggedUserUsername}`);
-			alert("Password successfully changed");
-			setErrorMessage(undefined);
-		} else setErrorMessage(changeError);
+			if (changeSuccess) {
+				mutate(`${apiUserUrl}/${loggedUserUsername}`);
+				alert("Password successfully changed");
+				setErrorMessage(undefined);
+			} else {
+				setErrorMessage(changeError);
+			}
+		} catch (error) {
+			logError(
+				PasswordPage.name,
+				onSubmit.name,
+				"Error submitting form:",
+				error,
+			);
+		}
 	};
 
 	return (

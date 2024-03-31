@@ -1,8 +1,9 @@
+import axios from "axios";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import { logInfo } from "../../logger";
+import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import fetcher from "../../models/fetcher";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
@@ -32,59 +33,99 @@ const StreamKeyTable = () => {
 	};
 
 	const setUserLive = async () => {
-		logInfo("Fetching: StreamKeyTable.setUserLive");
+		logInfo(StreamKeyTable.name, setUserLive.name, "Fetching");
 
-		await fetch(`${apiLiveUrl}/${user.id}`, {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				live: false,
-			}),
-		});
+		try {
+			await axios.patch(
+				`${apiLiveUrl}/${user.id}`,
+				{
+					live: false,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+		} catch (error) {
+			logError(
+				StreamKeyTable.name,
+				setUserLive.name,
+				"Error setting user live:",
+				error,
+			);
+		}
 	};
 
 	const streamExists = async () => {
-		logInfo("Fetching: StreamKeyTable.streamExists");
+		logInfo(StreamKeyTable.name, streamExists.name, "Fetching");
 
-		const sourceExistsRes = await fetch(
-			`${apiStreamUrl}/${user.streamKey}/exists`,
-			{
-				headers: {
-					"Content-Type": "application/json",
+		try {
+			const sourceExistsRes = await axios.get(
+				`${apiStreamUrl}/${user.streamKey}/exists`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
 				},
-			},
-		);
+			);
 
-		const sourceExists = await sourceExistsRes.json();
-		return sourceExists.data;
+			const sourceExists = sourceExistsRes.data;
+			return sourceExists.data;
+		} catch (error) {
+			logError(
+				StreamKeyTable.name,
+				streamExists.name,
+				"Error checking if stream exists:",
+				error,
+			);
+		}
 	};
 
 	const deleteStream = async () => {
-		logInfo("Fetching: StreamKeyTable.deleteStream");
+		logInfo(StreamKeyTable.name, deleteStream.name, "Fetching");
 
-		await fetch(`${apiStreamUrl}/${user.streamKey}`, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		try {
+			await axios.delete(`${apiStreamUrl}/${user.streamKey}`, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
 
-		mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+		} catch (error) {
+			logError(
+				StreamKeyTable.name,
+				deleteStream.name,
+				"Error deleting stream:",
+				error,
+			);
+		}
 	};
 
 	const endStream = async () => {
-		logInfo("Fetching: StreamKeyTable.endStream");
+		logInfo(StreamKeyTable.name, endStream.name, "Fetching");
 
-		await fetch(`${apiStreamUrl}/${user.streamKey}/end`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		try {
+			await axios.put(
+				`${apiStreamUrl}/${user.streamKey}/end`,
+				{},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
 
-		mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+		} catch (error) {
+			logError(
+				StreamKeyTable.name,
+				endStream.name,
+				"Error ending stream:",
+				error,
+			);
+		}
 	};
 
 	const endLive = async () => {

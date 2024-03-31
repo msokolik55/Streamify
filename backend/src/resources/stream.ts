@@ -12,7 +12,7 @@ import { findByUsername } from "./user";
  * Creates stream
  */
 export const createStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.createStream");
+	logInfo(req.path, createStream.name, "Method called");
 
 	const { name, username } = req.body;
 
@@ -43,7 +43,7 @@ export const createStream = async (req: Request, res: Response) => {
  * Return stream with a specific id
  */
 export const getById = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.getById");
+	logInfo(req.path, getById.name, "Method called");
 
 	const id = req.params.id;
 
@@ -61,7 +61,7 @@ export const getById = async (req: Request, res: Response) => {
  * Updates stream
  */
 export const updateStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.updateStream");
+	logInfo(req.path, updateStream.name, "Method called");
 
 	const id = req.params.id;
 	const { name } = req.body;
@@ -86,7 +86,7 @@ export const updateStream = async (req: Request, res: Response) => {
  * Deletes stream
  */
 export const deleteStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.deleteStream");
+	logInfo(req.path, deleteStream.name, "Method called");
 
 	const streamPath = req.params.streamPath;
 
@@ -143,7 +143,7 @@ export const deleteStream = async (req: Request, res: Response) => {
  * Check if stream source exists
  */
 export const streamSourceExists = async (req: Request, res: Response) => {
-	logInfo("Method called: streamSourceExists");
+	logInfo(req.path, streamSourceExists.name, "Method called");
 
 	const streamPath = req.params.streamPath;
 
@@ -159,7 +159,7 @@ export const streamSourceExists = async (req: Request, res: Response) => {
  * Ends stream
  */
 export const endStream = async (req: Request, res: Response) => {
-	logInfo("Method called: stream.endStream");
+	logInfo(req.path, endStream.name, "Method called");
 
 	const streamPath = req.params.streamPath;
 
