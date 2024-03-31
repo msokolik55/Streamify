@@ -68,7 +68,7 @@ router.put(passwordUrl, password.changePassword);
 //#endregion Password
 
 router.get("*", (_: Request, res: Response) => {
-	sendResponseError(res, 404, "Path not found");
+	return sendResponseError(res, 404, "Path not found");
 });
 
 export default router;

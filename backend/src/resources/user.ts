@@ -3,8 +3,8 @@ import { randomUUID } from "crypto";
 import { Request, Response } from "express";
 
 import prisma from "../client";
-import { logInfo } from "../logger";
-import { sendResponseError, sendResponseSuccess } from "./response";
+import { logError, logInfo } from "../logger";
+import { Status, sendResponseError, sendResponseSuccess } from "./response";
 import { UserDetailSelect, UserSelect } from "./selects";
 
 const ops = {
@@ -54,11 +54,17 @@ export const get = async (req: Request, res: Response) => {
 				}
 			: undefined;
 
-	const users = await prisma.user.findMany({
-		select: UserSelect,
-		where: filter,
-	});
-	return sendResponseSuccess(res, users);
+	try {
+		const users = await prisma.user.findMany({
+			select: UserSelect,
+			where: filter,
+		});
+
+		return sendResponseSuccess(res, Status.OK, users);
+	} catch (error) {
+		logError(req.path, get.name, "Prisma findMany", live);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
 
 /**
@@ -69,17 +75,22 @@ export const create = async (req: Request, res: Response) => {
 
 	const { username, email, picture, password } = req.body;
 
-	const user = await prisma.user.create({
-		data: {
-			username,
-			email,
-			picture,
-			password: bcrypt.hashSync(password, 10),
-		},
-		select: UserSelect,
-	});
+	try {
+		const user = await prisma.user.create({
+			data: {
+				username,
+				email,
+				picture,
+				password: bcrypt.hashSync(password, 10),
+			},
+			select: UserSelect,
+		});
 
-	return sendResponseSuccess(res, user);
+		return sendResponseSuccess(res, Status.CREATED, user);
+	} catch (error) {
+		logError(req.path, create.name, "Prisma create");
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
 
 /**
@@ -88,10 +99,15 @@ export const create = async (req: Request, res: Response) => {
 export const getByUsername = async (req: Request, res: Response) => {
 	logInfo(req.path, getByUsername.name, "Method called");
 
-	const username = req.params.username!;
+	const username = req.params.username;
 
-	const user = await findByUsername(username);
-	return sendResponseSuccess(res, user);
+	try {
+		const user = await findByUsername(username);
+		return sendResponseSuccess(res, Status.OK, user);
+	} catch (error) {
+		logError(req.path, getByUsername.name, "Prisma findUnique", username);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
 
 /**
@@ -104,21 +120,26 @@ export const update = async (req: Request, res: Response) => {
 	const { username, email, picture } = req.body;
 
 	if (!id || id === "") {
-		return sendResponseError(res, 400, "Missing user id.");
+		return sendResponseError(res, Status.BAD_REQUEST, "Missing user id.");
 	}
 
-	await prisma.user.update({
-		where: {
-			id,
-		},
-		data: {
-			username,
-			email,
-			picture,
-		},
-	});
+	try {
+		await prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				username,
+				email,
+				picture,
+			},
+		});
 
-	return sendResponseSuccess(res, true);
+		return sendResponseSuccess(res, Status.NO_CONTENT, true);
+	} catch (error) {
+		logError(req.path, update.name, "Prisma update", id);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
 
 /**
@@ -130,16 +151,25 @@ export const deleteUser = async (req: Request, res: Response) => {
 	const username = req.params.username;
 
 	if (!username || username === "") {
-		return sendResponseError(res, 400, "Missing user username.");
+		return sendResponseError(
+			res,
+			Status.BAD_REQUEST,
+			"Missing user username.",
+		);
 	}
 
-	await prisma.user.delete({
-		where: {
-			username: username,
-		},
-	});
+	try {
+		await prisma.user.delete({
+			where: {
+				username: username,
+			},
+		});
 
-	return sendResponseSuccess(res, true);
+		return sendResponseSuccess(res, Status.NO_CONTENT, true);
+	} catch (error) {
+		logError(req.path, deleteUser.name, "Prisma delete", username);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
 
 const alterCount = async (
@@ -152,27 +182,34 @@ const alterCount = async (
 	const username = req.params.username;
 
 	if (!username || username === "") {
-		return sendResponseError(res, 400, "Missing username.");
+		return sendResponseError(res, Status.BAD_REQUEST, "Missing username.");
 	}
 
-	const user = await findByUsername(username);
+	try {
+		const user = await findByUsername(username);
+		if (!user) {
+			return sendResponseError(
+				res,
+				Status.NOT_FOUND,
+				"Cannot find user with given id.",
+			);
+		}
 
-	if (!user) {
-		return sendResponseError(res, 404, "Cannot find user with given id.");
+		const newCount = Math.max(0, op(user.count));
+		await prisma.user.update({
+			where: {
+				username,
+			},
+			data: {
+				count: newCount,
+			},
+		});
+
+		return sendResponseSuccess(res, Status.NO_CONTENT, true);
+	} catch (error) {
+		logError(req.path, alterCount.name, "Prisma update", username);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
-
-	const newCount = Math.max(0, op(user.count));
-
-	await prisma.user.update({
-		where: {
-			username,
-		},
-		data: {
-			count: newCount,
-		},
-	});
-
-	return sendResponseSuccess(res, true);
 };
 
 /**
@@ -203,17 +240,22 @@ export const updateLive = async (req: Request, res: Response) => {
 	const { live } = req.body;
 
 	if (!id || id === "") {
-		return sendResponseError(res, 400, "Missing user id.");
+		return sendResponseError(res, Status.BAD_REQUEST, "Missing user id.");
 	}
 
-	await prisma.user.update({
-		where: {
-			id,
-		},
-		data: {
-			streamKey: live ? randomUUID() : null,
-		},
-	});
+	try {
+		await prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				streamKey: live ? randomUUID() : null,
+			},
+		});
 
-	return sendResponseSuccess(res, true);
+		return sendResponseSuccess(res, Status.NO_CONTENT, true);
+	} catch (error) {
+		logError(req.path, updateLive.name, "Prisma update", id);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };

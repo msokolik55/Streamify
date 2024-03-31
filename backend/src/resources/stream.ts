@@ -3,8 +3,8 @@ import fs from "fs";
 import path from "path";
 
 import prisma from "../client";
-import { logInfo } from "../logger";
-import { sendResponseError, sendResponseSuccess } from "./response";
+import { logError, logInfo } from "../logger";
+import { Status, sendResponseError, sendResponseSuccess } from "./response";
 import { StreamDetailSelect, StreamSelect } from "./selects";
 import { findByUsername } from "./user";
 
@@ -16,27 +16,31 @@ export const createStream = async (req: Request, res: Response) => {
 
 	const { name, username } = req.body;
 
-	const user = await findByUsername(username);
-	if (user === null) {
-		console.error("here");
-		return sendResponseError(
-			res,
-			404,
-			"Cannot find user with given username.",
-		);
+	try {
+		const user = await findByUsername(username);
+		if (user === null) {
+			return sendResponseError(
+				res,
+				Status.NOT_FOUND,
+				"Cannot find user with given username.",
+			);
+		}
+
+		const stream = await prisma.stream.create({
+			data: {
+				name: name,
+				path: user.streamKey ?? "",
+				userId: user.id,
+				ended: false,
+			},
+			select: StreamSelect,
+		});
+
+		return sendResponseSuccess(res, Status.CREATED, stream);
+	} catch (error) {
+		logError(req.path, createStream.name, "Prisma create", username);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
-
-	const stream = await prisma.stream.create({
-		data: {
-			name: name,
-			path: user.streamKey ?? "",
-			userId: user.id,
-			ended: false,
-		},
-		select: StreamSelect,
-	});
-
-	return sendResponseSuccess(res, stream);
 };
 
 /**
@@ -47,14 +51,19 @@ export const getById = async (req: Request, res: Response) => {
 
 	const id = req.params.id;
 
-	const streams = await prisma.stream.findUnique({
-		where: {
-			id: id,
-		},
-		select: StreamDetailSelect,
-	});
+	try {
+		const stream = await prisma.stream.findUnique({
+			where: {
+				id: id,
+			},
+			select: StreamDetailSelect,
+		});
 
-	return sendResponseSuccess(res, streams);
+		return sendResponseSuccess(res, Status.OK, stream);
+	} catch (error) {
+		logError(req.path, getById.name, "Prisma findUnique", id);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
 
 /**
@@ -67,19 +76,24 @@ export const updateStream = async (req: Request, res: Response) => {
 	const { name } = req.body;
 
 	if (!id || id === "") {
-		return sendResponseError(res, 400, "Missing stream id.");
+		return sendResponseError(res, Status.BAD_REQUEST, "Missing stream id.");
 	}
 
-	await prisma.stream.update({
-		where: {
-			id: id,
-		},
-		data: {
-			name: name,
-		},
-	});
+	try {
+		await prisma.stream.update({
+			where: {
+				id: id,
+			},
+			data: {
+				name: name,
+			},
+		});
 
-	return sendResponseSuccess(res, true);
+		return sendResponseSuccess(res, Status.NO_CONTENT, true);
+	} catch (error) {
+		logError(req.path, updateStream.name, "Prisma update", id);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
 
 /**
@@ -91,7 +105,11 @@ export const deleteStream = async (req: Request, res: Response) => {
 	const streamPath = req.params.streamPath;
 
 	if (!streamPath || streamPath === "") {
-		return sendResponseError(res, 400, "Missing folder path.");
+		return sendResponseError(
+			res,
+			Status.BAD_REQUEST,
+			"Missing folder path.",
+		);
 	}
 
 	const folderPath = path.join("recordings", streamPath);
@@ -104,40 +122,19 @@ export const deleteStream = async (req: Request, res: Response) => {
 		fs.rmdirSync(folderPath);
 	}
 
-	await prisma.stream.delete({
-		where: {
-			path: streamPath,
-		},
-	});
+	try {
+		await prisma.stream.delete({
+			where: {
+				path: streamPath,
+			},
+		});
 
-	return sendResponseSuccess(res, true);
+		return sendResponseSuccess(res, Status.NO_CONTENT, true);
+	} catch (error) {
+		logError(req.path, deleteStream.name, "Prisma delete", streamPath);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
-
-/**
- * Return video .mp4 file name
- */
-// export const getVideoName = async (req: Request, res: Response) => {
-// 	const folderName = req.params.folderName;
-
-// 	if (!folderName || folderName === "") {
-// 		return sendResponseError(res, 400, "Missing folder name.");
-// 	}
-
-// 	const videoPath = path.join("recordings", folderName);
-// 	fs.readdir(videoPath, (err, files) => {
-// 		if (err) {
-// 			console.error("Error reading directory:", err);
-// 			return sendResponseError(res, 500, "Error reading directory");
-// 		}
-
-// 		const mp4File = files.find((file) => file.endsWith(".mp4"));
-// 		if (!mp4File) {
-// 			return sendResponseError(res, 404, "No video file found");
-// 		}
-
-// 		sendResponseSuccess(res, mp4File);
-// 	});
-// };
 
 /**
  * Check if stream source exists
@@ -148,11 +145,15 @@ export const streamSourceExists = async (req: Request, res: Response) => {
 	const streamPath = req.params.streamPath;
 
 	if (!streamPath || streamPath === "") {
-		return sendResponseError(res, 400, "Missing folder path.");
+		return sendResponseError(
+			res,
+			Status.BAD_REQUEST,
+			"Missing folder path.",
+		);
 	}
 
 	const folderPath = path.join("recordings", streamPath);
-	return sendResponseSuccess(res, fs.existsSync(folderPath));
+	return sendResponseSuccess(res, Status.OK, fs.existsSync(folderPath));
 };
 
 /**
@@ -164,17 +165,26 @@ export const endStream = async (req: Request, res: Response) => {
 	const streamPath = req.params.streamPath;
 
 	if (!streamPath || streamPath === "") {
-		return sendResponseError(res, 400, "Missing stream path.");
+		return sendResponseError(
+			res,
+			Status.BAD_REQUEST,
+			"Missing stream path.",
+		);
 	}
 
-	await prisma.stream.update({
-		where: {
-			path: streamPath,
-		},
-		data: {
-			ended: true,
-		},
-	});
+	try {
+		await prisma.stream.update({
+			where: {
+				path: streamPath,
+			},
+			data: {
+				ended: true,
+			},
+		});
 
-	return sendResponseSuccess(res, true);
+		return sendResponseSuccess(res, Status.NO_CONTENT, true);
+	} catch (error) {
+		logError(req.path, endStream.name, "Prisma update", streamPath);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
 };
