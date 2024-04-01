@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
@@ -16,8 +16,8 @@ import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
 import UserProfilePage from "./components/user_page/UserProfilePage";
 import VideoPage from "./components/user_page/VideoPage";
-import { logError, logInfo } from "./logger";
-import { axiosConfig } from "./models/fetcher";
+// import { logError, logInfo } from "./logger";
+// import { axiosConfig } from "./models/fetcher";
 import {
 	apiUserUrl,
 	livePath,
@@ -53,31 +53,31 @@ export const App = () => {
 	const { mutate } = useSWRConfig();
 
 	useEffect(() => {
-		const patchUser = async (userUsername: string, operation: string) => {
-			try {
-				await axios.patch(
-					`${apiUserUrl}/${userUsername}/${operation}`,
-					{},
-					axiosConfig,
-				);
-			} catch (error) {
-				logError(
-					App.name,
-					useEffect.name,
-					`Error patching user ${userUsername}:`,
-					error,
-				);
-				// throw error;
-			}
-		};
-		const update = async () => {
-			logInfo(App.name, useEffect.name, "Fetching", "dec");
-			if (userIds.old) await patchUser(userIds.old, "dec");
+		// const patchUser = async (userUsername: string, operation: string) => {
+		// 	try {
+		// 		await axios.patch(
+		// 			`${apiUserUrl}/${userUsername}/${operation}`,
+		// 			{},
+		// 			axiosConfig,
+		// 		);
+		// 	} catch (error) {
+		// 		logError(
+		// 			App.name,
+		// 			useEffect.name,
+		// 			`Error patching user ${userUsername}:`,
+		// 			error,
+		// 		);
+		// 		// throw error;
+		// 	}
+		// };
+		// const update = async () => {
+		// 	logInfo(App.name, useEffect.name, "Fetching", "dec");
+		// 	if (userIds.old) await patchUser(userIds.old, "dec");
 
-			logInfo(App.name, useEffect.name, "Fetching", "inc");
-			if (userIds.curr) await patchUser(userIds.curr, "inc");
-		};
-		update();
+		// 	logInfo(App.name, useEffect.name, "Fetching", "inc");
+		// 	if (userIds.curr) await patchUser(userIds.curr, "inc");
+		// };
+		// update();
 		mutate(`${apiUserUrl}${userIds.curr}`);
 	}, [userIds]);
 
