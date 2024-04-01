@@ -574,11 +574,4 @@ paths:
 
   # Settings under path "all_others" are applied to all paths that
   # do not match another entry.
-  forwarded:
   all_others:
-    runOnReady: >
-      ffmpeg -hide_banner
-      -i rtsp://localhost:$RTSP_PORT/$MTX_PATH
-      -c copy
-      -f rtsp rtsp://localhost:$RTSP_PORT/forwarded
-    runOnReadyRestart: yes

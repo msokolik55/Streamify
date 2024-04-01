@@ -494,11 +494,11 @@ pathDefaults:
   #   a regular expression.
   runOnDemand: >
     ffmpeg -hide_banner
-    -i rtsp://stream-orig:8554/forwarded
+    -i rtsp://stream-orig:8554/$MTX_PATH
     -c copy
     -f rtsp rtsp://localhost:$RTSP_PORT/$MTX_PATH
   # Restart the command if it exits.
-  runOnDemandRestart: no
+  runOnDemandRestart: yes
   # Readers will be put on hold until the runOnDemand command starts publishing
   # or until this amount of time has passed.
   runOnDemandStartTimeout: 10s
