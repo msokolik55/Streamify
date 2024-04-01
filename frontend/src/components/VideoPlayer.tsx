@@ -26,9 +26,10 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	// const hlsUrl = `${baseUrl}/${hlsExtension}`;
 
 	return (
-		<div>
-			<iframe src={iframeUrl} className="h-screen"></iframe>
+		<>
+			<iframe src={iframeUrl} className="h-3/4 w-full"></iframe>
 			<select
+				className="text-black"
 				value={qualityId}
 				onChange={(e) => setQualityId(parseInt(e.target.value))}
 			>
@@ -45,7 +46,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					<HlsSource src={hlsUrl} video={videoRef.current!} />
 				</Player>
 			</div> */}
-		</div>
+		</>
 	);
 };
 
