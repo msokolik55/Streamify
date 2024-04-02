@@ -68,7 +68,7 @@ runOnDisconnect:
 # Global settings -> API
 
 # Enable controlling the server through the API.
-api: yes
+api: no
 # Address of the API listener.
 apiAddress: 127.0.0.1:9997
 
@@ -76,7 +76,7 @@ apiAddress: 127.0.0.1:9997
 # Global settings -> Playback server
 
 # Enable downloading recordings from the playback server.
-playback: yes
+playback: no
 # Address of the playback server listener.
 playbackAddress: :9996
 
@@ -96,7 +96,7 @@ protocols: [udp, multicast, tcp]
 # Available values are "no", "strict", "optional".
 encryption: "no"
 # Address of the TCP/RTSP listener. This is needed only when encryption is "no" or "optional".
-rtspAddress: :8554
+rtspAddress: :7554
 # Address of the TCP/TLS/RTSPS listener. This is needed only when encryption is "strict" or "optional".
 rtspsAddress: :8322
 # Address of the UDP/RTP listener. This is needed only when "udp" is in protocols.
@@ -126,7 +126,7 @@ authMethods: [basic]
 # Enable publishing and reading streams with the RTMP protocol.
 rtmp: yes
 # Address of the RTMP listener. This is needed only when encryption is "no" or "optional".
-rtmpAddress: :1935
+rtmpAddress: :2935
 # Encrypt connections with TLS (RTMPS).
 # Available values are "no", "strict", "optional".
 rtmpEncryption: "no"
@@ -146,7 +146,7 @@ rtmpServerCert: server.crt
 # Enable reading streams with the HLS protocol.
 hls: yes
 # Address of the HLS listener.
-hlsAddress: :8888
+hlsAddress: :7888
 # Enable TLS/HTTPS on the HLS server.
 # This is required for Low-Latency HLS.
 hlsEncryption: no
@@ -200,7 +200,7 @@ hlsDirectory: ""
 # Global settings -> WebRTC server
 
 # Enable publishing and reading streams with the WebRTC protocol.
-webrtc: yes
+webrtc: no
 # Address of the WebRTC HTTP listener.
 webrtcAddress: :8889
 # Enable TLS/HTTPS on the WebRTC server.
@@ -249,7 +249,7 @@ webrtcICEServers2:
 # Global settings -> SRT server
 
 # Enable publishing and reading streams with the SRT protocol.
-srt: yes
+srt: no
 # Address of the SRT listener.
 srtAddress: :8890
 
@@ -492,9 +492,13 @@ pathDefaults:
   # * RTSP_PORT: RTSP server port
   # * G1, G2, ...: regular expression groups, if path name is
   #   a regular expression.
-  runOnDemand:
+  runOnDemand: >
+    ffmpeg -hide_banner
+    -i rtsp://stream-orig:8554/$MTX_PATH
+    -c copy
+    -f rtsp rtsp://localhost:$RTSP_PORT/$MTX_PATH
   # Restart the command if it exits.
-  runOnDemandRestart: no
+  runOnDemandRestart: yes
   # Readers will be put on hold until the runOnDemand command starts publishing
   # or until this amount of time has passed.
   runOnDemandStartTimeout: 10s
@@ -516,12 +520,9 @@ pathDefaults:
   #   a regular expression.
   # * MTX_SOURCE_TYPE: source type
   # * MTX_SOURCE_ID: source ID
-  runOnReady: >
-    ffmpeg -i rtsp://localhost:$RTSP_PORT/$MTX_PATH
-    -c copy
-    -f rtsp rtsp://localhost:$RTSP_PORT/$MTX_PATH
+  runOnReady:
   # Restart the command if it exits.
-  runOnReadyRestart: yes
+  runOnReadyRestart: no
   # Command to run when the stream is not available anymore.
   # Environment variables are the same of runOnReady.
   runOnNotReady:

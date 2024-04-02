@@ -1,7 +1,8 @@
 // import { BigPlayButton, Player } from "video-react";
+import { useState } from "react";
 import "video-react/dist/video-react.css";
 
-import { streamUrl } from "../env";
+import { baseUrl } from "../env";
 
 // import HlsSource from "./HlsSource";
 
@@ -10,16 +11,35 @@ interface IVideoPlayerProps {
 }
 
 const VideoPlayer = (props: IVideoPlayerProps) => {
-	const baseUrl = `${streamUrl}/${props.streamKey}`;
+	const qualities = [
+		{
+			port: 8888,
+			resolution: "original",
+		},
+		{ port: 7888, resolution: "360p" },
+	];
+	const [qualityId, setQualityId] = useState(0);
 
-	const iframeUrl = baseUrl;
+	const iframeUrl = `${baseUrl}:${qualities[qualityId].port}/${props.streamKey}`;
 
 	// const hlsExtension = "index.m3u8";
 	// const hlsUrl = `${baseUrl}/${hlsExtension}`;
 
 	return (
 		<>
-			<iframe src={iframeUrl}></iframe>
+			<iframe src={iframeUrl} className="h-3/4 w-full"></iframe>
+			<select
+				className="text-black"
+				value={qualityId}
+				onChange={(e) => setQualityId(parseInt(e.target.value))}
+			>
+				{qualities.map((quality, index) => (
+					<option key={`quality-${index}`} value={index}>
+						{quality.resolution}
+					</option>
+				))}
+			</select>
+
 			{/* <div>
 				<Player playsInline src={hlsUrl}>
 					<BigPlayButton position="center" />

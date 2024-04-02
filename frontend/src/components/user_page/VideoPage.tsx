@@ -1,12 +1,13 @@
+import axios from "axios";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import { logInfo } from "../../logger";
+import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
 import { IStream } from "../../models/IStream";
-import fetcher from "../../models/fetcher";
+import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 import StreamCard from "../StreamCard";
 import MainWindowError from "../errors/MainWindowError";
@@ -36,20 +37,22 @@ const VideoPage = () => {
 	}
 
 	const deleteStream = async (stream: IStream) => {
-		logInfo("Fetching: VideoPage.deleteStream");
+		logInfo(VideoPage.name, deleteStream.name, "Fetching");
 
-		await fetch(`${apiStreamUrl}/${stream.path}`, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		try {
+			await axios.delete(`${apiStreamUrl}/${stream.path}`, axiosConfig);
 
-		mutate(`${apiUserUrl}/${loggedUserUsername}`);
-		setShowDeleteDialog(false);
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			setShowDeleteDialog(false);
+		} catch (error) {
+			logError(
+				VideoPage.name,
+				deleteStream.name,
+				"Error deleting stream:",
+				error,
+			);
+		}
 	};
-
-	console.log(user.streams);
 
 	return (
 		<div className="flex flex-row gap-4 overflow-auto flex-wrap">

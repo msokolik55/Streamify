@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
-import { login, password, stream, user } from "./resources";
 import swaggerUi from "swagger-ui-express";
+
+import { login, password, stream, user } from "./resources";
+import { sendResponseError } from "./resources/response";
 
 const router = express.Router();
 const swaggerDocument = require("./swagger.json");
@@ -32,8 +34,8 @@ router.get(`${userUrl}/${usernamePart}`, user.getByUsername);
 router.put(`${userUrl}/${idPart}`, user.update);
 router.delete(`${userUrl}/${usernamePart}`, user.deleteUser);
 
-router.patch(`${userUrl}/${idPart}/inc`, user.increaseCount);
-router.patch(`${userUrl}/${idPart}/dec`, user.decreaseCount);
+router.patch(`${userUrl}/${usernamePart}/inc`, user.increaseCount);
+router.patch(`${userUrl}/${usernamePart}/dec`, user.decreaseCount);
 
 router.patch(`${userUrl}${liveUrl}/${idPart}`, user.updateLive);
 
@@ -51,7 +53,7 @@ router.post(loginUrl, login.checkLogin);
 router.post(streamUrl, stream.createStream);
 
 router.get(`${streamUrl}/${idPart}`, stream.getById);
-router.put(`${streamUrl}/${idPart}`, stream.editStream);
+router.put(`${streamUrl}/${idPart}`, stream.updateStream);
 
 router.delete(`${streamUrl}/${streamPathPart}`, stream.deleteStream);
 router.get(`${streamUrl}/${streamPathPart}/exists`, stream.streamSourceExists);
@@ -66,7 +68,7 @@ router.put(passwordUrl, password.changePassword);
 //#endregion Password
 
 router.get("*", (_: Request, res: Response) => {
-	res.status(404).send({ error: "Path not found" });
+	return sendResponseError(res, 404, "Path not found");
 });
 
 export default router;

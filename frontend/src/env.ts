@@ -1,4 +1,4 @@
-const baseUrl = import.meta.env.VITE_API_URL;
+export const baseUrl = import.meta.env.VITE_API_URL;
 const apiPort = import.meta.env.VITE_API_PORT;
 const hlsPort = import.meta.env.VITE_HLS_PORT;
 

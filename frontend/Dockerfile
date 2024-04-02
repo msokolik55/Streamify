@@ -16,7 +16,7 @@ COPY --from=build_stage /app/dist /app/dist
 EXPOSE 8080
 
 COPY package.json .
-COPY vite.config.ts .
+COPY vite.config.mjs .
 
 RUN npm install typescript
 

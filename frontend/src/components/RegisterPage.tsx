@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
@@ -5,7 +6,8 @@ import { useSetRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
-import { logInfo } from "../logger";
+import { logError, logInfo } from "../logger";
+import { axiosConfig } from "../models/fetcher";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
 import FormLabel from "./login_page/FormLabel";
@@ -22,26 +24,30 @@ const RegisterPage = () => {
 
 	const { mutate } = useSWRConfig();
 	const onSubmit = async (data: UserCreateInputs) => {
-		logInfo("Fetching: RegisterPage.onSubmit");
+		logInfo(RegisterPage.name, onSubmit.name, "Fetching");
 
-		const res = await fetch(apiUserUrl, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				username: data.username,
-				email: data.email,
-				picture: data.picture,
-				password: data.password,
-			}),
-		});
+		try {
+			await axios.post(
+				apiUserUrl,
+				{
+					username: data.username,
+					email: data.email,
+					picture: data.picture,
+					password: data.password,
+				},
+				axiosConfig,
+			);
 
-		mutate(apiUserUrl);
-
-		if (res.status === 200) {
+			mutate(apiUserUrl);
 			setLoggedUserUsername(data.username);
 			setSuccess(true);
+		} catch (error) {
+			logError(
+				RegisterPage.name,
+				onSubmit.name,
+				"Error submitting form:",
+				error,
+			);
 		}
 	};
 

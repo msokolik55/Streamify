@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
@@ -5,9 +6,9 @@ import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import { logInfo } from "../../logger";
+import { logError, logInfo } from "../../logger";
 import { IDataUser } from "../../models/IDataUser";
-import fetcher from "../../models/fetcher";
+import fetcher, { axiosConfig } from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
 import { apiLiveUrl, apiUserUrl, userPath } from "../../urls";
 import MainWindowError from "../errors/MainWindowError";
@@ -28,45 +29,59 @@ const UserProfilePage = () => {
 
 	const { mutate } = useSWRConfig();
 	const onSubmit = async (data: UserEditInputs) => {
-		logInfo("Fetching: UserProfilePage.onSubmit");
+		logInfo(UserProfilePage.name, onSubmit.name, "Fetching");
 
-		const res = await fetch(`${apiUserUrl}/${data.id}`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				username: data.username,
-				email: data.email,
-				picture: data.picture,
-			}),
-		});
+		try {
+			await axios.put(
+				`${apiUserUrl}/${data.id}`,
+				{
+					username: data.username,
+					email: data.email,
+					picture: data.picture,
+				},
+				axiosConfig,
+			);
 
-		mutate(`${apiUserUrl}/${loggedUserUsername}`);
-		mutate(apiUserUrl);
-		mutate(apiLiveUrl);
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			mutate(apiUserUrl);
+			mutate(apiLiveUrl);
 
-		if (res.status === 200) setLoggedUserUsername(data.username);
-		setEdit(false);
+			setLoggedUserUsername(data.username);
+			setEdit(false);
+		} catch (error) {
+			logError(
+				UserProfilePage.name,
+				onSubmit.name,
+				"Error updating user profile:",
+				error,
+			);
+		}
 	};
 
 	const deleteAccount = async () => {
-		logInfo("Fetching: UserProfilePage.deleteAccount");
+		logInfo(UserProfilePage.name, deleteAccount.name, "Fetching");
 
-		const res = await fetch(`${apiUserUrl}/${loggedUserUsername}`, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		try {
+			const response = await axios.delete(
+				`${apiUserUrl}/${loggedUserUsername}`,
+				axiosConfig,
+			);
 
-		mutate(`${apiUserUrl}/${loggedUserUsername}`);
-		mutate(apiUserUrl);
-		mutate(apiLiveUrl);
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			mutate(apiUserUrl);
+			mutate(apiLiveUrl);
 
-		if (res.status === 200) {
-			setLoggedUserUsername(undefined);
-			setDeleted(true);
+			if (response.status === 200) {
+				setLoggedUserUsername(undefined);
+				setDeleted(true);
+			}
+		} catch (error) {
+			logError(
+				"UserProfilePage",
+				"deleteAccount",
+				"Error deleting user account:",
+				error,
+			);
 		}
 	};
 

@@ -42,7 +42,7 @@ udpMaxPayloadSize: 1472
 externalAuthenticationURL:
 
 # Enable Prometheus-compatible metrics.
-metrics: yes
+metrics: no
 # Address of the metrics listener.
 metricsAddress: 127.0.0.1:9998
 
@@ -68,7 +68,7 @@ runOnDisconnect:
 # Global settings -> API
 
 # Enable controlling the server through the API.
-api: yes
+api: no
 # Address of the API listener.
 apiAddress: 127.0.0.1:9997
 
@@ -76,7 +76,7 @@ apiAddress: 127.0.0.1:9997
 # Global settings -> Playback server
 
 # Enable downloading recordings from the playback server.
-playback: yes
+playback: no
 # Address of the playback server listener.
 playbackAddress: :9996
 
@@ -200,7 +200,7 @@ hlsDirectory: ""
 # Global settings -> WebRTC server
 
 # Enable publishing and reading streams with the WebRTC protocol.
-webrtc: yes
+webrtc: no
 # Address of the WebRTC HTTP listener.
 webrtcAddress: :8889
 # Enable TLS/HTTPS on the WebRTC server.
@@ -249,7 +249,7 @@ webrtcICEServers2:
 # Global settings -> SRT server
 
 # Enable publishing and reading streams with the SRT protocol.
-srt: yes
+srt: no
 # Address of the SRT listener.
 srtAddress: :8890
 
@@ -517,11 +517,6 @@ pathDefaults:
   # * MTX_SOURCE_TYPE: source type
   # * MTX_SOURCE_ID: source ID
   runOnReady:
-  # runOnReady: >
-  #   ffmpeg -analyzeduration 10000000 -probesize 10000000
-  #   -i rtsp://localhost:$RTSP_PORT/$MTX_PATH
-  #   -c copy
-  #   -f rtsp rtsp://localhost:$RTSP_PORT/copied
   # Restart the command if it exits.
   runOnReadyRestart: no
   # Command to run when the stream is not available anymore.
