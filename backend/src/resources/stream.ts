@@ -26,8 +26,15 @@ export const createStream = async (req: Request, res: Response) => {
 			);
 		}
 
-		const stream = await prisma.stream.create({
-			data: {
+		const stream = await prisma.stream.upsert({
+			where: {
+				path: user.streamKey ?? "",
+			},
+			update: {
+				name,
+				description,
+			},
+			create: {
 				name,
 				path: user.streamKey ?? "",
 				userId: user.id,

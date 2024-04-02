@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
@@ -9,8 +10,16 @@ import { IDataUser } from "../../models/IDataUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
+import VideoPlayer from "../VideoPlayer";
 import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
+import { getActualStream } from "../streamHelpers";
+
+enum FormState {
+	CREATE,
+	UPDATE,
+	END,
+}
 
 const StreamKeyForm = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
@@ -20,6 +29,9 @@ const StreamKeyForm = () => {
 		fetcher,
 	);
 	const user = data?.data;
+	const [formState, setFormState] = useState(
+		!user?.streamKey ? FormState.CREATE : FormState.UPDATE,
+	);
 
 	if (!user) {
 		return (
@@ -30,19 +42,20 @@ const StreamKeyForm = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm<StreamKeyInputs>();
 
 	const { mutate } = useSWRConfig();
 
-	const setUserLive = async () => {
+	const setUserLive = async (live: boolean) => {
 		logInfo(StreamKeyForm.name, setUserLive.name, "Fetching");
 
 		try {
 			await axios.patch(
 				`${apiLiveUrl}/${user.id}`,
 				{
-					live: true,
+					live,
 				},
 				axiosConfig,
 			);
@@ -56,12 +69,10 @@ const StreamKeyForm = () => {
 		}
 	};
 
-	const createStream = async (inputs: StreamKeyInputs) => {
-		logInfo(StreamKeyForm.name, createStream.name, "Fetching");
-		logInfo(StreamKeyForm.name, createStream.name, "Creating stream: ", [
-			inputs.name,
-			inputs.description,
-		]);
+	//#region Before Submit
+
+	const upsertStream = async (inputs: StreamKeyInputs) => {
+		logInfo(StreamKeyForm.name, upsertStream.name, "Fetching");
 
 		try {
 			await axios.post(
@@ -75,60 +86,205 @@ const StreamKeyForm = () => {
 		} catch (error) {
 			logError(
 				StreamKeyForm.name,
-				createStream.name,
+				upsertStream.name,
 				"Error creating stream:",
 				error,
 			);
 		}
 	};
 
+	//#endregion Before Submit
+
+	//#region After Submit
+
+	const copyStreamKey = () => {
+		navigator.clipboard.writeText(user.streamKey ?? "");
+		window.alert("Stream key copied to clipboard.");
+	};
+
+	const streamExists = async () => {
+		logInfo(StreamKeyForm.name, streamExists.name, "Fetching");
+
+		try {
+			const sourceExistsRes = await axios.get(
+				`${apiStreamUrl}/${user.streamKey}/exists`,
+				axiosConfig,
+			);
+
+			const sourceExists = sourceExistsRes.data;
+			return sourceExists.data;
+		} catch (error) {
+			logError(
+				StreamKeyForm.name,
+				streamExists.name,
+				"Error checking if stream exists:",
+				error,
+			);
+		}
+	};
+
+	const deleteStream = async () => {
+		logInfo(StreamKeyForm.name, deleteStream.name, "Fetching");
+
+		try {
+			await axios.delete(
+				`${apiStreamUrl}/${user.streamKey}`,
+				axiosConfig,
+			);
+
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+		} catch (error) {
+			logError(
+				StreamKeyForm.name,
+				deleteStream.name,
+				"Error deleting stream:",
+				error,
+			);
+		}
+	};
+
+	const endStream = async () => {
+		logInfo(StreamKeyForm.name, endStream.name, "Fetching");
+
+		try {
+			await axios.put(
+				`${apiStreamUrl}/${user.streamKey}/end`,
+				{},
+				axiosConfig,
+			);
+
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+		} catch (error) {
+			logError(
+				StreamKeyForm.name,
+				endStream.name,
+				"Error ending stream:",
+				error,
+			);
+		}
+	};
+
+	//#endregion After Submit
+
 	const onSubmit = async (data: StreamKeyInputs) => {
-		await setUserLive();
-		await createStream(data);
+		if (!user.streamKey) {
+			await setUserLive(true);
+			setFormState(FormState.UPDATE);
+		}
+		await upsertStream(data);
 
 		mutate(`${apiUserUrl}?live=true`);
 		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 	};
 
-	return (
-		<form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-			<div className="flex flex-col gap-2">
-				<FormLabel
-					title="Stream name"
-					for="name"
-					required={true}
-					minLength={3}
-				/>
-				<input
-					{...register("name", {})}
-					id="name"
-					name="name"
-					type="text"
-					className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
-					aria-invalid={errors.name ? "true" : "false"}
-				/>
-				<FormLabel
-					title="Description"
-					for="description"
-					required={false}
-					minLength={0}
-				/>
-				<textarea
-					{...register("description")}
-					id="description"
-					name="description"
-					className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
-					aria-invalid={errors.description ? "true" : "false"}
-				/>
-			</div>
+	useEffect(() => {
+		const end = async () => {
+			await setUserLive(false);
+			reset();
 
-			<button
-				className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-				type="submit"
+			const streamSourceExists = await streamExists();
+			if (!streamSourceExists) await deleteStream();
+			else await endStream();
+		};
+		if (formState === FormState.END) {
+			end();
+			setFormState(FormState.CREATE);
+		}
+
+		console.log("formState", formState);
+	}, [formState]);
+
+	const submitted = formState === FormState.UPDATE && user.streamKey;
+
+	return (
+		<div className="flex flex-col gap-3">
+			{formState !== FormState.CREATE && (
+				<>
+					<FormLabel
+						title="Stream key"
+						for="streamKey"
+						required={false}
+						minLength={0}
+					/>
+					<div className="flex flex-row gap-2 justify-between">
+						<span>{user.streamKey}</span>
+						<button
+							className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+							onClick={copyStreamKey}
+						>
+							Copy
+						</button>
+					</div>
+				</>
+			)}
+			<form
+				className="flex flex-col gap-3"
+				onSubmit={handleSubmit(onSubmit)}
 			>
-				Go live
-			</button>
-		</form>
+				<h1 className="text-lg font-semibold">Stream Form</h1>
+				<div className="mx-4 flex flex-col gap-3">
+					<FormLabel
+						title="Stream name"
+						for="name"
+						required={true}
+						minLength={3}
+					/>
+					<input
+						{...register("name", {
+							required: true,
+							minLength: 3,
+						})}
+						id="name"
+						name="name"
+						type="text"
+						required={true}
+						minLength={3}
+						className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+						aria-invalid={errors.name ? "true" : "false"}
+						// disabled={submitted}
+						defaultValue={
+							submitted ? getActualStream(user).name : ""
+						}
+					/>
+					<FormLabel
+						title="Description"
+						for="description"
+						required={false}
+						minLength={0}
+					/>
+					<textarea
+						{...register("description")}
+						id="description"
+						name="description"
+						className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+						aria-invalid={errors.description ? "true" : "false"}
+						// disabled={submitted}
+						defaultValue={
+							submitted ? getActualStream(user).description : ""
+						}
+					/>
+					<button
+						className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+						type="submit"
+					>
+						{formState === FormState.CREATE
+							? "Start stream"
+							: "Edit stream"}
+					</button>
+					<button
+						className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+						onClick={() => setFormState(FormState.END)}
+					>
+						End stream
+					</button>
+				</div>
+			</form>
+
+			<h1 className="text-lg font-semibold">Stream preview</h1>
+			<div className="mx-4">
+				<VideoPlayer streamKey={user.streamKey ?? ""} />
+			</div>
+		</div>
 	);
 };
 

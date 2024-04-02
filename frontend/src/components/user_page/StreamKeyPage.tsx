@@ -7,7 +7,8 @@ import fetcher from "../../models/fetcher";
 import { apiUserUrl } from "../../urls";
 import MainWindowError from "../errors/MainWindowError";
 import StreamKeyForm from "./StreamKeyForm";
-import StreamKeyTable from "./StreamKeyTable";
+
+// import StreamKeyTable from "./StreamKeyTable";
 
 const StreamKeyPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
@@ -30,7 +31,7 @@ const StreamKeyPage = () => {
 
 	return (
 		<div className="flex flex-col gap-4">
-			{user.streamKey === null ? <StreamKeyForm /> : <StreamKeyTable />}
+			{user.streamKey === null ? <StreamKeyForm /> : <StreamKeyForm />}
 		</div>
 	);
 };
