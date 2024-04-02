@@ -22,12 +22,13 @@ model User {
 }
 
 model Stream {
-  id        String   @id @default(uuid())
-  name      String
-  path      String   @unique
-  ended     Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  path        String   @unique
+  ended       Boolean  @default(false)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId String?

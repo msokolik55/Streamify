@@ -452,6 +452,9 @@
 									},
 									"username": {
 										"type": "string"
+									},
+									"description": {
+										"type": "string"
 									}
 								},
 								"required": ["name", "username"]
@@ -560,6 +563,9 @@
 								"type": "object",
 								"properties": {
 									"name": {
+										"type": "string"
+									},
+									"description": {
 										"type": "string"
 									}
 								},
@@ -995,6 +1001,9 @@
 					"ended": {
 						"type": "boolean"
 					},
+					"description": {
+						"type": "string"
+					},
 					"createdAt": {
 						"type": "string",
 						"format": "date-time"
@@ -1025,6 +1034,9 @@
 					},
 					"ended": {
 						"type": "boolean"
+					},
+					"description": {
+						"type": "string"
 					}
 				}
 			},
@@ -1044,6 +1056,9 @@
 					},
 					"ended": {
 						"type": "boolean"
+					},
+					"description": {
+						"type": "string"
 					},
 					"createdAt": {
 						"type": "string",
