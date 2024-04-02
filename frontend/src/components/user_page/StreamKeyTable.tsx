@@ -155,7 +155,7 @@ const StreamKeyTable = () => {
 								className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
 								onClick={copyStreamKey}
 							>
-								Copy
+								Edit
 							</button>
 						</td>
 					</tr>
