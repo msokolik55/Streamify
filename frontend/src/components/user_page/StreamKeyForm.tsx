@@ -271,19 +271,25 @@ const StreamKeyForm = () => {
 							? "Start stream"
 							: "Edit stream"}
 					</button>
-					<button
-						className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-						onClick={() => setFormState(FormState.END)}
-					>
-						End stream
-					</button>
+					{formState === FormState.UPDATE && (
+						<button
+							className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+							onClick={() => setFormState(FormState.END)}
+						>
+							End stream
+						</button>
+					)}
 				</div>
 			</form>
 
-			<h1 className="text-lg font-semibold">Stream preview</h1>
-			<div className="mx-4">
-				<VideoPlayer streamKey={user.streamKey ?? ""} />
-			</div>
+			{submitted && (
+				<>
+					<h1 className="text-lg font-semibold">Stream preview</h1>
+					<div className="mx-4">
+						<VideoPlayer streamKey={user.streamKey ?? ""} />
+					</div>
+				</>
+			)}
 		</div>
 	);
 };
