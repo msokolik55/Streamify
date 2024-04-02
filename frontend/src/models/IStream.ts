@@ -8,4 +8,5 @@ export interface IStream {
 	updatedAt: string;
 	user: IUser;
 	ended: boolean;
+	description: string;
 }

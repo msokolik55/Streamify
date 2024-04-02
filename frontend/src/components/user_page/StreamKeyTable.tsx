@@ -126,23 +126,35 @@ const StreamKeyTable = () => {
 		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 	};
 
+	const getActualStream = () => {
+		return user.streams.filter(
+			(stream) => stream.path === user.streamKey,
+		)[0];
+	};
+
 	return (
 		<>
 			<table>
 				<tbody>
 					<tr>
-						<td>Name:</td>
+						<td>Key:</td>
+						<td>{user.streamKey}</td>
 						<td>
-							{
-								user.streams.filter(
-									(stream) => stream.path === user.streamKey,
-								)[0].name
-							}
+							<button
+								className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+								onClick={copyStreamKey}
+							>
+								Copy
+							</button>
 						</td>
 					</tr>
 					<tr>
-						<td>Key:</td>
-						<td>{user.streamKey}</td>
+						<td>Name:</td>
+						<td>{getActualStream().name}</td>
+					</tr>
+					<tr>
+						<td>Description:</td>
+						<td>{getActualStream().description}</td>
 						<td>
 							<button
 								className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"

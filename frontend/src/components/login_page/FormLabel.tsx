@@ -6,6 +6,8 @@ type FormLabelProps = {
 };
 
 const FormLabel = (props: FormLabelProps) => {
+	const showMinLength = props.minLength !== undefined && props.minLength > 0;
+
 	return (
 		<label
 			htmlFor={props.for}
@@ -13,7 +15,7 @@ const FormLabel = (props: FormLabelProps) => {
 		>
 			{props.required && "*"}
 			{props.title}
-			{props.minLength && ` (min. ${props.minLength})`}
+			{showMinLength && ` (min. ${props.minLength})`}
 		</label>
 	);
 };

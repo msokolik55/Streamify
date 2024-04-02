@@ -5,11 +5,13 @@ export type LoginInputs = {
 
 export type StreamKeyInputs = {
 	name: string;
+	description: string;
 };
 
 export type StreamEditInputs = {
 	id: string;
 	name: string;
+	description: string;
 };
 
 export type UserEditInputs = {

@@ -14,6 +14,7 @@ export const StreamSelect = {
 	name: true,
 	path: true,
 	ended: true,
+	description: true,
 	createdAt: true,
 	updatedAt: true,
 };
@@ -29,6 +30,7 @@ const StreamInfoSelect = {
 	name: true,
 	path: true,
 	ended: true,
+	description: true,
 };
 
 export const UserDetailSelect = {

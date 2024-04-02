@@ -14,7 +14,7 @@ import { findByUsername } from "./user";
 export const createStream = async (req: Request, res: Response) => {
 	logInfo(req.path, createStream.name, "Method called");
 
-	const { name, username } = req.body;
+	const { name, username, description } = req.body;
 
 	try {
 		const user = await findByUsername(username);
@@ -28,10 +28,11 @@ export const createStream = async (req: Request, res: Response) => {
 
 		const stream = await prisma.stream.create({
 			data: {
-				name: name,
+				name,
 				path: user.streamKey ?? "",
 				userId: user.id,
 				ended: false,
+				description,
 			},
 			select: StreamSelect,
 		});

@@ -56,14 +56,18 @@ const StreamKeyForm = () => {
 		}
 	};
 
-	const createStream = async (name: string) => {
+	const createStream = async (inputs: StreamKeyInputs) => {
 		logInfo(StreamKeyForm.name, createStream.name, "Fetching");
+		logInfo(StreamKeyForm.name, createStream.name, "Creating stream: ", [
+			inputs.name,
+			inputs.description,
+		]);
 
 		try {
 			await axios.post(
 				apiStreamUrl,
 				{
-					name: name,
+					...inputs,
 					username: user.username,
 				},
 				axiosConfig,
@@ -80,7 +84,7 @@ const StreamKeyForm = () => {
 
 	const onSubmit = async (data: StreamKeyInputs) => {
 		await setUserLive();
-		await createStream(data.name);
+		await createStream(data);
 
 		mutate(`${apiUserUrl}?live=true`);
 		mutate(`${apiUserUrl}/${loggedUserUsername}`);
@@ -88,28 +92,34 @@ const StreamKeyForm = () => {
 
 	return (
 		<form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-			<div>
+			<div className="flex flex-col gap-2">
 				<FormLabel
 					title="Stream name"
 					for="name"
 					required={true}
 					minLength={3}
 				/>
-				<div className="mt-2">
-					<input
-						{...register("name", {
-							required: true,
-							minLength: 3,
-						})}
-						id="name"
-						name="name"
-						type="text"
-						required={true}
-						minLength={3}
-						className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
-						aria-invalid={errors.name ? "true" : "false"}
-					/>
-				</div>
+				<input
+					{...register("name", {})}
+					id="name"
+					name="name"
+					type="text"
+					className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+					aria-invalid={errors.name ? "true" : "false"}
+				/>
+				<FormLabel
+					title="Description"
+					for="description"
+					required={false}
+					minLength={0}
+				/>
+				<textarea
+					{...register("description")}
+					id="description"
+					name="description"
+					className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+					aria-invalid={errors.description ? "true" : "false"}
+				/>
 			</div>
 
 			<button
