@@ -8,10 +8,10 @@ import { userUsernamesAtom } from "../atom";
 import { IDataUser } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
 import { apiUserUrl } from "../urls";
-import Counter from "./Counter";
-import ProfilePicture from "./ProfilePicture";
+import VideoDetailBox from "./VideoDetailBox";
 import VideoPlayer from "./VideoPlayer";
 import MainWindowError from "./errors/MainWindowError";
+import { getActualStream } from "./streamHelpers";
 
 const StreamPage = () => {
 	const { username } = useParams();
@@ -49,20 +49,11 @@ const StreamPage = () => {
 	return (
 		<>
 			<VideoPlayer streamKey={user.streamKey} />
-
-			<div className="flex flex-row">
-				<ProfilePicture src={user.picture} username={user.username} />
-
-				<div className="flex flex-col flex-1 p-2 gap-2">
-					<div className="flex">
-						<h1 className="font-semibold">{user.username}</h1>
-					</div>
-					<div className="flex flex-row justify-between ">
-						<h2 className="font-semibold">Title</h2>
-						<Counter count={user.count} />
-					</div>
-				</div>
-			</div>
+			<VideoDetailBox
+				stream={getActualStream(user)}
+				user={user}
+				showCounter={true}
+			/>
 		</>
 	);
 };

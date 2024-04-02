@@ -9,6 +9,7 @@ import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import VideoPlayer from "../VideoPlayer";
 import MainWindowError from "../errors/MainWindowError";
+import { getActualStream } from "../streamHelpers";
 
 const StreamKeyTable = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
@@ -126,12 +127,6 @@ const StreamKeyTable = () => {
 		mutate(`${apiUserUrl}/${loggedUserUsername}`);
 	};
 
-	const getActualStream = () => {
-		return user.streams.filter(
-			(stream) => stream.path === user.streamKey,
-		)[0];
-	};
-
 	return (
 		<>
 			<table>
@@ -150,11 +145,11 @@ const StreamKeyTable = () => {
 					</tr>
 					<tr>
 						<td>Name:</td>
-						<td>{getActualStream().name}</td>
+						<td>{getActualStream(user).name}</td>
 					</tr>
 					<tr>
 						<td>Description:</td>
-						<td>{getActualStream().description}</td>
+						<td>{getActualStream(user).description}</td>
 						<td>
 							<button
 								className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
