@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import swaggerUi from "swagger-ui-express";
 
-import { login, password, stream, user } from "./resources";
+import { login, message, password, stream, user } from "./resources";
 import { sendResponseError } from "./resources/response";
 
 const router = express.Router();
@@ -13,6 +13,7 @@ const liveUrl = "/live";
 const loginUrl = "/login";
 const streamUrl = "/streams";
 const passwordUrl = "/password";
+const messageUrl = "/messages";
 
 const idPart = ":id";
 const usernamePart = ":username";
@@ -66,6 +67,14 @@ router.put(`${streamUrl}/${streamPathPart}/end`, stream.endStream);
 router.put(passwordUrl, password.changePassword);
 
 //#endregion Password
+
+//#region Message
+
+router.post(messageUrl, message.createMessage);
+router.delete(`${messageUrl}/${idPart}`, message.deleteMessage);
+router.get(`${messageUrl}${streamUrl}/:streamId`, message.getByStreamId);
+
+//#endregion Message
 
 router.get("*", (_: Request, res: Response) => {
 	return sendResponseError(res, 404, "Path not found");

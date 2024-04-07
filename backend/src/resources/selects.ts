@@ -46,3 +46,11 @@ export const StreamDetailSelect = {
 		select: UserAvatarSelect,
 	},
 };
+
+export const MessageSelect = {
+	id: true,
+	content: true,
+	createdAt: true,
+	userId: true,
+	streamId: true,
+};
