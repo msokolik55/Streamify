@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
@@ -65,6 +66,9 @@ const PasswordPage = () => {
 
 	return (
 		<div className="flex flex-col gap-4">
+			<Helmet>
+				<title>Password - Streamify</title>
+			</Helmet>
 			<form
 				className="flex flex-col gap-3"
 				onSubmit={handleSubmit(onSubmit)}

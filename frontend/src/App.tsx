@@ -1,5 +1,6 @@
 // import axios from "axios";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
@@ -83,6 +84,9 @@ export const App = () => {
 
 	return (
 		<div className={isDarkMode ? "dark" : ""}>
+			<Helmet>
+				<title>Streamify</title>
+			</Helmet>
 			<Router>
 				<Routes>
 					<Route path="/" element={<MainPage />}>

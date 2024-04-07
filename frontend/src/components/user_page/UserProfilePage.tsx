@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -103,6 +104,9 @@ const UserProfilePage = () => {
 
 	return (
 		<div className="flex flex-col gap-3">
+			<Helmet>
+				<title>User Profile - Streamify</title>
+			</Helmet>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="flex flex-col gap-3"

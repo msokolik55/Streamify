@@ -33,3 +33,9 @@ export type PasswordEditInputs = {
 	newPassword: string;
 	confirmNewPassword: string;
 };
+
+export enum FormState {
+	CREATE,
+	UPDATE,
+	END,
+}

@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import { BigPlayButton, Player } from "video-react";
@@ -27,14 +28,12 @@ const RecordingPage = () => {
 
 	return (
 		<div>
-			<div>
-				<Player
-					playsInline
-					src={`/recordings/${stream.path}/video.mp4`}
-				>
-					<BigPlayButton position="center" />
-				</Player>
-			</div>
+			<Helmet>
+				<title>{stream.name} - Streamify</title>
+			</Helmet>
+			<Player playsInline src={`/recordings/${stream.path}/video.mp4`}>
+				<BigPlayButton position="center" />
+			</Player>
 
 			<VideoDetailBox
 				stream={stream}

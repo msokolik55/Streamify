@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
@@ -48,6 +49,9 @@ const StreamPage = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>{user.username} - Streamify</title>
+			</Helmet>
 			<VideoPlayer streamKey={user.streamKey} />
 			<VideoDetailBox
 				stream={getActualStream(user)}

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { Link, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
@@ -41,6 +42,9 @@ const ProfilePage = () => {
 
 	return (
 		<div className="px-8 pt-6 flex flex-col gap-8">
+			<Helmet>
+				<title>{user.username} - Streamify</title>
+			</Helmet>
 			<div className="flex flex-row gap-x-4 items-center">
 				<ProfilePicture src={user.picture} username={user.username} />
 				<h1 className="font-semibold text-2xl">{user.username}</h1>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
@@ -56,6 +57,9 @@ const VideoPage = () => {
 
 	return (
 		<div className="flex flex-row gap-4 overflow-auto flex-wrap">
+			<Helmet>
+				<title>{user.username} - Streamify</title>
+			</Helmet>
 			{user.streams.filter((stream) => stream.ended).length === 0 && (
 				<p>No videos to show.</p>
 			)}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -49,6 +50,9 @@ const LoginPage = () => {
 
 	return (
 		<div>
+			<Helmet>
+				<title>Login - Streamify</title>
+			</Helmet>
 			<h1 className="tracking-tight font-bold text-2xl leading-8 text-center mt-10 m-0">
 				Sign in to your account
 			</h1>

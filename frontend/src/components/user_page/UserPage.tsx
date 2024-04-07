@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
@@ -16,6 +17,9 @@ const UserPage = () => {
 
 	return (
 		<div>
+			<Helmet>
+				<title>User - Streamify</title>
+			</Helmet>
 			{!isSignedIn ? (
 				<LoginPage />
 			) : (

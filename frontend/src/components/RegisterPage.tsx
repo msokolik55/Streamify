@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -53,6 +54,9 @@ const RegisterPage = () => {
 
 	return (
 		<div className="flex flex-col gap-3 p-4">
+			<Helmet>
+				<title>Register - Streamify</title>
+			</Helmet>
 			{success && <Navigate to={userProfilePath} />}
 
 			<form
