@@ -8,6 +8,7 @@ import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IStream } from "../../models/IStream";
+import { IUser } from "../../models/IUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 import StreamCard from "../StreamCard";
@@ -21,7 +22,7 @@ const VideoPage = () => {
 	const [showEditDialog, setShowEditDialog] = useState(false);
 
 	const { mutate } = useSWRConfig();
-	const { data, error } = useSWR<IResponseData, Error>(
+	const { data, error } = useSWR<IResponseData<IUser>, Error>(
 		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);

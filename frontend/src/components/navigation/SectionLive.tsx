@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { shiftUserUsernames } from "../../App";
 import { userUsernamesAtom } from "../../atom";
 import { IResponseDatas } from "../../models/IResponseData";
+import { IUser } from "../../models/IUser";
 import fetcher from "../../models/fetcher";
 import colors from "../../styles/colors";
 import { apiUserUrl, livePath } from "../../urls";
@@ -13,7 +14,7 @@ import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
 
 const SectionLive = () => {
-	const { data, error } = useSWR<IResponseDatas>(
+	const { data, error } = useSWR<IResponseDatas<IUser>>(
 		`${apiUserUrl}?live=true`,
 		fetcher,
 	);

@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import useSWR from "swr";
 
 import { IResponseDatas } from "../../models/IResponseData";
+import { IUser } from "../../models/IUser";
 import fetcher from "../../models/fetcher";
 import colors from "../../styles/colors";
 import { apiUserUrl, profilePath } from "../../urls";
@@ -9,7 +10,7 @@ import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
 
 const SectionProfiles = () => {
-	const { data, error } = useSWR<IResponseDatas>(apiUserUrl, fetcher);
+	const { data, error } = useSWR<IResponseDatas<IUser>>(apiUserUrl, fetcher);
 	const users = data?.data;
 
 	if (error) return <ErrorBlock error={error} />;

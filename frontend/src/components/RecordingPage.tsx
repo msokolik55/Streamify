@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import { BigPlayButton, Player } from "video-react";
 
-import { IDataStream } from "../models/IDataStream";
+import { IResponseData } from "../models/IResponseData";
+import { IStream } from "../models/IStream";
 import fetcher from "../models/fetcher";
 import { apiStreamUrl } from "../urls";
 import VideoDetailBox from "./VideoDetailBox";
@@ -12,7 +13,7 @@ import MainWindowError from "./errors/MainWindowError";
 const RecordingPage = () => {
 	const { streamId } = useParams();
 
-	const { data, error } = useSWR<IDataStream, Error>(
+	const { data, error } = useSWR<IResponseData<IStream>, Error>(
 		`${apiStreamUrl}/${streamId}`,
 		fetcher,
 	);
