@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSWRConfig } from "swr";
 
 import { logError, logInfo } from "../logger";
 import { MessageInputs } from "../models/form";
-import { apiMessageUrl } from "../urls";
+import { apiMessageUrl, apiStreamUrl, messagePath } from "../urls";
 
 type MessageFormProps = {
 	streamKey: string;
@@ -16,6 +17,7 @@ const MessageForm = (props: MessageFormProps) => {
 
 	const { register, handleSubmit, reset } = useForm<MessageInputs>();
 
+	const { mutate } = useSWRConfig();
 	const onSubmit = async (data: MessageInputs) => {
 		logInfo(MessageForm.name, onSubmit.name, "Fetching");
 		setLoading(true);
@@ -27,6 +29,8 @@ const MessageForm = (props: MessageFormProps) => {
 				streamKey: props.streamKey,
 			});
 			reset();
+
+			mutate(`${apiStreamUrl}/${props.streamKey}${messagePath}`);
 		} catch (error) {
 			logError(
 				MessageForm.name,
