@@ -78,11 +78,13 @@ const StreamPage = () => {
 				<div className="flex flex-col gap-2 justify-between">
 					<h1>Messages</h1>
 					<div className="max-h-32 overflow-y-auto flex flex-col gap-2">
-						{stream?.messages?.map((message) => (
-							<div className="bg-white text-black rounded-md px-2">
-								<h2 key={message.id}>{message.content}</h2>
-							</div>
-						))}
+						{stream?.messages
+							?.filter((message) => !message.answered)
+							.map((message) => (
+								<div className="bg-white text-black rounded-md px-2">
+									<h2 key={message.id}>{message.content}</h2>
+								</div>
+							))}
 					</div>
 					<MessageForm
 						streamKey={user.streamKey}

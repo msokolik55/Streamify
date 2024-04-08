@@ -52,6 +52,7 @@ export const StreamDetailSelect = {
 export const MessageSelect = {
 	id: true,
 	content: true,
+	answered: true,
 	createdAt: true,
 	username: true,
 	streamKey: true,

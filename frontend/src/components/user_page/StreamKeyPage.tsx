@@ -217,6 +217,30 @@ const StreamKeyPage = () => {
 		}
 	};
 
+	const answerMessage = async (messageId: string, answered: boolean) => {
+		logInfo(StreamKeyPage.name, answerMessage.name, "Fetching");
+
+		try {
+			await axios.patch(
+				`${apiMessageUrl}/${messageId}`,
+				{
+					answered: !answered,
+				},
+				axiosConfig,
+			);
+
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			mutate(`${apiStreamUrl}/${user.streamKey}${messagePath}`);
+		} catch (error) {
+			logError(
+				StreamKeyPage.name,
+				answerMessage.name,
+				"Error answering message",
+				error,
+			);
+		}
+	};
+
 	//#endregion Messages
 
 	const submitted = formState === FormState.UPDATE && user.streamKey;
@@ -318,10 +342,28 @@ const StreamKeyPage = () => {
 										key={message.id}
 										className="flex flex-row gap-2 justify-between"
 									>
-										<span>{message.content}</span>
+										<span
+											className={
+												message.answered
+													? "line-through"
+													: ""
+											}
+										>
+											{message.content}
+										</span>
 										<div className="flex flex-row gap-2">
-											<button className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600">
-												Answer
+											<button
+												className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+												onClick={() =>
+													answerMessage(
+														message.id,
+														message.answered,
+													)
+												}
+											>
+												{!message.answered
+													? "Answer"
+													: "Open"}
 											</button>
 											<button
 												className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"

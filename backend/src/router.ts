@@ -72,6 +72,7 @@ router.put(passwordUrl, password.changePassword);
 //#region Message
 
 router.post(messageUrl, message.createMessage);
+router.patch(`${messageUrl}/${idPart}`, message.answerMessage);
 router.delete(`${messageUrl}/${idPart}`, message.deleteMessage);
 
 //#endregion Message

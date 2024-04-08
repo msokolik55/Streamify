@@ -4,7 +4,6 @@ import prisma from "../client";
 import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
 import { MessageSelect } from "./selects";
-import { findByUsername } from "./user";
 
 /**
  * Creates message
@@ -44,6 +43,41 @@ export const createMessage = async (req: Request, res: Response) => {
 	} catch (error) {
 		console.log(error);
 		logError(req.path, createMessage.name, "Prisma create", streamKey);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
+};
+
+/**
+ * Answers the message with a specific id
+ */
+export const answerMessage = async (req: Request, res: Response) => {
+	logInfo(req.path, answerMessage.name, "Method called");
+
+	const id = req.params.id;
+	const { answered } = req.body;
+
+	if (!id || id === "") {
+		return sendResponseError(
+			res,
+			Status.NOT_FOUND,
+			"Cannot find message with given id.",
+		);
+	}
+
+	try {
+		await prisma.message.update({
+			where: {
+				id,
+			},
+			data: {
+				answered,
+			},
+			select: MessageSelect,
+		});
+
+		return sendResponseSuccess(res, Status.OK, true);
+	} catch (error) {
+		logError(req.path, answerMessage.name, "Prisma update", id);
 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
 };

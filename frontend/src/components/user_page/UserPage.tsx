@@ -27,10 +27,7 @@ const UserPage = () => {
 					<nav className="flex flex-row w-full justify-between gap-4 mb-2">
 						<HeaderLink path={userProfilePath} title="Profile" />
 						<HeaderLink path={userVideosPath} title="Videos" />
-						<HeaderLink
-							path={userStreamKeyPath}
-							title="Stream key"
-						/>
+						<HeaderLink path={userStreamKeyPath} title="Stream" />
 						<HeaderLink path={userPasswordPath} title="Password" />
 					</nav>
 
