@@ -1,11 +1,9 @@
-import { IUser } from "./IUser";
-
-export interface IDataUser {
+export interface IResponseData<T> {
 	status: string;
-	data: IUser;
+	data: T;
 }
 
-export interface IDataUsers {
+export interface IResponseDatas<T> {
 	status: string;
-	data: IUser[];
+	data: T[];
 }

@@ -18,8 +18,8 @@ model User {
   count     Int      @default(0)
   streamKey String?  @unique
 
-  streams Stream[]
-  Message Message[]
+  streams  Stream[]
+  messages Message[]
 }
 
 model Stream {
@@ -31,9 +31,10 @@ model Stream {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user    User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
-  userId  String?
-  Message Message[]
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+
+  messages Message[]
 }
 
 model Message {
@@ -41,9 +42,9 @@ model Message {
   content   String
   createdAt DateTime @default(now())
 
-  streamId String
-  stream   Stream @relation(fields: [streamId], references: [id])
+  streamKey String
+  stream    Stream @relation(fields: [streamKey], references: [path])
 
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id])
+  username String?
+  user     User?   @relation(fields: [username], references: [username])
 }

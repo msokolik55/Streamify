@@ -9,6 +9,7 @@ export const loginPath = "/login";
 export const streamPath = "/streams";
 export const registerPath = "/register";
 export const passwordPath = "/password";
+export const messagePath = "/messages";
 
 export const userPath = "/users";
 export const userProfilePath = `${userPath}/profile`;
@@ -24,3 +25,4 @@ export const apiLiveUrl = `${apiUrl}${userPath}${livePath}`;
 export const apiLoginUrl = `${apiUrl}${loginPath}`;
 export const apiStreamUrl = `${apiUrl}${streamPath}`;
 export const apiPasswordUrl = `${apiUrl}${passwordPath}`;
+export const apiMessageUrl = `${apiUrl}${messagePath}`;

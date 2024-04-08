@@ -1,3 +1,4 @@
+import { IMessage } from "./IMessage";
 import { IUser } from "./IUser";
 
 export interface IStream {
@@ -9,4 +10,5 @@ export interface IStream {
 	user: IUser;
 	ended: boolean;
 	description: string;
+	messages: IMessage[];
 }

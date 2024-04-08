@@ -17,6 +17,7 @@ export const StreamSelect = {
 	description: true,
 	createdAt: true,
 	updatedAt: true,
+	messages: true,
 };
 
 const UserAvatarSelect = {
@@ -51,6 +52,6 @@ export const MessageSelect = {
 	id: true,
 	content: true,
 	createdAt: true,
-	userId: true,
-	streamId: true,
+	username: true,
+	streamKey: true,
 };

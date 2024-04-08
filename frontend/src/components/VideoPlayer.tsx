@@ -26,7 +26,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	// const hlsUrl = `${baseUrl}/${hlsExtension}`;
 
 	return (
-		<>
+		<div className="flex flex-col">
 			<iframe src={iframeUrl} className="h-3/4 w-full"></iframe>
 			<select
 				className="text-black"
@@ -46,7 +46,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					<HlsSource src={hlsUrl} video={videoRef.current!} />
 				</Player>
 			</div> */}
-		</>
+		</div>
 	);
 };
 

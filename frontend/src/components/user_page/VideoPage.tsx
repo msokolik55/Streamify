@@ -6,7 +6,7 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
-import { IDataUser } from "../../models/IDataUser";
+import { IResponseData } from "../../models/IDataUser";
 import { IStream } from "../../models/IStream";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
@@ -21,7 +21,7 @@ const VideoPage = () => {
 	const [showEditDialog, setShowEditDialog] = useState(false);
 
 	const { mutate } = useSWRConfig();
-	const { data, error } = useSWR<IDataUser, Error>(
+	const { data, error } = useSWR<IResponseData, Error>(
 		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);

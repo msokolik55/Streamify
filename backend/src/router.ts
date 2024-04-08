@@ -59,6 +59,7 @@ router.put(`${streamUrl}/${idPart}`, stream.updateStream);
 router.delete(`${streamUrl}/${streamPathPart}`, stream.deleteStream);
 router.get(`${streamUrl}/${streamPathPart}/exists`, stream.streamSourceExists);
 router.put(`${streamUrl}/${streamPathPart}/end`, stream.endStream);
+router.get(`${streamUrl}/:streamPath${messageUrl}`, stream.getMessages);
 
 //#endregion Stream
 
@@ -72,7 +73,6 @@ router.put(passwordUrl, password.changePassword);
 
 router.post(messageUrl, message.createMessage);
 router.delete(`${messageUrl}/${idPart}`, message.deleteMessage);
-router.get(`${messageUrl}${streamUrl}/:streamId`, message.getByStreamId);
 
 //#endregion Message
 

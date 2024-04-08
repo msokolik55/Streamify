@@ -6,7 +6,7 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
-import { IDataUser } from "../../models/IDataUser";
+import { IResponseData } from "../../models/IDataUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { FormState, StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
@@ -18,7 +18,7 @@ import { getActualStream } from "../streamHelpers";
 const StreamKeyPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 
-	const { data, error } = useSWR<IDataUser, Error>(
+	const { data, error } = useSWR<IResponseData, Error>(
 		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);

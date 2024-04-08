@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 import { shiftUserUsernames } from "../App";
 import { userUsernamesAtom } from "../atom";
-import { IDataUser } from "../models/IDataUser";
+import { IResponseData } from "../models/IDataUser";
 import fetcher from "../models/fetcher";
 import { apiUserUrl, streamPath } from "../urls";
 import ProfilePicture from "./ProfilePicture";
@@ -16,7 +16,7 @@ import MainWindowError from "./errors/MainWindowError";
 const ProfilePage = () => {
 	const { username } = useParams();
 
-	const { data, error } = useSWR<IDataUser, Error>(
+	const { data, error } = useSWR<IResponseData, Error>(
 		`${apiUserUrl}/${username}`,
 		fetcher,
 	);

@@ -3,6 +3,10 @@ export type LoginInputs = {
 	password: string;
 };
 
+export type MessageInputs = {
+	content: string;
+};
+
 export type StreamKeyInputs = {
 	name: string;
 	description: string;

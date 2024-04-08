@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 import prisma from "../client";
 import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
-import { MessageSelect, StreamSelect } from "./selects";
+import { MessageSelect } from "./selects";
+import { findByUsername } from "./user";
 
 /**
  * Creates message
@@ -11,9 +12,9 @@ import { MessageSelect, StreamSelect } from "./selects";
 export const createMessage = async (req: Request, res: Response) => {
 	logInfo(req.path, createMessage.name, "Method called");
 
-	const { content, streamId, userId } = req.body;
+	const { content, streamKey, username } = req.body;
 
-	if (!streamId || streamId === "") {
+	if (!streamKey || streamKey === "") {
 		return sendResponseError(
 			res,
 			Status.NOT_FOUND,
@@ -29,48 +30,20 @@ export const createMessage = async (req: Request, res: Response) => {
 	}
 
 	try {
+		console.log(content, streamKey, username);
 		const message = await prisma.message.create({
 			data: {
 				content,
-				streamId,
-				userId,
+				streamKey,
+				username,
 			},
 			select: MessageSelect,
 		});
 
 		return sendResponseSuccess(res, Status.CREATED, message);
 	} catch (error) {
-		logError(req.path, createMessage.name, "Prisma create", streamId);
-		return sendResponseError(res, Status.BAD_REQUEST, error as string);
-	}
-};
-
-/**
- * Return messages with a specific stream id
- */
-export const getByStreamId = async (req: Request, res: Response) => {
-	logInfo(req.path, getByStreamId.name, "Method called");
-
-	const streamId = req.params.streamId;
-	if (!streamId || streamId === "") {
-		return sendResponseError(
-			res,
-			Status.NOT_FOUND,
-			"Cannot find stream with given id.",
-		);
-	}
-
-	try {
-		const messages = await prisma.message.findMany({
-			where: {
-				streamId,
-			},
-			select: MessageSelect,
-		});
-
-		return sendResponseSuccess(res, Status.OK, messages);
-	} catch (error) {
-		logError(req.path, getByStreamId.name, "Prisma find", streamId);
+		console.log(error);
+		logError(req.path, createMessage.name, "Prisma create", streamKey);
 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
 };

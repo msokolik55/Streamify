@@ -5,7 +5,7 @@ import path from "path";
 import prisma from "../client";
 import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
-import { StreamDetailSelect, StreamSelect } from "./selects";
+import { MessageSelect, StreamDetailSelect, StreamSelect } from "./selects";
 import { findByUsername } from "./user";
 
 /**
@@ -193,6 +193,40 @@ export const endStream = async (req: Request, res: Response) => {
 		return sendResponseSuccess(res, Status.NO_CONTENT, true);
 	} catch (error) {
 		logError(req.path, endStream.name, "Prisma update", streamPath);
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
+};
+
+/**
+ * Get messages by stream id
+ */
+
+/**
+ * Return messages with a specific stream id
+ */
+export const getMessages = async (req: Request, res: Response) => {
+	logInfo(req.path, getMessages.name, "Method called");
+
+	const streamPath = req.params.streamPath;
+	if (!streamPath || streamPath === "") {
+		return sendResponseError(
+			res,
+			Status.NOT_FOUND,
+			"Cannot find stream with given path.",
+		);
+	}
+
+	try {
+		const stream = await prisma.stream.findUnique({
+			where: {
+				path: streamPath,
+			},
+			select: StreamSelect,
+		});
+
+		return sendResponseSuccess(res, Status.OK, stream);
+	} catch (error) {
+		logError(req.path, getMessages.name, "Prisma find", streamPath);
 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
 };

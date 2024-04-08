@@ -8,7 +8,7 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
-import { IDataUser } from "../../models/IDataUser";
+import { IResponseData } from "../../models/IDataUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
 import { apiLiveUrl, apiUserUrl, userPath } from "../../urls";
@@ -86,7 +86,7 @@ const UserProfilePage = () => {
 		}
 	};
 
-	const { data, error } = useSWR<IDataUser, Error>(
+	const { data, error } = useSWR<IResponseData, Error>(
 		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);
