@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 import { shiftUserUsernames } from "../App";
 import { userUsernamesAtom } from "../atom";
-import { IResponseData } from "../models/IDataUser";
+import { IResponseData } from "../models/IResponseData";
 import fetcher from "../models/fetcher";
 import { apiUserUrl, streamPath } from "../urls";
 import ProfilePicture from "./ProfilePicture";

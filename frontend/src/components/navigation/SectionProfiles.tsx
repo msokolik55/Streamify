@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import useSWR from "swr";
 
-import { IResponseDatas } from "../../models/IDataUser";
+import { IResponseDatas } from "../../models/IResponseData";
 import fetcher from "../../models/fetcher";
 import colors from "../../styles/colors";
 import { apiUserUrl, profilePath } from "../../urls";

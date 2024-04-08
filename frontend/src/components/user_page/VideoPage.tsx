@@ -6,7 +6,7 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
-import { IResponseData } from "../../models/IDataUser";
+import { IResponseData } from "../../models/IResponseData";
 import { IStream } from "../../models/IStream";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";

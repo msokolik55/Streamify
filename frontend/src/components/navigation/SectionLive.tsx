@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 import { shiftUserUsernames } from "../../App";
 import { userUsernamesAtom } from "../../atom";
-import { IResponseDatas } from "../../models/IDataUser";
+import { IResponseDatas } from "../../models/IResponseData";
 import fetcher from "../../models/fetcher";
 import colors from "../../styles/colors";
 import { apiUserUrl, livePath } from "../../urls";

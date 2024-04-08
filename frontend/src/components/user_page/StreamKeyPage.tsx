@@ -6,10 +6,17 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
-import { IResponseData } from "../../models/IDataUser";
+import { IResponseData } from "../../models/IResponseData";
+import { IUser } from "../../models/IUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { FormState, StreamKeyInputs } from "../../models/form";
-import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
+import {
+	apiLiveUrl,
+	apiMessageUrl,
+	apiStreamUrl,
+	apiUserUrl,
+	messagePath,
+} from "../../urls";
 import VideoPlayer from "../VideoPlayer";
 import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
@@ -18,7 +25,7 @@ import { getActualStream } from "../streamHelpers";
 const StreamKeyPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 
-	const { data, error } = useSWR<IResponseData, Error>(
+	const { data, error } = useSWR<IResponseData<IUser>, Error>(
 		`${apiUserUrl}/${loggedUserUsername}`,
 		fetcher,
 	);
@@ -26,6 +33,13 @@ const StreamKeyPage = () => {
 	const [formState, setFormState] = useState(
 		!user?.streamKey ? FormState.CREATE : FormState.UPDATE,
 	);
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm<StreamKeyInputs>();
 
 	if (error) {
 		return <MainWindowError message={error.message} />;
@@ -36,13 +50,6 @@ const StreamKeyPage = () => {
 			<MainWindowError message="Cannot find user with given username." />
 		);
 	}
-
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm<StreamKeyInputs>();
 
 	const { mutate } = useSWRConfig();
 
@@ -188,11 +195,33 @@ const StreamKeyPage = () => {
 			end();
 			setFormState(FormState.CREATE);
 		}
-
-		console.log("formState", formState);
 	}, [formState]);
 
+	//#region Messages
+
+	const deleteMessage = async (messageId: string) => {
+		logInfo(StreamKeyPage.name, deleteMessage.name, "Fetching");
+
+		try {
+			await axios.delete(`${apiMessageUrl}/${messageId}`, axiosConfig);
+
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			mutate(`${apiStreamUrl}/${user.streamKey}${messagePath}`);
+		} catch (error) {
+			logError(
+				StreamKeyPage.name,
+				deleteMessage.name,
+				"Error deleting message",
+				error,
+			);
+		}
+	};
+
+	//#endregion Messages
+
 	const submitted = formState === FormState.UPDATE && user.streamKey;
+	const stream = getActualStream(user);
+
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col gap-3">
@@ -240,9 +269,7 @@ const StreamKeyPage = () => {
 							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
 							aria-invalid={errors.name ? "true" : "false"}
 							// disabled={submitted}
-							defaultValue={
-								submitted ? getActualStream(user).name : ""
-							}
+							defaultValue={submitted ? stream.name : ""}
 						/>
 						<FormLabel
 							title="Description"
@@ -257,11 +284,7 @@ const StreamKeyPage = () => {
 							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
 							aria-invalid={errors.description ? "true" : "false"}
 							// disabled={submitted}
-							defaultValue={
-								submitted
-									? getActualStream(user).description
-									: ""
-							}
+							defaultValue={submitted ? stream.description : ""}
 						/>
 						<button
 							className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
@@ -281,6 +304,40 @@ const StreamKeyPage = () => {
 						)}
 					</div>
 				</form>
+
+				{submitted && (
+					<>
+						<h1 className="text-lg font-semibold">Messages</h1>
+						<div className="flex flex-col mx-4 gap-2">
+							{!stream.messages ||
+							stream.messages.length === 0 ? (
+								<span>No messages yet.</span>
+							) : (
+								stream.messages.map((message) => (
+									<div
+										key={message.id}
+										className="flex flex-row gap-2 justify-between"
+									>
+										<span>{message.content}</span>
+										<div className="flex flex-row gap-2">
+											<button className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600">
+												Answer
+											</button>
+											<button
+												className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
+												onClick={() =>
+													deleteMessage(message.id)
+												}
+											>
+												Delete
+											</button>
+										</div>
+									</div>
+								))
+							)}
+						</div>
+					</>
+				)}
 
 				{submitted && (
 					<>

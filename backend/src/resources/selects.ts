@@ -32,6 +32,7 @@ const StreamInfoSelect = {
 	path: true,
 	ended: true,
 	description: true,
+	messages: true,
 };
 
 export const UserDetailSelect = {

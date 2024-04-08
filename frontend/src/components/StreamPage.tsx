@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 import { shiftUserUsernames } from "../App";
 import { loggedUserUsernameAtom, userUsernamesAtom } from "../atom";
-import { IResponseData } from "../models/IDataUser";
+import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
 import { IUser } from "../models/IUser";
 import fetcher from "../models/fetcher";
