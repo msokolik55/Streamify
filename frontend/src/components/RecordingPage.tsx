@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
+import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import { BigPlayButton, Player } from "video-react";
 
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
@@ -27,14 +27,14 @@ const RecordingPage = () => {
 		return <MainWindowError message="Cannot find stream with given id." />;
 	}
 
+	const videoSrc = `/recordings/${stream.path}/video.mp4`;
+
 	return (
 		<div>
 			<Helmet>
 				<title>{stream.name} - Streamify</title>
 			</Helmet>
-			<Player playsInline src={`/recordings/${stream.path}/video.mp4`}>
-				<BigPlayButton position="center" />
-			</Player>
+			<ReactPlayer url={videoSrc} controls={true} />
 
 			<VideoDetailBox
 				stream={stream}

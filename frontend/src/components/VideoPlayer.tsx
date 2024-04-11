@@ -1,37 +1,40 @@
-// import { BigPlayButton, Player } from "video-react";
 import { useState } from "react";
+import ReactPlayer from "react-player";
 import "video-react/dist/video-react.css";
 
 import { baseUrl } from "../env";
-
-// import HlsSource from "./HlsSource";
 
 interface IVideoPlayerProps {
 	streamKey: string;
 }
 
 const VideoPlayer = (props: IVideoPlayerProps) => {
-	const qualities = [
-		{
-			port: 8888,
-			resolution: "original",
-		},
-		{ port: 7888, resolution: "360p" },
-	];
+	const qualities = [{ port: 8888, resolution: "360p" }];
 	const [qualityId, setQualityId] = useState(0);
 
-	const iframeUrl = `${baseUrl}:${qualities[qualityId].port}/${props.streamKey}`;
+	const [retryKey, setRetryKey] = useState(0);
 
-	// const hlsExtension = "index.m3u8";
-	// const hlsUrl = `${baseUrl}/${hlsExtension}`;
+	const hlsExtension = "index.m3u8";
+	const hlsUrl = `${baseUrl}:${qualities[qualityId].port}/${props.streamKey}/${hlsExtension}`;
 
 	return (
 		<div className="flex flex-col">
-			<iframe src={iframeUrl} className="h-3/4 w-full"></iframe>
+			<ReactPlayer
+				key={retryKey}
+				width="100%"
+				height="100%"
+				url={hlsUrl}
+				controls={true}
+				playing={true}
+			/>
+			<button onClick={() => setRetryKey((prev) => prev + 1)}>
+				Reload
+			</button>
+
 			<select
 				className="text-black"
 				value={qualityId}
-				onChange={(e) => setQualityId(parseInt(e.target.value))}
+				onChange={(event) => setQualityId(parseInt(event.target.value))}
 			>
 				{qualities.map((quality, index) => (
 					<option key={`quality-${index}`} value={index}>
@@ -39,13 +42,6 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					</option>
 				))}
 			</select>
-
-			{/* <div>
-				<Player playsInline src={hlsUrl}>
-					<BigPlayButton position="center" />
-					<HlsSource src={hlsUrl} video={videoRef.current!} />
-				</Player>
-			</div> */}
 		</div>
 	);
 };
