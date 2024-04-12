@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ReactPlayer from "react-player";
-import "video-react/dist/video-react.css";
 
 import { baseUrl } from "../env";
 
