@@ -40,13 +40,16 @@ const disconnectUser = (socket: Socket) => {
 
 	console.log("A user disconnected");
 	delete alreadyConnected[socket.data.browserId];
-	streamViewers[socket.data.streamKey]--;
+	streamViewers[socket.data.streamKey] = Math.max(
+		streamViewers[socket.data.streamKey] - 1,
+		0,
+	);
 
 	io.emit(
 		`viewer_count_${socket.data.streamKey}`,
 		streamViewers[socket.data.streamKey],
 	);
-	socket.disconnect(true);
+	socket.disconnect();
 };
 
 io.on("connection", (socket) => {
@@ -85,9 +88,14 @@ io.on("connection", (socket) => {
 });
 
 setInterval(() => {
+	io.sockets.sockets.forEach((socket) => console.log(socket.data));
+	console.log("**********");
+	console.log(streamViewers);
+	console.log("**********");
+
 	const now = Date.now();
 	io.sockets.sockets.forEach((socket) => {
-		if (now - socket.data.heartbeat > 30000) {
+		if (now - socket.data.heartbeat > 2000) {
 			logInfo(
 				"WS",
 				setInterval.name,

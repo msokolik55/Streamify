@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 
-import { apiUrl } from "../env";
-
-const socket = io(apiUrl);
+import { socket } from "../socket";
 
 interface ViewerCounterProps {
 	streamKey: string;
@@ -12,6 +9,7 @@ interface ViewerCounterProps {
 
 const ViewerCounter = (props: ViewerCounterProps) => {
 	const [viewerCount, setViewerCount] = useState(0);
+	// const [lastHeartbeat, setLastHeartbeat] = useState(Date.now());
 
 	const getBrowserId = () => {
 		const browserId = localStorage.getItem("browserId");
@@ -25,23 +23,36 @@ const ViewerCounter = (props: ViewerCounterProps) => {
 	};
 
 	useEffect(() => {
+		socket.connect();
+
+		return () => {
+			socket.disconnect();
+		};
+	}, []);
+
+	useEffect(() => {
 		console.log("*****************************************");
 
-		socket.emit("join_stream", {
-			streamKey: props.streamKey,
-			heartbeat: Date.now(),
-			browserId: getBrowserId(),
-		});
+		const sendJoinStream = () => {
+			socket.emit("join_stream", {
+				streamKey: props.streamKey,
+				heartbeat: Date.now(),
+				browserId: getBrowserId(),
+			});
+		};
 
+		sendJoinStream();
 		socket.on(`viewer_count_${props.streamKey}`, (count: number) => {
 			setViewerCount(count);
 		});
 
-		setInterval(() => {
-			socket.emit("heartbeat", { heartbeat: Date.now() });
+		const heartbeatInterval = setInterval(() => {
+			const now = Date.now();
+			socket.emit("heartbeat", { heartbeat: now });
 		}, 1000);
 
 		return () => {
+			clearInterval(heartbeatInterval);
 			socket.off(`viewer_count_${props.streamKey}`);
 		};
 	}, [props.streamKey]);
