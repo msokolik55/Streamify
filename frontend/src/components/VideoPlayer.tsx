@@ -165,22 +165,22 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		});
 	};
 
-	console.log(controls.played);
-
 	return (
 		<div className="flex flex-col" ref={playerWrapperRef}>
 			<div className="flex flex-row">
-				<ReactPlayer
-					key={retryKey}
-					ref={reactPlayerRef}
-					width="100%"
-					height="100%"
-					url={hlsUrl}
-					volume={controls.volume}
-					playing={controls.playing}
-					onProgress={handleProgress}
-					onDuration={handleDuration}
-				/>
+				<div className="bg-black">
+					<ReactPlayer
+						key={retryKey}
+						ref={reactPlayerRef}
+						width="100%"
+						height="100%"
+						url={hlsUrl}
+						volume={controls.volume}
+						playing={controls.playing}
+						onProgress={handleProgress}
+						onDuration={handleDuration}
+					/>
+				</div>
 			</div>
 			<button onClick={() => setRetryKey((prev) => prev + 1)}>
 				Reload
@@ -308,14 +308,14 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					<tr>
 						<th>remaining</th>
 						<td>
-							<Duration
+							{/* <Duration
 								seconds={
 									reactPlayerRef.current
 										?.getInternalPlayer()
 										?.getDuration() ||
 									0 * (1 - controls.played)
 								}
-							/>
+							/> */}
 						</td>
 					</tr>
 				</tbody>

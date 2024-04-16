@@ -9,6 +9,7 @@ services:
       - 5555:5555
     volumes:
       - shared-volume:/app/recordings
+      - upload-volume:/app/uploads
       - ./backend/prisma/dev.db:/app/prisma/dev.db
 
   frontend:
@@ -22,6 +23,7 @@ services:
       - 8080:8080
     volumes:
       - shared-volume:/app/dist/recordings
+      - upload-volume:/app/dist/uploads
   
   stream-orig:
     image: bluenviron/mediamtx:latest-ffmpeg
@@ -46,3 +48,5 @@ services:
 volumes:
   shared-volume:
     name: shared-data
+  upload-volume:
+    name: upload-data

@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
 import { Request, Response } from "express";
+import fs from "fs";
+import path from "path";
 
 import prisma from "../client";
 import { logError, logInfo } from "../logger";
@@ -117,10 +119,19 @@ export const update = async (req: Request, res: Response) => {
 	logInfo(req.path, update.name, "Method called");
 
 	const id = req.params.id;
-	const { username, email, picture } = req.body;
+	const { username, email } = req.body;
 
 	if (!id || id === "") {
 		return sendResponseError(res, Status.BAD_REQUEST, "Missing user id.");
+	}
+
+	const oldUser = await findByUsername(username);
+	const folderPath = "uploads";
+	if (fs.existsSync(folderPath)) {
+		fs.readdirSync(folderPath).forEach((file) => {
+			const fullPath = path.join(folderPath, file);
+			if (file === oldUser?.picture) fs.unlinkSync(fullPath);
+		});
 	}
 
 	try {
@@ -131,7 +142,7 @@ export const update = async (req: Request, res: Response) => {
 			data: {
 				username,
 				email,
-				picture,
+				picture: req.file?.filename,
 			},
 		});
 

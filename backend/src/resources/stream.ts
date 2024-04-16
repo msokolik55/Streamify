@@ -5,7 +5,7 @@ import path from "path";
 import prisma from "../client";
 import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
-import { MessageSelect, StreamDetailSelect, StreamSelect } from "./selects";
+import { StreamDetailSelect, StreamSelect } from "./selects";
 import { findByUsername } from "./user";
 
 /**

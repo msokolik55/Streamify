@@ -33,16 +33,19 @@ const UserProfilePage = () => {
 	const onSubmit = async (data: UserEditInputs) => {
 		logInfo(UserProfilePage.name, onSubmit.name, "Fetching");
 
+		const formData = new FormData();
+		formData.append("username", data.username);
+		formData.append("email", data.email);
+		if (data.picture && data.picture.length > 0) {
+			formData.append("picture", data.picture[0]);
+		}
+
 		try {
-			await axios.put(
-				`${apiUserUrl}/${data.id}`,
-				{
-					username: data.username,
-					email: data.email,
-					picture: data.picture,
+			await axios.put(`${apiUserUrl}/${data.id}`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
 				},
-				axiosConfig,
-			);
+			});
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
 			mutate(apiUserUrl);
@@ -166,24 +169,28 @@ const UserProfilePage = () => {
 						/>
 					</div>
 				</div>
-				{/* <div>
-					<FormLabel title="Picture" for="picture" required={true} />
+				<div>
+					<FormLabel title="Picture" for="picture" required={false} />
+					{user.picture && (
+						<img
+							src={`/uploads/${user.picture}`}
+							alt="Profile picture"
+							className="w-24"
+						/>
+					)}
 					<div className="mt-2">
 						<input
-							{...register("picture", {
-								required: true,
-							})}
+							{...register("picture")}
 							id="picture"
 							name="picture"
-							type="image"
-							required={true}
+							type="file"
+							accept="image/jpeg,image/png,image/gif"
 							className={`leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800 ${edit ? "" : "text-gray-400"}`}
 							aria-invalid={errors.picture ? "true" : "false"}
-							defaultValue={user.picture}
-							disabled={true}
+							disabled={!edit}
 						/>
 					</div>
-				</div> */}
+				</div>
 
 				{edit && (
 					<div className="flex flex-row gap-2">

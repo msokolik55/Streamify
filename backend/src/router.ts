@@ -3,6 +3,7 @@ import swaggerUi from "swagger-ui-express";
 
 import { login, message, password, stream, user } from "./resources";
 import { sendResponseError } from "./resources/response";
+import { upload } from "./upload";
 
 const router = express.Router();
 const swaggerDocument = require("./swagger.json");
@@ -32,7 +33,7 @@ router.get(userUrl, user.get);
 router.post(userUrl, user.create);
 
 router.get(`${userUrl}/${usernamePart}`, user.getByUsername);
-router.put(`${userUrl}/${idPart}`, user.update);
+router.put(`${userUrl}/${idPart}`, upload.single("picture"), user.update);
 router.delete(`${userUrl}/${usernamePart}`, user.deleteUser);
 
 router.patch(`${userUrl}/${usernamePart}/inc`, user.increaseCount);
