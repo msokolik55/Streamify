@@ -75,14 +75,14 @@ export const get = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
 	logInfo(req.path, create.name, "Method called");
 
-	const { username, email, picture, password } = req.body;
+	const { username, email, password } = req.body;
 
 	try {
 		const user = await prisma.user.create({
 			data: {
 				username,
 				email,
-				picture,
+				picture: req.file?.filename,
 				password: bcrypt.hashSync(password, 10),
 			},
 			select: UserSelect,

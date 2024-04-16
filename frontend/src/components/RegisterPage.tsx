@@ -8,7 +8,6 @@ import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
 import { logError, logInfo } from "../logger";
-import { axiosConfig } from "../models/fetcher";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
 import FormLabel from "./login_page/FormLabel";
@@ -27,17 +26,20 @@ const RegisterPage = () => {
 	const onSubmit = async (data: UserCreateInputs) => {
 		logInfo(RegisterPage.name, onSubmit.name, "Fetching");
 
+		const formData = new FormData();
+		formData.append("username", data.username);
+		formData.append("email", data.email);
+		if (data.picture && data.picture.length > 0) {
+			formData.append("picture", data.picture[0]);
+		}
+		formData.append("password", data.password);
+
 		try {
-			await axios.post(
-				apiUserUrl,
-				{
-					username: data.username,
-					email: data.email,
-					picture: data.picture,
-					password: data.password,
+			await axios.post(apiUserUrl, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
 				},
-				axiosConfig,
-			);
+			});
 
 			mutate(apiUserUrl);
 			setLoggedUserUsername(data.username);
@@ -108,22 +110,20 @@ const RegisterPage = () => {
 						/>
 					</div>
 				</div>
-				{/* <div>
-					<FormLabel title="Picture" for="picture" required={true} />
+				<div>
+					<FormLabel title="Picture" for="picture" required={false} />
 					<div className="mt-2">
 						<input
-							{...register("picture", {
-								required: true,
-							})}
+							{...register("picture")}
 							id="picture"
 							name="picture"
-							type="image"
-							required={true}
+							type="file"
+							accept="image/jpeg,image/png,image/gif"
 							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
 							aria-invalid={errors.picture ? "true" : "false"}
 						/>
 					</div>
-				</div> */}
+				</div>
 				<div>
 					<FormLabel
 						title="Password"

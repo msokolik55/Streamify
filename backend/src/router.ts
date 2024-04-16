@@ -30,7 +30,7 @@ router.get(swaggerUrl, swaggerUi.setup(swaggerDocument));
 //#region User
 
 router.get(userUrl, user.get);
-router.post(userUrl, user.create);
+router.post(userUrl, upload.single("picture"), user.create);
 
 router.get(`${userUrl}/${usernamePart}`, user.getByUsername);
 router.put(`${userUrl}/${idPart}`, upload.single("picture"), user.update);
