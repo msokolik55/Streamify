@@ -89,9 +89,6 @@ io.on("connection", (socket) => {
 
 setInterval(() => {
 	io.sockets.sockets.forEach((socket) => console.log(socket.data));
-	console.log("**********");
-	console.log(streamViewers);
-	console.log("**********");
 
 	const now = Date.now();
 	io.sockets.sockets.forEach((socket) => {

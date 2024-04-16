@@ -1,7 +1,9 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import ReactPlayer from "react-player";
+import { OnProgressProps } from "react-player/base";
 
 import { baseUrl } from "../env";
+import Duration from "./Duration";
 
 interface IVideoPlayerProps {
 	streamKey: string;
@@ -11,6 +13,7 @@ interface IControls {
 	url: string | null;
 	pip: boolean;
 	playing: boolean;
+	seeking: boolean;
 	controls: boolean;
 	light: boolean;
 	volume: number;
@@ -30,6 +33,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		url: null,
 		pip: false,
 		playing: true,
+		seeking: false,
 		controls: false,
 		light: false,
 		volume: 0.8,
@@ -42,6 +46,8 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	});
 
 	const [retryKey, setRetryKey] = useState(0);
+	const playerWrapperRef = useRef<HTMLDivElement>(null);
+	const reactPlayerRef = useRef<ReactPlayer>(null);
 
 	const hlsExtension = "index.m3u8";
 	const hlsUrl = `${baseUrl}:${qualities[qualityId].port}/${props.streamKey}/${hlsExtension}`;
@@ -52,29 +58,11 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		});
 	};
 
-	const handleStop = () => {
-		setControls((prev) => {
-			return { ...prev, url: null, playing: false };
-		});
-	};
-
-	const load = (url: string | null) => {
-		setControls((prev) => {
-			return { ...prev, url, played: 0, loaded: 0, pip: false };
-		});
-	};
-
-	const handleToggleControls = () => {
-		const url = controls.url;
-		setControls((prev) => {
-			return {
-				...prev,
-				controls: !controls.controls,
-				url: null,
-			};
-		});
-		load(url);
-	};
+	// const load = (url: string | null) => {
+	// 	setControls((prev) => {
+	// 		return { ...prev, url, played: 0, loaded: 0, pip: false };
+	// 	});
+	// };
 
 	const handleToggleLight = () => {
 		setControls((prev) => {
@@ -82,11 +70,11 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		});
 	};
 
-	const handleToggleLoop = () => {
-		setControls((prev) => {
-			return { ...prev, loop: !prev.loop };
-		});
-	};
+	// const handleToggleLoop = () => {
+	// 	setControls((prev) => {
+	// 		return { ...prev, loop: !prev.loop };
+	// 	});
+	// };
 
 	const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setControls((prev) => {
@@ -125,44 +113,73 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	};
 
 	const handleSeekChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const newPlayed = parseFloat(e.target.value);
 		setControls((prev) => {
-			return { ...prev, played: parseFloat(e.target.value) };
+			return { ...prev, played: newPlayed };
+		});
+		if (reactPlayerRef.current) {
+			reactPlayerRef.current.seekTo(newPlayed, "fraction");
+		}
+	};
+
+	const handleSeekMouseUp = (): void => {
+		setControls((prev) => {
+			return { ...prev, seeking: false };
 		});
 	};
 
-	// const handleSeekMouseUp = (e: ChangeEvent<HTMLInputElement>) => {
-	// 	setControls(prev => {return {...prev, seeking: false }});
-	// 	player.seekTo(parseFloat(e.target.value));
-	// };
-
-	// const handleProgress = (state) => {
-	// 	console.log("onProgress", state);
-	// 	// We only want to update time slider if we are not currently seeking
-	// 	if (!controls..seeking) {
-	// 		setControls(prev => state);
-	// 	}
-	// };
+	const handleProgress = (state: OnProgressProps) => {
+		console.log("onProgress", state);
+		// We only want to update time slider if we are not currently seeking
+		if (!controls.seeking) {
+			setControls((prev) => {
+				return { ...prev, played: state.played, loaded: state.loaded };
+			});
+		}
+	};
 
 	// const handleEnded = () => {
 	// 	console.log("onEnded");
 	// 	setControls(prev => {return {...prev,  playing: prev.loop }});
 	// };
 
-	// const handleDuration = (duration: number) => {
-	// 	console.log("onDuration", duration);
-	// 	setControls(prev => {return {...prev,  duration }});
-	// };
+	const handleDuration = (duration: number) => {
+		console.log("onDuration", duration);
+		setControls((prev) => {
+			return { ...prev, duration };
+		});
+	};
+
+	const handleClickFullscreen = () => {
+		if (!playerWrapperRef.current) return;
+
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+			return;
+		}
+
+		playerWrapperRef.current.requestFullscreen().catch((err) => {
+			alert(
+				`Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
+			);
+		});
+	};
+
+	console.log(controls.played);
 
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col" ref={playerWrapperRef}>
 			<div className="flex flex-row">
 				<ReactPlayer
 					key={retryKey}
+					ref={reactPlayerRef}
 					width="100%"
 					height="100%"
 					url={hlsUrl}
-					controls={true}
-					playing={true}
+					volume={controls.volume}
+					playing={controls.playing}
+					onProgress={handleProgress}
+					onDuration={handleDuration}
 				/>
 			</div>
 			<button onClick={() => setRetryKey((prev) => prev + 1)}>
@@ -173,13 +190,12 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					<tr>
 						<th>Controls</th>
 						<td>
-							<button onClick={handleStop}>Stop</button>
 							<button onClick={handlePlayPause}>
 								{controls.playing ? "Pause" : "Play"}
 							</button>
-							{/* <button onClick={handleClickFullscreen}>
+							<button onClick={handleClickFullscreen}>
 								Fullscreen
-							</button> */}
+							</button>
 						</td>
 					</tr>
 					{/* <tr>
@@ -207,7 +223,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 								value={controls.played}
 								onMouseDown={handleSeekMouseDown}
 								onChange={handleSeekChange}
-								// onMouseUp={handleSeekMouseUp}
+								onMouseUp={handleSeekMouseUp}
 							/>
 						</td>
 					</tr>
@@ -226,20 +242,6 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					</tr>
 					<tr>
 						<th>
-							<label htmlFor="controls">Controls</label>
-						</th>
-						<td>
-							<input
-								id="controls"
-								type="checkbox"
-								checked={controls.controls}
-								onChange={handleToggleControls}
-							/>
-							<em>&nbsp; Requires player reload</em>
-						</td>
-					</tr>
-					<tr>
-						<th>
 							<label htmlFor="muted">Muted</label>
 						</th>
 						<td>
@@ -251,7 +253,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 							/>
 						</td>
 					</tr>
-					<tr>
+					{/* <tr>
 						<th>
 							<label htmlFor="loop">Loop</label>
 						</th>
@@ -263,7 +265,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 								onChange={handleToggleLoop}
 							/>
 						</td>
-					</tr>
+					</tr> */}
 					<tr>
 						<th>
 							<label htmlFor="light">Light mode</label>
@@ -287,6 +289,33 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 						<th>Loaded</th>
 						<td>
 							<progress max={1} value={controls.loaded} />
+						</td>
+					</tr>
+					<tr>
+						<th>duration</th>
+						<td>
+							<Duration seconds={controls.duration} />
+						</td>
+					</tr>
+					<tr>
+						<th>elapsed</th>
+						<td>
+							<Duration
+								seconds={controls.duration * controls.played}
+							/>
+						</td>
+					</tr>
+					<tr>
+						<th>remaining</th>
+						<td>
+							<Duration
+								seconds={
+									reactPlayerRef.current
+										?.getInternalPlayer()
+										?.getDuration() ||
+									0 * (1 - controls.played)
+								}
+							/>
 						</td>
 					</tr>
 				</tbody>
