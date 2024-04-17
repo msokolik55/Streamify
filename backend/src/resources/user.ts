@@ -65,7 +65,7 @@ export const get = async (req: Request, res: Response) => {
 
 		return sendResponseSuccess(res, Status.OK, users);
 	} catch (error) {
-		logError(req.path, get.name, "Prisma findMany", live);
+		logError(req.path, get.name, "Prisma findMany", error as string);
 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
 };
