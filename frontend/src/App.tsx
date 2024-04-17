@@ -11,6 +11,7 @@ import RecordingPage from "./components/RecordingPage";
 import RegisterPage from "./components/RegisterPage";
 import StreamPage from "./components/StreamPage";
 import ErrorPage from "./components/errors/ErrorPage";
+import LoginPage from "./components/login_page/LoginPage";
 import PasswordPage from "./components/user_page/PasswordPage";
 import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
@@ -19,6 +20,7 @@ import VideoPage from "./components/user_page/VideoPage";
 import { apiUrl } from "./env";
 import {
 	livePath,
+	loginPath,
 	profilePath,
 	registerPath,
 	streamPath,
@@ -68,6 +70,7 @@ export const App = () => {
 							element={<StreamPage />}
 						/>
 						<Route path={registerPath} element={<RegisterPage />} />
+						<Route path={loginPath} element={<LoginPage />} />
 						<Route path={userPath} element={<UserPage />}>
 							<Route
 								path={userProfilePath}

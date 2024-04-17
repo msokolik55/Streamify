@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../../atom";
@@ -10,10 +10,11 @@ import { login } from "../../auth";
 import { logError, logInfo } from "../../logger";
 // import { axiosConfig } from "../../models/fetcher";
 import { LoginInputs } from "../../models/form";
-import { registerPath } from "../../urls";
+import { registerPath, userProfilePath } from "../../urls";
 import FormLabel from "./FormLabel";
 
 const LoginPage = () => {
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -36,6 +37,7 @@ const LoginPage = () => {
 
 			if (loginSuccess) {
 				setLoggedUserUsername(data.username);
+				navigate(userProfilePath);
 			} else {
 				setErrorMessage(loginError);
 			}
