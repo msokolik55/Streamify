@@ -4,16 +4,16 @@ import { useRecoilValue } from "recoil";
 import useSWR from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
+import MessageForm from "../components/MessageForm";
+import VideoDetailBox from "../components/VideoDetailBox";
+import VideoPlayer from "../components/VideoPlayer";
+import MainWindowError from "../components/errors/MainWindowError";
+import { getActualStream } from "../components/streamHelpers";
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
 import { IUser } from "../models/IUser";
 import fetcher from "../models/fetcher";
 import { apiStreamUrl, apiUserUrl, messagePath } from "../urls";
-import MessageForm from "./MessageForm";
-import VideoDetailBox from "./VideoDetailBox";
-import VideoPlayer from "./VideoPlayer";
-import MainWindowError from "./errors/MainWindowError";
-import { getActualStream } from "./streamHelpers";
 
 const StreamPage = () => {
 	const loggedUsername = useRecoilValue(loggedUserUsernameAtom);

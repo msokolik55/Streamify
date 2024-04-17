@@ -7,14 +7,14 @@ import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import MainWindowError from "../../components/errors/MainWindowError";
+import FormLabel from "../../components/login_page/FormLabel";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
 import { apiLiveUrl, apiUserUrl, userPath } from "../../urls";
-import MainWindowError from "../errors/MainWindowError";
-import FormLabel from "../login_page/FormLabel";
 
 const UserProfilePage = () => {
 	const navigate = useNavigate();

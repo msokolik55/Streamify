@@ -2,13 +2,13 @@ import { Helmet } from "react-helmet";
 import { Link, useParams } from "react-router-dom";
 import useSWR from "swr";
 
+import ProfilePicture from "../components/ProfilePicture";
+import StreamCard from "../components/StreamCard";
+import MainWindowError from "../components/errors/MainWindowError";
 import { IResponseData } from "../models/IResponseData";
 import { IUser } from "../models/IUser";
 import fetcher from "../models/fetcher";
 import { apiUserUrl, streamPath } from "../urls";
-import ProfilePicture from "./ProfilePicture";
-import StreamCard from "./StreamCard";
-import MainWindowError from "./errors/MainWindowError";
 
 const ProfilePage = () => {
 	const { username } = useParams();

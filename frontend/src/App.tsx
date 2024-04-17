@@ -5,19 +5,19 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { isDarkModeAtom, loggedUserUsernameAtom } from "./atom";
-import MainPage from "./components/MainPage";
-import ProfilePage from "./components/ProfilePage";
-import RecordingPage from "./components/RecordingPage";
-import RegisterPage from "./components/RegisterPage";
-import StreamPage from "./components/StreamPage";
 import ErrorPage from "./components/errors/ErrorPage";
-import LoginPage from "./components/login_page/LoginPage";
-import PasswordPage from "./components/user_page/PasswordPage";
-import StreamKeyPage from "./components/user_page/StreamKeyPage";
-import UserPage from "./components/user_page/UserPage";
-import UserProfilePage from "./components/user_page/UserProfilePage";
-import VideoPage from "./components/user_page/VideoPage";
 import { apiUrl } from "./env";
+import LoginPage from "./pages/LoginPage";
+import MainPage from "./pages/MainPage";
+import ProfilePage from "./pages/ProfilePage";
+import RecordingPage from "./pages/RecordingPage";
+import RegisterPage from "./pages/RegisterPage";
+import StreamPage from "./pages/StreamPage";
+import PasswordPage from "./pages/account/PasswordPage";
+import StreamKeyPage from "./pages/account/StreamKeyPage";
+import UserPage from "./pages/account/UserPage";
+import UserProfilePage from "./pages/account/UserProfilePage";
+import VideoPage from "./pages/account/VideoPage";
 import { socket } from "./socket";
 import {
 	livePath,

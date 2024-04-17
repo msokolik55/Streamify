@@ -3,12 +3,12 @@ import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 
+import VideoDetailBox from "../components/VideoDetailBox";
+import MainWindowError from "../components/errors/MainWindowError";
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
 import fetcher from "../models/fetcher";
 import { apiStreamUrl } from "../urls";
-import VideoDetailBox from "./VideoDetailBox";
-import MainWindowError from "./errors/MainWindowError";
 
 const RecordingPage = () => {
 	const { streamId } = useParams();

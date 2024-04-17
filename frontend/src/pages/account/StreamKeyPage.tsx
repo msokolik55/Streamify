@@ -5,6 +5,10 @@ import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import VideoPlayer from "../../components/VideoPlayer";
+import MainWindowError from "../../components/errors/MainWindowError";
+import FormLabel from "../../components/login_page/FormLabel";
+import { getActualStream } from "../../components/streamHelpers";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
@@ -17,10 +21,6 @@ import {
 	apiUserUrl,
 	messagePath,
 } from "../../urls";
-import VideoPlayer from "../VideoPlayer";
-import MainWindowError from "../errors/MainWindowError";
-import FormLabel from "../login_page/FormLabel";
-import { getActualStream } from "../streamHelpers";
 
 const StreamKeyPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);

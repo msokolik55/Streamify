@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet";
 import { Outlet } from "react-router-dom";
 
+import HeaderLink from "../../components/user_page/HeaderLink";
 import {
 	userPasswordPath,
 	userProfilePath,
 	userStreamKeyPath,
 	userVideosPath,
 } from "../../urls";
-import HeaderLink from "./HeaderLink";
 
 const UserPage = () => {
 	return (

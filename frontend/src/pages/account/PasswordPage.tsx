@@ -6,11 +6,11 @@ import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import FormLabel from "../../components/login_page/FormLabel";
 import { logError, logInfo } from "../../logger";
 import { axiosConfig } from "../../models/fetcher";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
-import FormLabel from "../login_page/FormLabel";
 
 const PasswordPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);

@@ -5,16 +5,16 @@ import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import StreamCard from "../../components/StreamCard";
+import MainWindowError from "../../components/errors/MainWindowError";
+import DeleteDialog from "../../components/user_page/DeleteDialog";
+import EditDialog from "../../components/user_page/EditDialog";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IStream } from "../../models/IStream";
 import { IUser } from "../../models/IUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
-import StreamCard from "../StreamCard";
-import MainWindowError from "../errors/MainWindowError";
-import DeleteDialog from "./DeleteDialog";
-import EditDialog from "./EditDialog";
 
 const VideoPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);

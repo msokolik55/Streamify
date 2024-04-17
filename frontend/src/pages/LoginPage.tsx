@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import { loggedUserUsernameAtom } from "../../atom";
-import { login } from "../../auth";
-import { logError, logInfo } from "../../logger";
+import { loggedUserUsernameAtom } from "../atom";
+import { login } from "../auth";
+import FormLabel from "../components/login_page/FormLabel";
+import { logError, logInfo } from "../logger";
 // import { axiosConfig } from "../../models/fetcher";
-import { LoginInputs } from "../../models/form";
-import { registerPath, userProfilePath } from "../../urls";
-import FormLabel from "./FormLabel";
+import { LoginInputs } from "../models/form";
+import { registerPath, userProfilePath } from "../urls";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
