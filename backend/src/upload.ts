@@ -3,19 +3,19 @@ import fs from "fs";
 import multer from "multer";
 
 const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
+	destination: (_req, _file, cb) => {
 		const uploadFolder = "uploads";
 		if (!fs.existsSync(uploadFolder)) {
 			fs.mkdirSync(uploadFolder);
 		}
 		cb(null, uploadFolder);
 	},
-	filename: (req, file, cb) => {
+	filename: (_req, file, cb) => {
 		cb(null, `${randomUUID()}-${file.originalname}`);
 	},
 });
 
-const fileFilter = (req: any, file: any, cb: any) => {
+const fileFilter = (_req: any, file: any, cb: any) => {
 	for (let i = 0; i < file.length; i++) {
 		console.log(file[i]);
 

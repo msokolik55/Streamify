@@ -4,6 +4,11 @@
 		"outDir": "dist",
 		"strict": true,
 		"lib": ["esnext", "dom"],
-		"esModuleInterop": true
+		"esModuleInterop": true,
+
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true
 	}
 }

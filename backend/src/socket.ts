@@ -1,6 +1,7 @@
 import { Server, Socket } from "socket.io";
 
 import { logInfo } from "./logger";
+import { updateMaxCount } from "./resources/stream";
 
 type SocketData = {
 	streamKey: string;
@@ -11,7 +12,15 @@ const streamViewers: { [streamId: string]: number } = {};
 const alreadyConnected: { [browserId: string]: number } = {};
 let connectedSockets: Socket[] = [];
 
-const disconnectUser = (io: Server, socket: Socket) => {
+const emitUpdatedCounts = (io: Server, socket: Socket) => {
+	io.emit(
+		`viewer_count_${socket.data.streamKey}`,
+		streamViewers[socket.data.streamKey],
+	);
+	io.emit("viewer_counts", streamViewers);
+};
+
+const disconnectUser = async (io: Server, socket: Socket) => {
 	alreadyConnected[socket.data.browserId]--;
 	if (alreadyConnected[socket.data.browserId] > 0) {
 		return;
@@ -24,11 +33,12 @@ const disconnectUser = (io: Server, socket: Socket) => {
 		streamViewers[socket.data.streamKey] - 1,
 		0,
 	);
-
-	io.emit(
-		`viewer_count_${socket.data.streamKey}`,
+	await updateMaxCount(
+		socket.data.streamKey,
 		streamViewers[socket.data.streamKey],
 	);
+
+	emitUpdatedCounts(io, socket);
 	socket.disconnect();
 };
 
@@ -41,22 +51,20 @@ export const registerCounter = (io: Server, socket: Socket) => {
 
 	logInfo("io", "connection", "A user connected");
 
-	socket.on("join_stream", (data: SocketData) => {
+	socket.on("join_stream", async (data: SocketData) => {
 		if (!alreadyConnected[data.browserId]) {
 			alreadyConnected[data.browserId] = 0;
 			if (!streamViewers[data.streamKey]) {
 				streamViewers[data.streamKey] = 0;
 			}
 			streamViewers[data.streamKey]++;
+			await updateMaxCount(data.streamKey, streamViewers[data.streamKey]);
 		}
 		alreadyConnected[data.browserId]++;
 		connectedSockets.push(socket);
 
 		socket.data = data;
-		io.emit(
-			`viewer_count_${data.streamKey}`,
-			streamViewers[data.streamKey],
-		);
+		emitUpdatedCounts(io, socket);
 	});
 
 	socket.on("heartbeat", (data: { heartbeat: number }) => {

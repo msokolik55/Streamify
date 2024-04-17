@@ -15,7 +15,6 @@ model User {
   picture   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  count     Int      @default(0)
   streamKey String?  @unique
 
   streams  Stream[]
@@ -26,6 +25,7 @@ model Stream {
   id          String   @id @default(uuid())
   name        String
   path        String   @unique
+  maxCount    Int      @default(0)
   ended       Boolean  @default(false)
   description String?
   createdAt   DateTime @default(now())

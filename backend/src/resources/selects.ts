@@ -1,5 +1,3 @@
-import { password } from ".";
-
 export const UserSelect = {
 	id: true,
 	username: true,
@@ -7,14 +5,15 @@ export const UserSelect = {
 	picture: true,
 	createdAt: true,
 	updatedAt: true,
-	count: true,
 	streamKey: true,
+	streams: true,
 };
 
 export const StreamSelect = {
 	id: true,
 	name: true,
 	path: true,
+	maxCount: true,
 	ended: true,
 	description: true,
 	createdAt: true,
@@ -32,6 +31,7 @@ const StreamInfoSelect = {
 	createdAt: true,
 	name: true,
 	path: true,
+	maxCount: true,
 	ended: true,
 	description: true,
 	messages: true,

@@ -5,7 +5,6 @@ export interface IUser {
 	username: string;
 	picture: string;
 	email: string;
-	count: number;
 	streamKey: string | null;
 	streams: IStream[];
 }

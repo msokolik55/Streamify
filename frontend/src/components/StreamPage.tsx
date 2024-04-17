@@ -12,7 +12,6 @@ import { apiStreamUrl, apiUserUrl, messagePath } from "../urls";
 import MessageForm from "./MessageForm";
 import VideoDetailBox from "./VideoDetailBox";
 import VideoPlayer from "./VideoPlayer";
-import ViewerCounter from "./ViewerCounter";
 import MainWindowError from "./errors/MainWindowError";
 import { getActualStream } from "./streamHelpers";
 
@@ -64,7 +63,6 @@ const StreamPage = () => {
 			<div className="flex flex-row gap-1">
 				<div className="flex-1">
 					<VideoPlayer streamKey={user.streamKey} />
-					<ViewerCounter streamKey={user.streamKey} />
 				</div>
 
 				<div className="flex flex-col gap-2 justify-between">

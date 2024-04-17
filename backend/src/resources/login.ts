@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
 
-export const login = (req: Request, res: Response) => {
+export const login = (_req: Request, res: Response) => {
 	return sendResponseSuccess(res, Status.OK, true);
 };
 

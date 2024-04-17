@@ -198,10 +198,6 @@ export const endStream = async (req: Request, res: Response) => {
 };
 
 /**
- * Get messages by stream id
- */
-
-/**
  * Return messages with a specific stream id
  */
 export const getMessages = async (req: Request, res: Response) => {
@@ -228,5 +224,32 @@ export const getMessages = async (req: Request, res: Response) => {
 	} catch (error) {
 		logError(req.path, getMessages.name, "Prisma find", streamPath);
 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
+};
+
+export const updateMaxCount = async (streamKey: string, count: number) => {
+	try {
+		const oldStream = await prisma.stream.findUnique({
+			where: {
+				path: streamKey,
+			},
+			select: {
+				maxCount: true,
+			},
+		});
+
+		const newCount = Math.max(oldStream?.maxCount ?? 0, count);
+		await prisma.stream.update({
+			where: {
+				path: streamKey,
+			},
+			data: {
+				maxCount: newCount,
+			},
+		});
+
+		logInfo("", updateMaxCount.name, `Count updated to ${count}`);
+	} catch (error) {
+		logError("", getMessages.name, "Prisma update", streamKey);
 	}
 };

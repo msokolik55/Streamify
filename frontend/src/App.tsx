@@ -18,6 +18,7 @@ import UserPage from "./components/user_page/UserPage";
 import UserProfilePage from "./components/user_page/UserProfilePage";
 import VideoPage from "./components/user_page/VideoPage";
 import { apiUrl } from "./env";
+import { socket } from "./socket";
 import {
 	livePath,
 	loginPath,
@@ -47,6 +48,14 @@ export const App = () => {
 			const username = res.data.data.passport.user;
 			setLoggedUsername(username);
 		}).catch(() => {});
+	}, []);
+
+	useEffect(() => {
+		socket.connect();
+
+		return () => {
+			socket.disconnect();
+		};
 	}, []);
 
 	return (

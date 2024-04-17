@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { socket } from "../socket";
+import Counter from "./Counter";
 
 interface ViewerCounterProps {
 	streamKey: string;
+	username: string | undefined;
 }
 
 const ViewerCounter = (props: ViewerCounterProps) => {
 	const [viewerCount, setViewerCount] = useState(0);
-	// const [lastHeartbeat, setLastHeartbeat] = useState(Date.now());
 
 	const getBrowserId = () => {
 		const browserId = localStorage.getItem("browserId");
@@ -23,25 +24,12 @@ const ViewerCounter = (props: ViewerCounterProps) => {
 	};
 
 	useEffect(() => {
-		socket.connect();
+		socket.emit("join_stream", {
+			streamKey: props.streamKey,
+			heartbeat: Date.now(),
+			browserId: getBrowserId(),
+		});
 
-		return () => {
-			socket.disconnect();
-		};
-	}, []);
-
-	useEffect(() => {
-		console.log("*****************************************");
-
-		const sendJoinStream = () => {
-			socket.emit("join_stream", {
-				streamKey: props.streamKey,
-				heartbeat: Date.now(),
-				browserId: getBrowserId(),
-			});
-		};
-
-		sendJoinStream();
 		socket.on(`viewer_count_${props.streamKey}`, (count: number) => {
 			setViewerCount(count);
 		});
@@ -57,11 +45,7 @@ const ViewerCounter = (props: ViewerCounterProps) => {
 		};
 	}, [props.streamKey]);
 
-	return (
-		<div>
-			<h1>Current Viewers: {viewerCount}</h1>
-		</div>
-	);
+	return <Counter count={viewerCount} />;
 };
 
 export default ViewerCounter;

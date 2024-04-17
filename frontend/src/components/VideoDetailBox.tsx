@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { IStream } from "../models/IStream";
 import { IUser } from "../models/IUser";
 import { profilePath } from "../urls";
-import Counter from "./Counter";
 import ProfilePicture from "./ProfilePicture";
+import ViewerCounter from "./ViewerCounter";
 
 type VideoDetailBoxProps = {
 	stream: IStream;
@@ -27,7 +27,12 @@ const VideoDetailBox = (props: VideoDetailBoxProps) => {
 				</div>
 				<div className="flex flex-row justify-between ">
 					<h2 className="font-semibold">{props.stream.name}</h2>
-					{props.showCounter && <Counter count={props.user.count} />}
+					{props.showCounter && props.user.streamKey && (
+						<ViewerCounter
+							streamKey={props.user.streamKey}
+							username={props.user.username}
+						/>
+					)}
 				</div>
 				<div className="flex flex-row justify-between ">
 					<p>{props.stream.description}</p>

@@ -8,6 +8,7 @@ export interface IStream {
 	createdAt: string;
 	updatedAt: string;
 	user: IUser;
+	maxCount: number;
 	ended: boolean;
 	description: string;
 	messages: IMessage[];
