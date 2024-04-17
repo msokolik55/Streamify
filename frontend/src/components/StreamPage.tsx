@@ -1,11 +1,9 @@
-import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import useSWR from "swr";
 
-import { shiftUserUsernames } from "../App";
-import { loggedUserUsernameAtom, userUsernamesAtom } from "../atom";
+import { loggedUserUsernameAtom } from "../atom";
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
 import { IUser } from "../models/IUser";
@@ -33,14 +31,6 @@ const StreamPage = () => {
 		Error
 	>(`${apiStreamUrl}/${user?.streamKey}${messagePath}`, fetcher);
 	const stream = dataMessages?.data;
-
-	const setUserUsernames = useSetRecoilState(userUsernamesAtom);
-	useEffect(() => {
-		if (!username || username === "") return;
-		shiftUserUsernames(setUserUsernames, username);
-
-		return () => shiftUserUsernames(setUserUsernames, "");
-	}, []);
 
 	if (error) {
 		return (

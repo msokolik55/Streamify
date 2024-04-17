@@ -1,11 +1,9 @@
-// import axios from "axios";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { SetterOrUpdater, useRecoilValue } from "recoil";
-import { useSWRConfig } from "swr";
+import { useRecoilValue } from "recoil";
 
-import { isDarkModeAtom, userUsernames, userUsernamesAtom } from "./atom";
+import { isDarkModeAtom } from "./atom";
 import MainPage from "./components/MainPage";
 import ProfilePage from "./components/ProfilePage";
 import RecordingPage from "./components/RecordingPage";
@@ -17,10 +15,7 @@ import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
 import UserProfilePage from "./components/user_page/UserProfilePage";
 import VideoPage from "./components/user_page/VideoPage";
-// import { logError, logInfo } from "./logger";
-// import { axiosConfig } from "./models/fetcher";
 import {
-	apiUserUrl,
 	livePath,
 	profilePath,
 	registerPath,
@@ -32,55 +27,12 @@ import {
 	userVideosPath,
 } from "./urls";
 
-export const shiftUserUsernames = (
-	setUserUsernames: SetterOrUpdater<userUsernames>,
-	id: string,
-) => {
-	setUserUsernames((oldIds) => {
-		if (id === oldIds.curr) return oldIds;
-
-		return { old: oldIds.curr, curr: id };
-	});
-};
-
 export const App = () => {
-	const userIds = useRecoilValue(userUsernamesAtom);
 	const isDarkMode = useRecoilValue(isDarkModeAtom);
 
 	useEffect(() => {
 		localStorage.setItem("darkMode", isDarkMode ? "true" : "false");
 	}, [isDarkMode]);
-
-	const { mutate } = useSWRConfig();
-
-	useEffect(() => {
-		// const patchUser = async (userUsername: string, operation: string) => {
-		// 	try {
-		// 		await axios.patch(
-		// 			`${apiUserUrl}/${userUsername}/${operation}`,
-		// 			{},
-		// 			axiosConfig,
-		// 		);
-		// 	} catch (error) {
-		// 		logError(
-		// 			App.name,
-		// 			useEffect.name,
-		// 			`Error patching user ${userUsername}:`,
-		// 			error,
-		// 		);
-		// 		// throw error;
-		// 	}
-		// };
-		// const update = async () => {
-		// 	logInfo(App.name, useEffect.name, "Fetching", "dec");
-		// 	if (userIds.old) await patchUser(userIds.old, "dec");
-
-		// 	logInfo(App.name, useEffect.name, "Fetching", "inc");
-		// 	if (userIds.curr) await patchUser(userIds.curr, "inc");
-		// };
-		// update();
-		mutate(`${apiUserUrl}${userIds.curr}`);
-	}, [userIds]);
 
 	return (
 		<div className={isDarkMode ? "dark" : ""}>

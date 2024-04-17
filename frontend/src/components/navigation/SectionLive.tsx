@@ -1,9 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
 
-import { shiftUserUsernames } from "../../App";
-import { userUsernamesAtom } from "../../atom";
 import { IResponseDatas } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
 import fetcher from "../../models/fetcher";
@@ -19,8 +16,6 @@ const SectionLive = () => {
 		fetcher,
 	);
 	const users = data?.data;
-
-	const setUserIds = useSetRecoilState(userUsernamesAtom);
 
 	if (error) return <ErrorBlock error={error} />;
 
@@ -38,9 +33,6 @@ const SectionLive = () => {
 					<NavLink
 						key={`li-${user.username}`}
 						to={`${livePath}/${user.username}`}
-						onClick={() =>
-							shiftUserUsernames(setUserIds, user.username)
-						}
 						className={({ isActive }) =>
 							`${
 								isActive

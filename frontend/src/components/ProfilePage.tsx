@@ -1,11 +1,7 @@
-import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Link, useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
 
-import { shiftUserUsernames } from "../App";
-import { userUsernamesAtom } from "../atom";
 import { IResponseData } from "../models/IResponseData";
 import { IUser } from "../models/IUser";
 import fetcher from "../models/fetcher";
@@ -22,14 +18,6 @@ const ProfilePage = () => {
 		fetcher,
 	);
 	const user = data?.data;
-
-	const setUserUsernames = useSetRecoilState(userUsernamesAtom);
-	useEffect(() => {
-		if (!username || username === "") return;
-		shiftUserUsernames(setUserUsernames, username);
-
-		return () => shiftUserUsernames(setUserUsernames, "");
-	}, []);
 
 	if (error) {
 		return <MainWindowError message={error.message} />;
