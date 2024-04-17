@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
@@ -17,6 +17,8 @@ import MainWindowError from "../errors/MainWindowError";
 import FormLabel from "../login_page/FormLabel";
 
 const UserProfilePage = () => {
+	const navigate = useNavigate();
+
 	const [loggedUserUsername, setLoggedUserUsername] = useRecoilState(
 		loggedUserUsernameAtom,
 	);
@@ -76,9 +78,10 @@ const UserProfilePage = () => {
 			mutate(apiUserUrl);
 			mutate(apiLiveUrl);
 
-			if (response.status === 200) {
+			if (response.status === 204) {
 				setLoggedUserUsername(undefined);
 				setDeleted(true);
+				navigate(userPath);
 			}
 		} catch (error) {
 			logError(
