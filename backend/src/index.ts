@@ -14,7 +14,7 @@ const api = express();
 const httpServer = createServer(api);
 
 const corsPolicy = {
-	origin: "http://localhost:3000",
+	origin: "http://localhost:3000", // TODO Production: Change to frontend URL
 	methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 	credentials: true,
 };
@@ -42,7 +42,7 @@ api.use(
 		secret: "session_secret",
 		resave: false,
 		saveUninitialized: false,
-		cookie: { secure: false },
+		cookie: { secure: false }, // TODO Production: Change to true
 	}),
 );
 api.use(passport.initialize());
