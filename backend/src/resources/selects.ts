@@ -1,3 +1,5 @@
+import { password } from ".";
+
 export const UserSelect = {
 	id: true,
 	username: true,

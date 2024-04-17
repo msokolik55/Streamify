@@ -1,8 +1,13 @@
 import express, { Request, Response } from "express";
+import passport from "passport";
 import swaggerUi from "swagger-ui-express";
 
 import { login, message, password, stream, user } from "./resources";
-import { sendResponseError } from "./resources/response";
+import {
+	Status,
+	sendResponseError,
+	sendResponseSuccess,
+} from "./resources/response";
 import { upload } from "./upload";
 
 const router = express.Router();
@@ -12,6 +17,7 @@ const swaggerUrl = "/swagger";
 const userUrl = "/users";
 const liveUrl = "/live";
 const loginUrl = "/login";
+const logoutUrl = "/logout";
 const streamUrl = "/streams";
 const passwordUrl = "/password";
 const messageUrl = "/messages";
@@ -45,7 +51,15 @@ router.patch(`${userUrl}${liveUrl}/${idPart}`, user.updateLive);
 
 //#region Login
 
-router.post(loginUrl, login.checkLogin);
+router.post(
+	loginUrl,
+	passport.authenticate("local", {
+		failureRedirect: "/users/profile",
+		failureFlash: true,
+	}),
+	login.login,
+);
+router.get(logoutUrl, login.logout);
 
 //#endregion Login
 

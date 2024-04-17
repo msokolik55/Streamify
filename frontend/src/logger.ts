@@ -3,16 +3,22 @@ const getLocaleTimeString = () => {
 	return current.toLocaleTimeString();
 };
 
+enum LogLevel {
+	INFO = "INF",
+	ERROR = "ERR",
+}
+
 const log = (
 	componentName: string,
 	functionName: string,
 	message: string,
 	args: any = undefined,
 	logFunction: (...data: any[]) => void,
+	level: LogLevel,
 ) => {
 	const argsMessage = args ? ` ${args}` : "";
 	logFunction(
-		`${getLocaleTimeString()}: ${componentName}.${functionName}: ${message}${argsMessage}`,
+		`[${getLocaleTimeString()}] [${level}] [${componentName}] [${functionName}] ${message}${argsMessage}`,
 	);
 };
 
@@ -22,7 +28,7 @@ export const logInfo = (
 	message: string,
 	args: any = undefined,
 ) => {
-	log(componentName, functionName, message, args, console.log);
+	log(componentName, functionName, message, args, console.log, LogLevel.INFO);
 };
 
 export const logError = (
@@ -31,5 +37,12 @@ export const logError = (
 	message: string,
 	args: any = undefined,
 ) => {
-	log(componentName, functionName, message, args, console.error);
+	log(
+		componentName,
+		functionName,
+		message,
+		args,
+		console.error,
+		LogLevel.ERROR,
+	);
 };

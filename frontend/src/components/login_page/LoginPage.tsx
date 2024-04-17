@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import { login } from "../../auth";
 import { logError, logInfo } from "../../logger";
-import { axiosConfig } from "../../models/fetcher";
+// import { axiosConfig } from "../../models/fetcher";
 import { LoginInputs } from "../../models/form";
-import { apiLoginUrl, registerPath } from "../../urls";
+import { registerPath } from "../../urls";
 import FormLabel from "./FormLabel";
 
 const LoginPage = () => {
@@ -26,7 +27,7 @@ const LoginPage = () => {
 		logInfo(LoginPage.name, onSubmit.name, "Fetching");
 
 		try {
-			const response = await axios.post(apiLoginUrl, data, axiosConfig);
+			const response = await login(data);
 
 			const resData = response.data;
 
