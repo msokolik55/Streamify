@@ -1,9 +1,10 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { isDarkModeAtom } from "./atom";
+import { isDarkModeAtom, loggedUserUsernameAtom } from "./atom";
 import MainPage from "./components/MainPage";
 import ProfilePage from "./components/ProfilePage";
 import RecordingPage from "./components/RecordingPage";
@@ -15,6 +16,7 @@ import StreamKeyPage from "./components/user_page/StreamKeyPage";
 import UserPage from "./components/user_page/UserPage";
 import UserProfilePage from "./components/user_page/UserProfilePage";
 import VideoPage from "./components/user_page/VideoPage";
+import { apiUrl } from "./env";
 import {
 	livePath,
 	profilePath,
@@ -33,6 +35,17 @@ export const App = () => {
 	useEffect(() => {
 		localStorage.setItem("darkMode", isDarkMode ? "true" : "false");
 	}, [isDarkMode]);
+
+	const setLoggedUsername = useSetRecoilState(loggedUserUsernameAtom);
+	useEffect(() => {
+		const res = axios.get(`${apiUrl}/authenticated`, {
+			withCredentials: true,
+		});
+		res.then(async (res) => {
+			const username = res.data.data.passport.user;
+			setLoggedUsername(username);
+		}).catch(() => {});
+	}, []);
 
 	return (
 		<div className={isDarkMode ? "dark" : ""}>

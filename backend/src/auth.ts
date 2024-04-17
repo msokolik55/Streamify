@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import prisma from "./client";
-import { getPassword } from "./resources/user";
+import { findByUsername, getPassword } from "./resources/user";
 
 export const authenticate = (passport: any) => {
 	passport.use(
@@ -32,16 +31,15 @@ export const authenticate = (passport: any) => {
 
 export const serializeUser = (passport: any) => {
 	passport.serializeUser((user: any, done: any) => {
-		done(null, user.id);
+		console.log(user);
+		done(null, user.username);
 	});
 };
 
 export const deserializeUser = (passport: any) => {
-	passport.deserializeUser(async (id: string, done: any) => {
+	passport.deserializeUser(async (username: string, done: any) => {
 		try {
-			const user = await prisma.user.findUnique({
-				where: { id },
-			});
+			const user = await findByUsername(username);
 			done(null, user);
 		} catch (error) {
 			done(error);

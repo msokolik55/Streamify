@@ -22,7 +22,7 @@ export const getPassword = async (username: string) => {
 			username,
 		},
 		select: {
-			id: true,
+			username: true,
 			password: true,
 		},
 	});

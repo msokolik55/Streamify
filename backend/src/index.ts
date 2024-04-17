@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
@@ -21,6 +22,7 @@ const corsPolicy = {
 
 api.use(express.json());
 api.use(cors(corsPolicy));
+api.use(cookieParser("session_secret"));
 
 //#region Socket
 
@@ -42,7 +44,10 @@ api.use(
 		secret: "session_secret",
 		resave: false,
 		saveUninitialized: false,
-		cookie: { secure: false }, // TODO Production: Change to true
+		cookie: {
+			secure: false, // TODO Production: Change to true
+			maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+		},
 	}),
 );
 api.use(passport.initialize());

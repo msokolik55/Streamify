@@ -3,11 +3,7 @@ import passport from "passport";
 import swaggerUi from "swagger-ui-express";
 
 import { login, message, password, stream, user } from "./resources";
-import {
-	Status,
-	sendResponseError,
-	sendResponseSuccess,
-} from "./resources/response";
+import { sendResponseError } from "./resources/response";
 import { upload } from "./upload";
 
 const router = express.Router();
@@ -60,6 +56,7 @@ router.post(
 	login.login,
 );
 router.get(logoutUrl, login.logout);
+router.get("/authenticated", login.isAuthenticated);
 
 //#endregion Login
 
