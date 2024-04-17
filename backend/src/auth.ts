@@ -46,5 +46,3 @@ export const deserializeUser = (passport: any) => {
 		}
 	});
 };
-
-//#endregion Passport

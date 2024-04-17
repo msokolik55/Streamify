@@ -19,10 +19,11 @@ const corsPolicy = {
 	methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 	credentials: true,
 };
+const secret = "session_secret";
 
 api.use(express.json());
 api.use(cors(corsPolicy));
-api.use(cookieParser("session_secret"));
+api.use(cookieParser(secret));
 
 //#region Socket
 
@@ -41,7 +42,7 @@ io.on("connection", (socket) => {
 api.use(express.urlencoded({ extended: true }));
 api.use(
 	session({
-		secret: "session_secret",
+		secret: secret,
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
