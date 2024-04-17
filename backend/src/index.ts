@@ -1,5 +1,6 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import { createServer } from "http";
@@ -14,8 +15,15 @@ import { checkHeartbeat, registerCounter } from "./socket";
 const api = express();
 const httpServer = createServer(api);
 
+dotenv.config({
+	path:
+		process.env.NODE_ENV === "production"
+			? ".env.production"
+			: ".env.development",
+});
+
 const corsPolicy = {
-	origin: "http://localhost:3000", // TODO Production: Change to frontend URL
+	origin: `${process.env.FE_URL}:${process.env.FE_PORT}`, // TODO Production: Change to frontend URL
 	methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 	credentials: true,
 };

@@ -1,4 +1,3 @@
-version: '3'
 services:
   backend:
     build:
@@ -11,6 +10,8 @@ services:
       - shared-volume:/app/recordings
       - upload-volume:/app/uploads
       - ./backend/prisma/dev.db:/app/prisma/dev.db
+    environment:
+      - NODE_ENV=production
 
   frontend:
     build:
@@ -25,15 +26,15 @@ services:
       - shared-volume:/app/dist/recordings
       - upload-volume:/app/dist/uploads
   
-  stream-orig:
-    image: bluenviron/mediamtx:latest-ffmpeg
-    ports:
-      - 1935:1935
-      - 8554:8554
-      - 8888:8888
-    volumes:
-      - shared-volume:/recordings
-      - ./k8s/mediamtx.yml:/mediamtx.yml
+  # stream-orig:
+  #   image: bluenviron/mediamtx:latest-ffmpeg
+  #   ports:
+  #     - 1935:1935
+  #     - 8554:8554
+  #     - 8888:8888
+  #   volumes:
+  #     - shared-volume:/recordings
+  #     - ./k8s/mediamtx.yml:/mediamtx.yml
   
   # stream-360p:
   #   image: bluenviron/mediamtx:latest-ffmpeg
