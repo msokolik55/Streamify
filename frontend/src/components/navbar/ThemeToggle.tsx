@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 
-import { isDarkModeAtom } from "../atom";
+import { isDarkModeAtom } from "../../atom";
 
 export const ThemeToggle = () => {
 	const [isDarkMode, setIsDarkMode] = useRecoilState(isDarkModeAtom);
