@@ -1,13 +1,12 @@
-import { NavLink } from "react-router-dom";
 import useSWR from "swr";
 
 import { IResponseDatas } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
 import fetcher from "../../models/fetcher";
-import colors from "../../styles/colors";
 import { apiUserUrl, profilePath } from "../../urls";
 import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
+import SectionItem from "./SectionItem";
 
 const SectionProfiles = () => {
 	const { data, error } = useSWR<IResponseDatas<IUser>>(apiUserUrl, fetcher);
@@ -26,23 +25,10 @@ const SectionProfiles = () => {
 				)}
 
 				{users?.map((user) => (
-					<NavLink
-						key={`li-${user.username}`}
+					<SectionItem
+						user={user}
 						to={`${profilePath}/${user.username}`}
-						className={({ isActive }) =>
-							`${
-								isActive
-									? `${colors.text.selected} ${colors.bg.navigation.item}`
-									: ""
-							}
-							rounded-md
-							hover:${colors.text.selected} hover:${colors.bg.navigation.item}`
-						}
-					>
-						<li className="leading-6 font-semibold p-2 flex text-sm rounded-md">
-							<span>{user.username}</span>
-						</li>
-					</NavLink>
+					/>
 				))}
 			</ul>
 		</li>

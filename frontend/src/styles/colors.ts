@@ -1,18 +1,42 @@
 const colors = {
-	bg: {
-		navigation: {
-			default: "bg-blue-700",
-			item: "bg-blue-800",
-			itemAvatar: "bg-blue-600",
+	light: {
+		bg: {
+			navbar: {
+				default: "bg-blue-300",
+			},
+			drawer: {
+				default: "bg-blue-400",
+				item: "bg-blue-300",
+				itemAvatar: "bg-blue-400",
+			},
+			main: {
+				default: "bg-white",
+			},
+			circle: "bg-red-500",
 		},
-		main: {
-			default: "bg-blue-900",
+		text: {
+			default: "text-blue-800",
+			selected: "text-blue-900",
 		},
-		circle: "bg-red-500",
 	},
-	text: {
-		default: "text-blue-400",
-		selected: "text-white",
+	dark: {
+		bg: {
+			navbar: {
+				default: "bg-blue-900",
+			},
+			drawer: {
+				default: "bg-blue-700",
+				item: "bg-blue-700",
+				itemAvatar: "bg-blue-600",
+			},
+			main: {
+				default: "bg-blue-800",
+			},
+		},
+		text: {
+			default: "text-blue-300",
+			selected: "text-blue-200",
+		},
 	},
 };
 

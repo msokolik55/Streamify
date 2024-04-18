@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 
 import { MainNavigation } from "../components/drawer/MainDrawer";
 import Navbar from "../components/navbar/Navbar";
-import colors from "../styles/colors";
 
 const MainPage = () => {
 	return (
@@ -16,7 +15,7 @@ const MainPage = () => {
 				<div className="flex flex-row flex-1">
 					<MainNavigation />
 					<main
-						className={`pb-10 ${colors.bg.main.default} dark:bg-black flex flex-col flex-1 ${colors.text.selected} gap-1 overflow-x-auto`}
+						className={`pb-10 bg-white dark:bg-blue-900 flex flex-col flex-1 text-blue-950 dark:text-white gap-1 overflow-x-auto`}
 					>
 						<Outlet />
 					</main>

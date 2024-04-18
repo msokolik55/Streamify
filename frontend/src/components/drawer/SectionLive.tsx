@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import useSWR from "swr";
 
 import { IResponseDatas } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
 import fetcher from "../../models/fetcher";
 import { socket } from "../../socket";
-import colors from "../../styles/colors";
 import { apiUserUrl, livePath } from "../../urls";
-import Counter from "../Counter";
 import ErrorBlock from "../errors/ErrorBlock";
 import SectionHeader from "./SectionHeader";
+import SectionItem from "./SectionItem";
 
 const SectionLive = () => {
 	const [streamViewers, setStreamViewers] = useState<{
@@ -44,31 +42,15 @@ const SectionLive = () => {
 				)}
 
 				{users?.map((user) => (
-					<NavLink
-						key={`li-${user.username}`}
+					<SectionItem
+						user={user}
 						to={`${livePath}/${user.username}`}
-						className={({ isActive }) =>
-							`${
-								isActive
-									? `${colors.text.selected} ${colors.bg.navigation.item}`
-									: ""
-							}
-							rounded-md
-							hover:${colors.text.selected} hover:${colors.bg.navigation.item}`
+						count={
+							user.streamKey && streamViewers[user.streamKey]
+								? streamViewers[user.streamKey]
+								: 0
 						}
-					>
-						<li
-							className="leading-6 font-semibold p-2 flex text-sm rounded-md
-								items-center justify-between"
-						>
-							<span>{user.username}</span>
-							{user.streamKey && (
-								<Counter
-									count={streamViewers[user.streamKey] ?? 0}
-								/>
-							)}
-						</li>
-					</NavLink>
+					/>
 				))}
 			</ul>
 		</li>
