@@ -1,17 +1,17 @@
 const colors = {
 	bg: {
 		navigation: {
-			default: "bg-gray-700",
-			item: "bg-gray-800",
-			itemAvatar: "bg-gray-600",
+			default: "bg-blue-700",
+			item: "bg-blue-800",
+			itemAvatar: "bg-blue-600",
 		},
 		main: {
-			default: "bg-gray-900",
+			default: "bg-blue-900",
 		},
 		circle: "bg-red-500",
 	},
 	text: {
-		default: "text-gray-400",
+		default: "text-blue-400",
 		selected: "text-white",
 	},
 };

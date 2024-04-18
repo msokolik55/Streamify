@@ -22,7 +22,7 @@ const SectionAccount = () => {
 		}
 	};
 
-	const buttonClassName = `flex-1 p-3 ${colors.text.selected} font-semibold rounded-md  ${colors.bg.navigation.item} hover:bg-gray-900 flex justify-center`;
+	const buttonClassName = `flex-1 px-3 py-2 ${colors.text.selected} font-semibold rounded-md  ${colors.bg.navigation.item} hover:bg-blue-900 flex justify-center`;
 
 	return (
 		<div className="flex flex-row gap-4 justify-between">
