@@ -7,8 +7,8 @@ import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import FormLabel from "../../components/FormLabel";
 import MainWindowError from "../../components/errors/MainWindowError";
-import FormLabel from "../../components/login_page/FormLabel";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";

@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import FormLabel from "../../components/login_page/FormLabel";
+import FormLabel from "../../components/FormLabel";
 import { logError, logInfo } from "../../logger";
 import { axiosConfig } from "../../models/fetcher";
 import { PasswordEditInputs } from "../../models/form";

@@ -5,9 +5,9 @@ import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import FormLabel from "../../components/FormLabel";
 import VideoPlayer from "../../components/VideoPlayer";
 import MainWindowError from "../../components/errors/MainWindowError";
-import FormLabel from "../../components/login_page/FormLabel";
 import { getActualStream } from "../../components/streamHelpers";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";

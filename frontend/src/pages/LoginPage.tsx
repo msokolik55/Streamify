@@ -7,11 +7,11 @@ import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../atom";
 import { login } from "../auth";
-import FormLabel from "../components/login_page/FormLabel";
 import { logError, logInfo } from "../logger";
 // import { axiosConfig } from "../../models/fetcher";
 import { LoginInputs } from "../models/form";
 import { registerPath, userProfilePath } from "../urls";
+import FormLabel from "../components/FormLabel";
 
 const LoginPage = () => {
 	const navigate = useNavigate();

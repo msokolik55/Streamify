@@ -7,7 +7,7 @@ import { useSetRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
-import FormLabel from "../components/login_page/FormLabel";
+import FormLabel from "../components/FormLabel";
 import { logError, logInfo } from "../logger";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
