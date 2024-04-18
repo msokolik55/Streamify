@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet";
 import { Outlet } from "react-router-dom";
 
+import { MainNavigation } from "../components/drawer/MainDrawer";
 import Navbar from "../components/navbar/Navbar";
-import { MainNavigation } from "../components/navigation/MainNavigation";
 import colors from "../styles/colors";
 
 const MainPage = () => {
