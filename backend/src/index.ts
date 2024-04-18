@@ -1,4 +1,4 @@
-import RedisStore from "connect-redis";
+// import RedisStore from "connect-redis";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -6,11 +6,11 @@ import express from "express";
 import session from "express-session";
 import { createServer } from "http";
 import passport from "passport";
-import { createClient } from "redis";
+// import { createClient } from "redis";
 import { Server as SocketIOServer } from "socket.io";
 
 import { authenticate, deserializeUser, serializeUser } from "./auth";
-import { logError, logInfo } from "./logger";
+import { logInfo } from "./logger";
 import router from "./router";
 import { checkHeartbeat, registerCounter } from "./socket";
 
@@ -25,13 +25,13 @@ dotenv.config({
 });
 const port = process.env.PORT ?? 4000;
 
-const redisClient = createClient({
-	url: process.env.REDIS_URL,
-});
-redisClient.on("error", (err) =>
-	logError("(index)", "redisClient", "Redis Client Error", err),
-);
-redisClient.connect().catch((err) => logError("(index)", "redisClient", err));
+// const redisClient = createClient({
+// 	url: process.env.REDIS_URL,
+// });
+// redisClient.on("error", (err) =>
+// 	logError("(index)", "redisClient", "Redis Client Error", err),
+// );
+// redisClient.connect().catch((err) => logError("(index)", "redisClient", err));
 
 const corsPolicy = {
 	origin: `${process.env.FE_URL}:${process.env.FE_PORT}`, // TODO Production: Change to frontend URL
@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
 api.use(express.urlencoded({ extended: true }));
 api.use(
 	session({
-		store: new RedisStore({ client: redisClient }),
+		// store: new RedisStore({ client: redisClient }),
 		secret: secret,
 		resave: false,
 		saveUninitialized: false,
