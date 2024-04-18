@@ -7,11 +7,11 @@ import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../atom";
 import { login } from "../auth";
+import FormLabel from "../components/FormLabel";
 import { logError, logInfo } from "../logger";
 // import { axiosConfig } from "../../models/fetcher";
 import { LoginInputs } from "../models/form";
 import { registerPath, userProfilePath } from "../urls";
-import FormLabel from "../components/FormLabel";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
@@ -51,6 +51,18 @@ const LoginPage = () => {
 		}
 	};
 
+	const inputClassName =
+		"block leading-6 text-sm py-1 px-2 border-0 rounded-md w-full \
+		bg-gray-800 text-white \
+		dark:bg-white dark:text-gray-800 \
+		focus:outline-none focus:ring-2 focus:ring-blue-500";
+
+	const buttonClassName =
+		"flex leading-6 font-semibold text-sm py-1 px-3 mt-2 rounded-md justify-center w-full \
+		bg-blue-400 text-black \
+		dark:bg-blue-200 dark:text-blue-950 \
+		hover:bg-blue-600 hover:text-white";
+
 	return (
 		<div>
 			<Helmet>
@@ -77,7 +89,7 @@ const LoginPage = () => {
 								name="username"
 								type="text"
 								required={true}
-								className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+								className={inputClassName}
 								aria-invalid={
 									errors.username ? "true" : "false"
 								}
@@ -98,7 +110,7 @@ const LoginPage = () => {
 								name="password"
 								type="password"
 								required={true}
-								className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
+								className={inputClassName}
 								aria-invalid={
 									errors.password ? "true" : "false"
 								}
@@ -109,20 +121,20 @@ const LoginPage = () => {
 					<div className="text-sm text-red-500">{errorMessage}</div>
 
 					<div>
-						<button
-							className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center w-full flex bg-gray-500 mt-2 hover:bg-gray-600"
-							type="submit"
-						>
+						<button className={buttonClassName} type="submit">
 							Sign in
 						</button>
 					</div>
 				</form>
 
-				<Link to={registerPath}>
-					<div className="text-sm text-blue-300 mt-2 hover:text-blue-500">
-						Don't you have an account? Register here
-					</div>
-				</Link>
+				<div className="text-sm text-blue-700 mt-2">
+					<span>Don't you have an account? </span>
+					<Link to={registerPath}>
+						<span className="text-blue-500 hover:text-blue-300">
+							Register here
+						</span>
+					</Link>
+				</div>
 			</div>
 		</div>
 	);

@@ -12,7 +12,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
 		<Link to={`${profilePath}/${props.username}`}>
 			<div className="m-2 h-20 w-20 flex justify-center items-center">
 				<img
-					src={`/uploads/${props.src}` ?? "/profile_picture.jpg"}
+					src={props.src ?? "/profile_picture.jpg"}
 					className="rounded-full"
 					alt="avatar"
 				/>

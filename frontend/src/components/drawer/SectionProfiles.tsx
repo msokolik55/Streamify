@@ -15,7 +15,7 @@ const SectionProfiles = () => {
 	if (error) return <ErrorBlock error={error} />;
 
 	return (
-		<li className="p-3 flex flex-col gap-4">
+		<div className="p-3 flex flex-col gap-4">
 			<SectionHeader title="Profiles" />
 			<ul className="-mx-2 gap-1 flex flex-col">
 				{(!users || users.length === 0) && (
@@ -31,7 +31,7 @@ const SectionProfiles = () => {
 					/>
 				))}
 			</ul>
-		</li>
+		</div>
 	);
 };
 

@@ -35,7 +35,10 @@ const ProfilePage = () => {
 				<title>{user.username} - Streamify</title>
 			</Helmet>
 			<div className="flex flex-row gap-x-4 items-center">
-				<ProfilePicture src={user.picture} username={user.username} />
+				<ProfilePicture
+					src={`/uploads/${user.picture}`}
+					username={user.username}
+				/>
 				<h1 className="font-semibold text-2xl">{user.username}</h1>
 			</div>
 

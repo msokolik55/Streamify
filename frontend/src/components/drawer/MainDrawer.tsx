@@ -9,10 +9,10 @@ export const MainNavigation = () => {
 		>
 			<div className="pb-4 px-6 overflow-y-auto gap-y-5 flex-col flex-grow flex">
 				<nav className="flex-col flex-1 flex">
-					<ul className="gap-x-7 flex-col flex-1 flex">
+					<div className="gap-x-7 flex-col flex-1 flex">
 						<SectionLive />
 						<SectionProfiles />
-					</ul>
+					</div>
 				</nav>
 			</div>
 		</div>

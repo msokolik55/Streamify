@@ -6,7 +6,11 @@ import ThemeToggle from "./ThemeToggle";
 const Navbar = () => {
 	return (
 		<div
-			className={`flex items-center justify-between p-2 ${colors.light.bg.navbar.default} dark:${colors.dark.bg.navbar.default}`}
+			className={`flex items-center justify-between p-2
+				${colors.light.bg.navbar.default}
+				${colors.light.text.default}
+				dark:${colors.dark.bg.navbar.default}
+				dark:${colors.dark.text.default}`}
 		>
 			<Header />
 			<div className="flex flex-row gap-4">

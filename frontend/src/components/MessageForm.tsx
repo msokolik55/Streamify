@@ -46,7 +46,7 @@ const MessageForm = (props: MessageFormProps) => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<input
-				className="text-black"
+				className="text-black dark:text-white"
 				{...register("content", { required: true })}
 				type="text"
 				required={true}
