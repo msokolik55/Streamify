@@ -168,7 +168,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	return (
 		<div className="flex flex-col" ref={playerWrapperRef}>
 			<div className="flex flex-row">
-				<div className="bg-black">
+				<div className="bg-black w-full">
 					<ReactPlayer
 						key={retryKey}
 						ref={reactPlayerRef}
