@@ -25,10 +25,7 @@ const SectionItem = (props: ISectionItemProps) => {
 							hover:text-white hover:bg-blue-600`
 			}
 		>
-			<li
-				className="leading-6 font-semibold p-2 flex text-sm rounded-md
-								items-center justify-between"
-			>
+			<li className="leading-6 font-semibold p-2 flex text-sm rounded-md items-center justify-between">
 				<div className="flex flex-row gap-2">
 					<img
 						src={props.user.picture}
