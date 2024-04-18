@@ -16,7 +16,7 @@ const VideoDetailBox = (props: VideoDetailBoxProps) => {
 	return (
 		<div className="flex flex-row">
 			<ProfilePicture
-				src={`/uploads/${props.user.picture}`}
+				src={props.user.picture}
 				username={props.user.username}
 			/>
 			<div className="flex flex-col flex-1 p-2 gap-2">

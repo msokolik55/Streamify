@@ -10,10 +10,10 @@ type ProfilePictureProps = {
 const ProfilePicture = (props: ProfilePictureProps) => {
 	return (
 		<Link to={`${profilePath}/${props.username}`}>
-			<div className="m-2 h-20 w-20 flex justify-center items-center">
+			<div className="m-2 flex justify-center items-center">
 				<img
 					src={props.src ?? "/profile_picture.jpg"}
-					className="rounded-full"
+					className="h-20 w-20 rounded-full"
 					alt="avatar"
 				/>
 			</div>
