@@ -22,7 +22,7 @@ const MainDrawer = () => {
 				dark:${colors.dark.text.default}`}
 		>
 			<div
-				className="flex justify-end p-2
+				className="flex justify-center p-2
 					dark:hover:bg-gray-700 hover:cursor-pointer
 					ease-in-out transition-all duration-300
 					font-extrabold
