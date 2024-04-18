@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useRecoilState } from "recoil";
 
+import { isDrawerOpenedAtom } from "../../atom";
 import colors from "../../styles/colors";
 import SectionLive from "./SectionLive";
 import SectionProfiles from "./SectionProfiles";
 
 const MainDrawer = () => {
-	const [isOpened, setIsOpened] = useState(true);
+	const [isDrawerOpened, setIsDrawerOpened] =
+		useRecoilState(isDrawerOpenedAtom);
 
 	const toggleDrawer = () => {
-		setIsOpened((prev) => !prev);
+		setIsDrawerOpened((prev) => !prev);
 	};
 
 	return (
@@ -27,11 +29,10 @@ const MainDrawer = () => {
 					hover:bg-blue-400"
 				onClick={toggleDrawer}
 			>
-				<span>{isOpened ? "<" : ">"}</span>
+				<span>{isDrawerOpened ? "<" : ">"}</span>
 			</div>
 			<div
-				className={`w-60 flex-col z-50
-				${isOpened ? "flex" : "hidden"}`}
+				className={`flex-col z-50 flex ${isDrawerOpened ? "w-60" : "w-auto"} ease-in-out transition-all duration-300`}
 			>
 				<div className="pb-4 px-2 overflow-y-auto gap-y-5 flex-col flex-grow flex">
 					<nav className="flex-col flex-1 flex">

@@ -14,3 +14,8 @@ export const isDarkModeAtom = atom<boolean>({
 	key: "isDarkModeAtom",
 	default: localStorage.getItem("darkMode") === "true",
 });
+
+export const isDrawerOpenedAtom = atom<boolean>({
+	key: "isDrawerOpenedAtom",
+	default: true,
+});
