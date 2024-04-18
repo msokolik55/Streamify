@@ -10,8 +10,8 @@ const HeaderLink = (props: HeaderLinkProps) => {
 		<NavLink
 			to={props.path}
 			className={({ isActive }) =>
-				`flex flex-1 justify-center py-2 font-semibold rounded-md hover:bg-gray-700
-				${isActive ? "bg-gray-700" : ""}`
+				`flex flex-1 justify-center py-2 font-semibold rounded-md hover:bg-blue-400 hover:text-white
+				${isActive ? "bg-blue-400 text-white" : ""}`
 			}
 		>
 			{props.title}
