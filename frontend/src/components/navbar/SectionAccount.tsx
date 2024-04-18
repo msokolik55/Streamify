@@ -22,7 +22,7 @@ const SectionAccount = () => {
 		}
 	};
 
-	const buttonClassName = `flex-1 px-3 py-2 font-semibold rounded-md align-middle text-center block white-space-nowrap
+	const buttonClassName = `flex-1 px-3 py-2 font-semibold rounded-md align-middle text-center block text-nowrap
 		${colors.light.text.selected}
 		${colors.light.bg.drawer.item}
 		hover:bg-blue-900
