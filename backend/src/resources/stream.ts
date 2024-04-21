@@ -81,7 +81,7 @@ export const updateStream = async (req: Request, res: Response) => {
 	logInfo(req.path, updateStream.name, "Method called");
 
 	const id = req.params.id;
-	const { name } = req.body;
+	const { name, description } = req.body;
 
 	if (!id || id === "") {
 		return sendResponseError(res, Status.BAD_REQUEST, "Missing stream id.");
@@ -93,7 +93,8 @@ export const updateStream = async (req: Request, res: Response) => {
 				id: id,
 			},
 			data: {
-				name: name,
+				name,
+				description,
 			},
 		});
 

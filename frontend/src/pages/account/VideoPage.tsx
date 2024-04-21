@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Button } from "primereact/button";
+import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useRecoilValue } from "recoil";
@@ -8,7 +9,6 @@ import useSWR, { useSWRConfig } from "swr";
 import { loggedUserUsernameAtom } from "../../atom";
 import StreamCard from "../../components/StreamCard";
 import MainWindowError from "../../components/errors/MainWindowError";
-import DeleteDialog from "../../components/user_page/DeleteDialog";
 import EditDialog from "../../components/user_page/EditDialog";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
@@ -19,7 +19,6 @@ import { apiStreamUrl, apiUserUrl } from "../../urls";
 
 const VideoPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
-	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditDialog, setShowEditDialog] = useState(false);
 
 	const { mutate } = useSWRConfig();
@@ -46,7 +45,6 @@ const VideoPage = () => {
 			await axios.delete(`${apiStreamUrl}/${stream.path}`, axiosConfig);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
-			setShowDeleteDialog(false);
 		} catch (error) {
 			logError(
 				VideoPage.name,
@@ -57,60 +55,70 @@ const VideoPage = () => {
 		}
 	};
 
+	const promptDelete = (e: any, stream: IStream) => {
+		confirmPopup({
+			target: e.currentTarget,
+			message: "Do you want to delete this video?",
+			icon: "pi pi-trash",
+			defaultFocus: "reject",
+			acceptClassName: "p-button-danger",
+			accept: () => deleteStream(stream),
+		});
+	};
+
+	const endedVideos = user.streams.filter((stream) => stream.ended);
+
 	return (
 		<div className="flex flex-row gap-4 overflow-auto flex-wrap">
 			<Helmet>
 				<title>{user.username} - Streamify</title>
 			</Helmet>
-			{user.streams.filter((stream) => stream.ended).length === 0 && (
+			{endedVideos.length === 0 ? (
 				<p>No videos to show.</p>
-			)}
-			{user.streams
-				.filter((stream) => stream.ended)
-				.map((stream, id) => (
-					<div key={`stream-${stream.name}-${id}`} className="my-0.5">
-						<div className="flex flex-col gap-2">
-							<StreamCard
-								stream={stream}
-								username={user.username}
-								footer={
-									<div className="flex flex-row gap-2">
-										<Button
-											label="Edit"
-											className="flex-1"
-											onClick={() =>
-												setShowEditDialog(true)
-											}
-										/>
+			) : (
+				user.streams
+					.filter((stream) => stream.ended)
+					.map((stream, id) => (
+						<div
+							key={`stream-${stream.name}-${id}`}
+							className="my-0.5"
+						>
+							<div className="flex flex-col gap-2">
+								<StreamCard
+									stream={stream}
+									username={user.username}
+									footer={
+										<div className="flex flex-row gap-2">
+											<Button
+												label="Edit"
+												className="flex-1"
+												onClick={() =>
+													setShowEditDialog(true)
+												}
+											/>
 
-										<Button
-											label="Delete"
-											className="flex-1"
-											onClick={() =>
-												setShowDeleteDialog(true)
-											}
-										/>
-									</div>
-								}
-							/>
-						</div>
+											<Button
+												label="Delete"
+												className="flex-1"
+												onClick={(e) =>
+													promptDelete(e, stream)
+												}
+											/>
+										</div>
+									}
+								/>
+							</div>
 
-						{showDeleteDialog && (
-							<DeleteDialog
-								setShow={setShowDeleteDialog}
-								delete={deleteStream}
-								stream={stream}
-							/>
-						)}
-
-						{showEditDialog && (
 							<EditDialog
+								show={showEditDialog}
 								setShow={setShowEditDialog}
 								stream={stream}
 							/>
-						)}
-					</div>
-				))}
+
+							<ConfirmPopup />
+						</div>
+					))
+			)}
 		</div>
 	);
 };

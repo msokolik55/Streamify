@@ -18,13 +18,22 @@ const StreamCard = (props: IStreamCardProps) => {
 		</video>
 	);
 
+	const description =
+		props.stream.description !== "" ? (
+			<span>{props.stream.description}</span>
+		) : (
+			<span className="text-gray-400">(no description)</span>
+		);
+
 	return (
 		<Card
 			title={props.stream.name}
 			subTitle={props.username}
 			header={header}
 			footer={props.footer}
-		></Card>
+		>
+			{description}
+		</Card>
 	);
 };
 
