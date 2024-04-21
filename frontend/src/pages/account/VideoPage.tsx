@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Button } from "primereact/button";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useRecoilValue } from "recoil";
@@ -75,18 +76,17 @@ const VideoPage = () => {
 							/>
 
 							<div className="flex flex-row gap-2">
-								<button
+								<Button
+									label="Edit"
+									className="flex-1"
 									onClick={() => setShowEditDialog(true)}
-									className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
-								>
-									Edit
-								</button>
-								<button
+								/>
+
+								<Button
+									label="Delete"
+									className="flex-1"
 									onClick={() => setShowDeleteDialog(true)}
-									className="flex-1 bg-gray-800 font-semibold rounded-md py-2 hover:bg-gray-700"
-								>
-									Delete
-								</button>
+								/>
 							</div>
 						</div>
 
