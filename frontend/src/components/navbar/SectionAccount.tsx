@@ -1,9 +1,9 @@
+import { Button } from "primereact/button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logout } from "../../auth";
-import colors from "../../styles/colors";
 import { loginPath, userProfilePath } from "../../urls";
 
 const SectionAccount = () => {
@@ -22,26 +22,18 @@ const SectionAccount = () => {
 		}
 	};
 
-	const buttonClassName = `flex-1 px-3 py-2 font-semibold rounded-md align-middle text-center block text-nowrap
-		${colors.light.text.selected}
-		${colors.light.bg.drawer.item}
-		hover:bg-blue-900
-		hover:text-white`;
-
 	return (
 		<div className="flex flex-row gap-4 justify-between">
 			{loggedUserUsername ? (
 				<>
-					<NavLink to={userProfilePath} className={buttonClassName}>
-						<span>Your account</span>
+					<NavLink to={userProfilePath}>
+						<Button label="Your account" />
 					</NavLink>
-					<button onClick={handleLogout} className={buttonClassName}>
-						<span>Sign out</span>
-					</button>
+					<Button label="Sign out" onClick={handleLogout} />
 				</>
 			) : (
-				<NavLink to={loginPath} className={buttonClassName}>
-					<span>Sign in</span>
+				<NavLink to={loginPath}>
+					<Button label="Sign in" />
 				</NavLink>
 			)}
 		</div>
