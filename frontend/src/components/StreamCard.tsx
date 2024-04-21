@@ -31,6 +31,7 @@ const StreamCard = (props: IStreamCardProps) => {
 			subTitle={props.username}
 			header={header}
 			footer={props.footer}
+			className="my-0.5"
 		>
 			{description}
 		</Card>
