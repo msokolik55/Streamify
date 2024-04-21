@@ -17,5 +17,5 @@ export const isDarkModeAtom = atom<boolean>({
 
 export const isDrawerOpenedAtom = atom<boolean>({
 	key: "isDrawerOpenedAtom",
-	default: true,
+	default: false,
 });
