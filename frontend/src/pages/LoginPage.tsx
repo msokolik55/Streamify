@@ -1,5 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import { Message } from "primereact/message";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,7 +30,6 @@ const LoginPage = () => {
 			const response = await login(data);
 
 			const resData = response.data;
-
 			const loginSuccess = resData.data;
 
 			if (loginSuccess) {
@@ -59,21 +59,26 @@ const LoginPage = () => {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className="flex flex-col gap-2">
-					<label htmlFor="username">Username</label>
+					<div>
+						<label htmlFor="username">Username</label>
+					</div>
 					<InputText
 						{...register("username", {
 							required: true,
 							minLength: 3,
-							pattern: /"[a-zA-Z0-9_]{3,}"/,
+							pattern: /[a-zA-Z0-9_]{3,}/,
 						})}
 						id="username"
 						name="username"
 						type="text"
 						required={true}
 						minLength={3}
-						pattern="[a-zA-Z0-9_]{3,}"
 						aria-invalid={errors.username ? "true" : "false"}
 					/>
+					{errors.username &&
+						errors.username.type === "minLength" && (
+							<Message severity="error" text="Min. length: 3" />
+						)}
 				</div>
 
 				<div className="flex flex-col gap-2">

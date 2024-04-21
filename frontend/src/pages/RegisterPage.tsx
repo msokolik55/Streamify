@@ -2,6 +2,7 @@ import axios from "axios";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
+import { Message } from "primereact/message";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
@@ -60,7 +61,7 @@ const RegisterPage = () => {
 	return (
 		<div className="flex flex-col gap-3">
 			<Helmet>
-				<title>Register - Streamify</title>
+				<title>Register new account - Streamify</title>
 			</Helmet>
 			{success && <Navigate to={userProfilePath} />}
 
@@ -77,7 +78,7 @@ const RegisterPage = () => {
 						{...register("username", {
 							required: true,
 							minLength: 3,
-							pattern: /"[a-zA-Z0-9_]{3,}"/,
+							pattern: /[a-zA-Z0-9_]{3,}/,
 						})}
 						id="username"
 						name="username"
@@ -87,6 +88,10 @@ const RegisterPage = () => {
 						pattern="[a-zA-Z0-9_]{3,}"
 						aria-invalid={errors.username ? "true" : "false"}
 					/>
+					{errors.username &&
+						errors.username.type === "minLength" && (
+							<Message severity="error" text="Min. length: 3" />
+						)}
 				</div>
 				<div className="flex flex-col gap-2">
 					<label htmlFor="email">Email</label>
@@ -126,6 +131,10 @@ const RegisterPage = () => {
 						minLength={5}
 						aria-invalid={errors.email ? "true" : "false"}
 					/>
+					{errors.password &&
+						errors.password.type === "minLength" && (
+							<Message severity="error" text="Min. length: 5" />
+						)}
 				</div>
 
 				<Button label="Register" className="w-full" type="submit" />
