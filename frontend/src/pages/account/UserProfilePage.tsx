@@ -118,8 +118,8 @@ const UserProfilePage = () => {
 				<title>User Profile - Streamify</title>
 			</Helmet>
 			<form
-				onSubmit={handleSubmit(onSubmit)}
 				className="flex flex-col gap-3"
+				onSubmit={handleSubmit(onSubmit)}
 			>
 				<input
 					{...register("id", {

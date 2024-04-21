@@ -1,12 +1,13 @@
 import axios from "axios";
-import { useState } from "react";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+// import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import FormLabel from "../../components/FormLabel";
 import { logError, logInfo } from "../../logger";
 import { axiosConfig } from "../../models/fetcher";
 import { PasswordEditInputs } from "../../models/form";
@@ -14,7 +15,7 @@ import { apiPasswordUrl, apiUserUrl } from "../../urls";
 
 const PasswordPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
-	const [errorMessage, setErrorMessage] = useState<string | undefined>();
+	// const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const {
 		register,
@@ -25,7 +26,7 @@ const PasswordPage = () => {
 	const { mutate } = useSWRConfig();
 	const onSubmit = async (data: PasswordEditInputs) => {
 		if (data.newPassword !== data.confirmNewPassword) {
-			setErrorMessage("Different value in Confirm new password.");
+			// setErrorMessage("Different value in Confirm new password.");
 			return;
 		}
 
@@ -45,14 +46,14 @@ const PasswordPage = () => {
 			const resData = response.data;
 
 			const changeSuccess = resData.data;
-			const changeError = resData.error;
+			// const changeError = resData.error;
 
 			if (changeSuccess) {
 				mutate(`${apiUserUrl}/${loggedUserUsername}`);
 				alert("Password successfully changed");
-				setErrorMessage(undefined);
+				// setErrorMessage(undefined);
 			} else {
-				setErrorMessage(changeError);
+				// setErrorMessage(changeError);
 			}
 		} catch (error) {
 			logError(
@@ -73,86 +74,57 @@ const PasswordPage = () => {
 				className="flex flex-col gap-3"
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				<div>
-					<FormLabel
-						title="Old password"
-						for="oldPassword"
+				<div className="flex flex-col gap-2">
+					<label htmlFor="oldPassword">Old password</label>
+					<InputText
+						{...register("oldPassword", {
+							required: true,
+							minLength: 5,
+						})}
+						id="oldPassword"
+						name="oldPassword"
+						type="password"
 						required={true}
 						minLength={5}
+						aria-invalid={errors.oldPassword ? "true" : "false"}
 					/>
-					<div className="mt-2">
-						<input
-							{...register("oldPassword", {
-								required: true,
-								minLength: 5,
-							})}
-							id="oldPassword"
-							name="oldPassword"
-							type="password"
-							required={true}
-							minLength={5}
-							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
-							aria-invalid={errors.oldPassword ? "true" : "false"}
-						/>
-					</div>
 				</div>
-				<div>
-					<FormLabel
-						title="New password"
-						for="newPassword"
+				<div className="flex flex-col gap-2">
+					<label htmlFor="newPassword">New password</label>
+					<InputText
+						{...register("newPassword", {
+							required: true,
+							minLength: 5,
+						})}
+						id="newPassword"
+						name="newPassword"
+						type="password"
 						required={true}
 						minLength={5}
+						aria-invalid={errors.newPassword ? "true" : "false"}
 					/>
-					<div className="mt-2">
-						<input
-							{...register("newPassword", {
-								required: true,
-								minLength: 5,
-							})}
-							id="newPassword"
-							name="newPassword"
-							type="password"
-							required={true}
-							minLength={5}
-							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
-							aria-invalid={errors.newPassword ? "true" : "false"}
-						/>
-					</div>
 				</div>
-				<div>
-					<FormLabel
-						title="Confirm new password"
-						for="confirmNewPassword"
+				<div className="flex flex-col gap-2">
+					<label htmlFor="confirmNewPassword">
+						Confirm new password
+					</label>
+					<InputText
+						{...register("confirmNewPassword", {
+							required: true,
+							minLength: 5,
+						})}
+						id="confirmNewPassword"
+						name="confirmNewPassword"
+						type="password"
 						required={true}
 						minLength={5}
+						aria-invalid={
+							errors.confirmNewPassword ? "true" : "false"
+						}
 					/>
-					<div className="mt-2">
-						<input
-							{...register("confirmNewPassword", {
-								required: true,
-								minLength: 5,
-							})}
-							id="confirmNewPassword"
-							name="confirmNewPassword"
-							type="password"
-							required={true}
-							minLength={5}
-							className="leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800"
-							aria-invalid={
-								errors.confirmNewPassword ? "true" : "false"
-							}
-						/>
-					</div>
 				</div>
 
-				<div className="text-sm text-red-500">{errorMessage}</div>
-
-				<button
-					className="leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-					type="submit"
-				>
-					Confirm
-				</button>
+				<Button label="Confirm" type="submit" />
 			</form>
 		</div>
 	);
