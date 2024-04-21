@@ -1,4 +1,6 @@
 import axios from "axios";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSWRConfig } from "swr";
@@ -45,7 +47,7 @@ const MessageForm = (props: MessageFormProps) => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<input
+			<InputText
 				className="text-black dark:text-white"
 				{...register("content", { required: true })}
 				type="text"
@@ -53,9 +55,9 @@ const MessageForm = (props: MessageFormProps) => {
 				placeholder="Type a message..."
 				disabled={loading}
 			/>
-			<button type="submit" disabled={loading}>
+			<Button type="submit" disabled={loading}>
 				{loading ? "Sending..." : "Send"}
-			</button>
+			</Button>
 		</form>
 	);
 };

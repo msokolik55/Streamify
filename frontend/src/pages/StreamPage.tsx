@@ -1,3 +1,5 @@
+import { Card } from "primereact/card";
+import { Panel } from "primereact/panel";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -63,30 +65,31 @@ const StreamPage = () => {
 			<div className="flex flex-row gap-1">
 				<div className="flex-1">
 					<VideoPlayer streamKey={user.streamKey} />
+					<VideoDetailBox
+						stream={getActualStream(user)}
+						user={user}
+						showCounter={true}
+					/>
 				</div>
 
-				<div className="flex flex-col gap-2 justify-between">
-					<h1>Messages</h1>
-					<div className="max-h-32 overflow-y-auto flex flex-col gap-2">
-						{stream?.messages
-							?.filter((message) => !message.answered)
-							.map((message) => (
-								<div className="bg-white text-black rounded-md px-2">
-									<h2 key={message.id}>{message.content}</h2>
-								</div>
-							))}
-					</div>
+				<Panel header="Messages">
 					<MessageForm
 						streamKey={user.streamKey}
 						username={loggedUsername}
 					/>
-				</div>
+					<div className="max-h-screen overflow-y-auto flex flex-col gap-2 mt-4">
+						{stream?.messages
+							?.filter((message) => !message.answered)
+							.map((message) => (
+								<Card
+									key={message.id}
+									title={message.content}
+									className="m-0.5"
+								/>
+							))}
+					</div>
+				</Panel>
 			</div>
-			<VideoDetailBox
-				stream={getActualStream(user)}
-				user={user}
-				showCounter={true}
-			/>
 		</>
 	);
 };

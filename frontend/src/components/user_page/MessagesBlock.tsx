@@ -1,3 +1,5 @@
+import { Panel } from "primereact/panel";
+
 import { IMessage } from "../../models/IMessage";
 import MessageCard from "../MessageCard";
 
@@ -10,9 +12,8 @@ interface IMessagesBlockProps {
 
 const MessagesBlock = (props: IMessagesBlockProps) => {
 	return (
-		<div className="flex flex-col gap-2">
-			<h2>{`${props.title} (${props.messages.length})`}</h2>
-			<div className="flex flex-row gap-2">
+		<Panel header={`${props.title} (${props.messages.length})`}>
+			<div className="flex flex-row gap-2 overflow-x-auto py-1">
 				{props.messages.map((message) => (
 					<MessageCard
 						key={message.id}
@@ -22,7 +23,7 @@ const MessagesBlock = (props: IMessagesBlockProps) => {
 					/>
 				))}
 			</div>
-		</div>
+		</Panel>
 	);
 };
 
