@@ -68,26 +68,31 @@ const VideoPage = () => {
 			{user.streams
 				.filter((stream) => stream.ended)
 				.map((stream, id) => (
-					<div key={`stream-${stream.name}-${id}`}>
+					<div key={`stream-${stream.name}-${id}`} className="my-0.5">
 						<div className="flex flex-col gap-2">
 							<StreamCard
 								stream={stream}
 								username={user.username}
+								footer={
+									<div className="flex flex-row gap-2">
+										<Button
+											label="Edit"
+											className="flex-1"
+											onClick={() =>
+												setShowEditDialog(true)
+											}
+										/>
+
+										<Button
+											label="Delete"
+											className="flex-1"
+											onClick={() =>
+												setShowDeleteDialog(true)
+											}
+										/>
+									</div>
+								}
 							/>
-
-							<div className="flex flex-row gap-2">
-								<Button
-									label="Edit"
-									className="flex-1"
-									onClick={() => setShowEditDialog(true)}
-								/>
-
-								<Button
-									label="Delete"
-									className="flex-1"
-									onClick={() => setShowDeleteDialog(true)}
-								/>
-							</div>
 						</div>
 
 						{showDeleteDialog && (
