@@ -61,11 +61,17 @@ const LoginPage = () => {
 				<div className="flex flex-col gap-2">
 					<label htmlFor="username">Username</label>
 					<InputText
-						{...register("username", { required: true })}
+						{...register("username", {
+							required: true,
+							minLength: 3,
+							pattern: /"[a-zA-Z0-9_]{3,}"/,
+						})}
 						id="username"
 						name="username"
 						type="text"
 						required={true}
+						minLength={3}
+						pattern="[a-zA-Z0-9_]{3,}"
 						aria-invalid={errors.username ? "true" : "false"}
 					/>
 				</div>
@@ -90,7 +96,7 @@ const LoginPage = () => {
 
 				<Link to={registerPath}>
 					<Button
-						className="w-full flex justify-center"
+						className="w-full flex justify-center p-button-text"
 						label="Don't you have an account? Register here"
 					/>
 				</Link>

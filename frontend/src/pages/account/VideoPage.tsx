@@ -91,7 +91,7 @@ const VideoPage = () => {
 										<div className="flex flex-row gap-2">
 											<Button
 												label="Edit"
-												className="flex-1"
+												className="flex-1 p-button-warning"
 												onClick={() =>
 													setShowEditDialog(true)
 												}
@@ -99,7 +99,7 @@ const VideoPage = () => {
 
 											<Button
 												label="Delete"
-												className="flex-1"
+												className="flex-1 p-button-danger"
 												onClick={(e) =>
 													promptDelete(e, stream)
 												}

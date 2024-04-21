@@ -189,12 +189,12 @@ const UserProfilePage = () => {
 					<div className="flex flex-row gap-2">
 						<Button
 							label="Cancel"
-							className="flex-1"
+							className="flex-1 p-button-secondary"
 							onClick={() => setEdit(false)}
 						/>
 						<Button
 							label="Confirm"
-							className="flex-1"
+							className="flex-1 p-button-success"
 							type="submit"
 						/>
 					</div>
@@ -202,8 +202,16 @@ const UserProfilePage = () => {
 			</form>
 			{!edit && (
 				<div className="flex flex-col gap-2 text-center">
-					<Button label="Edit" onClick={() => setEdit(true)} />
-					<Button label="Delete account" onClick={deleteAccount} />
+					<Button
+						label="Edit"
+						className="p-button-warning"
+						onClick={() => setEdit(true)}
+					/>
+					<Button
+						label="Delete account"
+						className="p-button-danger"
+						onClick={deleteAccount}
+					/>
 					{deleted && <Navigate to={userPath} />}
 				</div>
 			)}

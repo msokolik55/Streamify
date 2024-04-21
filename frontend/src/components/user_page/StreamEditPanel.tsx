@@ -213,6 +213,11 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 							? "Start stream"
 							: "Edit stream"
 					}
+					className={
+						props.formState === FormState.CREATE
+							? ""
+							: "p-button-warning"
+					}
 					type="submit"
 				/>
 

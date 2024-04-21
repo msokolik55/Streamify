@@ -98,12 +98,16 @@ const EditDialog = (props: EditDialogProps) => {
 				</div>
 
 				<div className="flex flex-row gap-2">
-					<Button className="flex-1" label="Edit" type="submit" />
 					<Button
-						className="flex-1"
+						className="flex-1 p-button-secondary"
 						label="Cancel"
 						onClick={() => props.setShow(false)}
 						type="button"
+					/>
+					<Button
+						className="flex-1 p-button-success"
+						label="Confirm"
+						type="submit"
 					/>
 				</div>
 			</form>
