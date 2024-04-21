@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Button } from "primereact/button";
+import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { FileUpload } from "primereact/fileupload";
 import { Image } from "primereact/image";
 import { InputText } from "primereact/inputtext";
@@ -34,7 +35,29 @@ const UserProfilePage = () => {
 		formState: { errors },
 	} = useForm<UserEditInputs>();
 
+	const { data, error } = useSWR<IResponseData<IUser>, Error>(
+		`${apiUserUrl}/${loggedUserUsername}`,
+		fetcher,
+	);
+	const user = data?.data;
+
+	if (error) {
+		return <MainWindowError message={error.message} />;
+	}
+
+	if (!user) {
+		return (
+			<MainWindowError message="Cannot find user with given username." />
+		);
+	}
+
 	const { mutate } = useSWRConfig();
+	const mutateUser = () => {
+		mutate(`${apiUserUrl}/${loggedUserUsername}`);
+		mutate(apiUserUrl);
+		mutate(apiLiveUrl);
+	};
+
 	const onSubmit = async (data: UserEditInputs) => {
 		logInfo(UserProfilePage.name, onSubmit.name, "Fetching");
 
@@ -52,9 +75,7 @@ const UserProfilePage = () => {
 				},
 			});
 
-			mutate(`${apiUserUrl}/${loggedUserUsername}`);
-			mutate(apiUserUrl);
-			mutate(apiLiveUrl);
+			mutateUser();
 
 			setLoggedUserUsername(data.username);
 			setEdit(false);
@@ -77,9 +98,7 @@ const UserProfilePage = () => {
 				axiosConfig,
 			);
 
-			mutate(`${apiUserUrl}/${loggedUserUsername}`);
-			mutate(apiUserUrl);
-			mutate(apiLiveUrl);
+			mutateUser();
 
 			if (response.status === 204) {
 				setLoggedUserUsername(undefined);
@@ -96,21 +115,16 @@ const UserProfilePage = () => {
 		}
 	};
 
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${loggedUserUsername}`,
-		fetcher,
-	);
-	const user = data?.data;
-
-	if (error) {
-		return <MainWindowError message={error.message} />;
-	}
-
-	if (!user) {
-		return (
-			<MainWindowError message="Cannot find user with given username." />
-		);
-	}
+	const promptDelete = (e: any) => {
+		confirmPopup({
+			target: e.currentTarget,
+			message: "Do you want to delete your account?",
+			icon: "pi pi-trash",
+			defaultFocus: "reject",
+			acceptClassName: "p-button-danger",
+			accept: () => deleteAccount(),
+		});
+	};
 
 	return (
 		<div className="flex flex-col gap-3">
@@ -188,30 +202,31 @@ const UserProfilePage = () => {
 				{edit && (
 					<div className="flex flex-row gap-2">
 						<Button
-							label="Cancel"
-							className="flex-1 p-button-secondary"
-							onClick={() => setEdit(false)}
-						/>
-						<Button
 							label="Confirm"
 							className="flex-1 p-button-success"
 							type="submit"
+						/>
+						<Button
+							label="Cancel"
+							className="flex-1 p-button-secondary"
+							onClick={() => setEdit(false)}
 						/>
 					</div>
 				)}
 			</form>
 			{!edit && (
-				<div className="flex flex-col gap-2 text-center">
+				<div className="flex flex-row gap-2 text-center">
 					<Button
 						label="Edit"
-						className="p-button-warning"
+						className="p-button-warning flex-1"
 						onClick={() => setEdit(true)}
 					/>
 					<Button
 						label="Delete account"
-						className="p-button-danger"
-						onClick={deleteAccount}
+						className="p-button-danger flex-1"
+						onClick={promptDelete}
 					/>
+					<ConfirmPopup />
 					{deleted && <Navigate to={userPath} />}
 				</div>
 			)}
