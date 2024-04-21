@@ -27,7 +27,10 @@ const SectionAccount = () => {
 			{loggedUserUsername ? (
 				<>
 					<NavLink to={userProfilePath}>
-						<Button label="Your account" />
+						<Button
+							label="Your account"
+							className="p-button-text"
+						/>
 					</NavLink>
 					<Button label="Sign out" onClick={handleLogout} />
 				</>
