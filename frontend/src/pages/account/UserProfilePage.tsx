@@ -1,4 +1,8 @@
 import axios from "axios";
+import { Button } from "primereact/button";
+import { FileUpload } from "primereact/fileupload";
+import { Image } from "primereact/image";
+import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
@@ -7,7 +11,6 @@ import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import FormLabel from "../../components/FormLabel";
 import MainWindowError from "../../components/errors/MainWindowError";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
@@ -118,118 +121,89 @@ const UserProfilePage = () => {
 				onSubmit={handleSubmit(onSubmit)}
 				className="flex flex-col gap-3"
 			>
-				<div>
-					<input
-						{...register("id", {
-							required: true,
-						})}
-						id="id"
-						name="id"
-						type="hidden"
-						required={true}
-						defaultValue={user.id}
-					/>
+				<input
+					{...register("id", {
+						required: true,
+					})}
+					id="id"
+					name="id"
+					type="hidden"
+					required={true}
+					defaultValue={user.id}
+				/>
 
-					<FormLabel
-						title="Username"
-						for="username"
+				<div className="flex flex-col gap-2">
+					<label htmlFor="username">Username</label>
+					<InputText
+						{...register("username", {
+							required: true,
+							minLength: 3,
+						})}
+						id="username"
+						name="username"
+						type="text"
 						required={true}
 						minLength={3}
+						aria-invalid={errors.username ? "true" : "false"}
+						defaultValue={user.username}
+						disabled={!edit}
 					/>
-					<div className="mt-2">
-						<input
-							{...register("username", {
-								required: true,
-								minLength: 3,
-							})}
-							id="username"
-							name="username"
-							type="text"
-							required={true}
-							minLength={3}
-							className={`leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800 ${edit ? "" : "text-gray-400"}`}
-							aria-invalid={errors.username ? "true" : "false"}
-							defaultValue={user.username}
-							disabled={!edit}
-						/>
-					</div>
 				</div>
-				<div>
-					<FormLabel title="Email" for="email" required={true} />
-					<div className="mt-2">
-						<input
-							{...register("email", {
-								required: true,
-							})}
-							id="email"
-							name="email"
-							type="email"
-							required={true}
-							className={`leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800 ${edit ? "" : "text-gray-400"}`}
-							aria-invalid={errors.email ? "true" : "false"}
-							defaultValue={user.email}
-							disabled={!edit}
-						/>
-					</div>
+
+				<div className="flex flex-col gap-2">
+					<label htmlFor="email">Email</label>
+					<InputText
+						{...register("email", {
+							required: true,
+						})}
+						id="email"
+						name="email"
+						type="email"
+						required={true}
+						aria-invalid={errors.email ? "true" : "false"}
+						defaultValue={user.email}
+						disabled={!edit}
+					/>
 				</div>
-				<div>
-					<FormLabel title="Picture" for="picture" required={false} />
+				<div className="flex flex-col gap-2">
+					<label htmlFor="picture">Picture</label>
 					{user.picture && (
-						<img
-							src={`/uploads/${user.picture}`}
+						<Image
+							src={user.picture}
 							alt="Profile picture"
-							className="w-24"
+							imageClassName="w-24"
 						/>
 					)}
-					<div className="mt-2">
-						<input
-							{...register("picture")}
-							id="picture"
-							name="picture"
-							type="file"
-							accept="image/jpeg,image/png,image/gif"
-							className={`leading-6 text-sm py-1 px-2 border-0 rounded-md w-full block bg-gray-800 ${edit ? "" : "text-gray-400"}`}
-							aria-invalid={errors.picture ? "true" : "false"}
-							disabled={!edit}
-						/>
-					</div>
+					<FileUpload
+						{...register("picture")}
+						mode="basic"
+						id="picture"
+						name="picture"
+						accept="image/*"
+						aria-invalid={errors.picture ? "true" : "false"}
+						disabled={!edit}
+					/>
 				</div>
 
 				{edit && (
 					<div className="flex flex-row gap-2">
-						<div className="flex-1">
-							<button
-								onClick={() => setEdit(false)}
-								className="w-full leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-							>
-								Cancel
-							</button>
-						</div>
-						<div className="flex-1">
-							<button
-								className="w-full leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-								type="submit"
-							>
-								Confirm
-							</button>
-						</div>
+						<Button
+							label="Cancel"
+							className="flex-1"
+							onClick={() => setEdit(false)}
+						/>
+						<Button
+							label="Confirm"
+							className="flex-1"
+							type="submit"
+						/>
 					</div>
 				)}
 			</form>
 			{!edit && (
-				<div className="flex flex-col gap-2">
-					<button
-						className="w-full leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600"
-						onClick={() => setEdit(true)}
-					>
-						Edit
-					</button>
-					<button
-						onClick={deleteAccount}
-						className="w-full leading-6 font-semibold text-sm py-1 px-3 rounded-md justify-center flex bg-gray-500 hover:bg-gray-600 mt-8"
-					>
-						Delete account
-					</button>
+				<div className="flex flex-col gap-2 text-center">
+					<Button label="Edit" onClick={() => setEdit(true)} />
+					<Button label="Delete account" onClick={deleteAccount} />
 					{deleted && <Navigate to={userPath} />}
 				</div>
 			)}
