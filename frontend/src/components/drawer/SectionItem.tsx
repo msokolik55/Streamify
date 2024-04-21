@@ -1,3 +1,4 @@
+import { Avatar } from "primereact/avatar";
 import { NavLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
@@ -32,11 +33,11 @@ const SectionItem = (props: ISectionItemProps) => {
 			<li
 				className={`leading-6 font-semibold p-2 flex text-sm rounded-md items-center ${isDrawerOpened ? "justify-between" : "justify-center"}`}
 			>
-				<div className="flex flex-row gap-2">
-					<img
-						src={props.user.picture}
-						className="w-6 h-6 rounded-full"
-						alt="avatar"
+				<div className="flex flex-row gap-2 items-center">
+					<Avatar
+						imageAlt="avatar"
+						image={props.user.picture}
+						shape="circle"
 					/>
 					{isDrawerOpened && <span>{props.user.username}</span>}
 				</div>

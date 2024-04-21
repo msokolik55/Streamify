@@ -33,8 +33,8 @@ const SectionLive = () => {
 
 	return (
 		<div className="p-3 flex flex-col gap-4">
-			<SectionHeader title="Live" />
-			<ul className="-mx-2 gap-1 flex flex-col">
+			<SectionHeader title="Profiles" />
+			<ul className="gap-1 flex flex-col">
 				{(!users || users.length === 0) && (
 					<span className="leading6 text-sm p-2 font-semibold">
 						No live streams.
