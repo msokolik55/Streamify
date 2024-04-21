@@ -14,9 +14,9 @@ import RecordingPage from "./pages/RecordingPage";
 import RegisterPage from "./pages/RegisterPage";
 import StreamPage from "./pages/StreamPage";
 import PasswordPage from "./pages/account/PasswordPage";
-import StreamKeyPage from "./pages/account/StreamKeyPage";
 import UserPage from "./pages/account/UserPage";
 import UserProfilePage from "./pages/account/UserProfilePage";
+import UserStreamPage from "./pages/account/UserStreamPage";
 import VideoPage from "./pages/account/VideoPage";
 import { socket } from "./socket";
 import {
@@ -91,7 +91,7 @@ export const App = () => {
 							/>
 							<Route
 								path={userStreamKeyPath}
-								element={<StreamKeyPage />}
+								element={<UserStreamPage />}
 							/>
 							<Route
 								path={userPasswordPath}
