@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
-import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 
 import VideoDetailBox from "../components/VideoDetailBox";
+import VideoPlayer from "../components/VideoPlayer";
 import MainWindowError from "../components/errors/MainWindowError";
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
@@ -34,8 +34,7 @@ const RecordingPage = () => {
 			<Helmet>
 				<title>{stream.name} - Streamify</title>
 			</Helmet>
-			<ReactPlayer url={videoSrc} controls={true} />
-
+			<VideoPlayer url={videoSrc} />
 			<VideoDetailBox
 				stream={stream}
 				user={stream.user}

@@ -33,7 +33,7 @@ const VideoDetailBox = (props: VideoDetailBoxProps) => {
 	const details = `${props.stream.maxCount} view${props.stream.maxCount !== 1 ? "s" : ""} ${formatDate(props.stream.createdAt)}`;
 
 	return (
-		<div className="flex flex-col gap-4">
+		<div className="flex flex-col gap-4 mx-4 mt-4">
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-row justify-between">
 					<Heading1 title={props.stream.name} />

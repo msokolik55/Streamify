@@ -8,9 +8,17 @@ import { OnProgressProps } from "react-player/base";
 import { baseUrl } from "../env";
 import Duration from "./Duration";
 
-interface IVideoPlayerProps {
+interface IStreamSource {
 	streamKey: string;
+	url?: never;
 }
+
+interface IFileSource {
+	streamKey?: never;
+	url: string;
+}
+
+type IVideoPlayerProps = IStreamSource | IFileSource;
 
 interface IControls {
 	playing: boolean;
@@ -53,8 +61,8 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	const playerWrapperRef = useRef<HTMLDivElement>(null);
 	const reactPlayerRef = useRef<ReactPlayer>(null);
 
-	const hlsExtension = "index.m3u8";
-	const hlsUrl = `${baseUrl}:${streamPort}/${props.streamKey}/${hlsExtension}`;
+	const hlsUrl = `${baseUrl}:${streamPort}/${props.streamKey}/index.m3u8`;
+	const url = props.streamKey ? hlsUrl : props.url;
 
 	const handlePlayPause = () => {
 		setControls((prev) => {
@@ -165,7 +173,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					ref={reactPlayerRef}
 					width="100%"
 					height="100%"
-					url={hlsUrl}
+					url={url}
 					volume={controls.volume}
 					playing={controls.playing}
 					onProgress={handleProgress}
