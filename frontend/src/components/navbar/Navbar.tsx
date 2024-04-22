@@ -5,7 +5,8 @@ import { useSetRecoilState } from "recoil";
 import { isDrawerOpenedAtom } from "../../atom";
 import Header from "./Header";
 import SectionAccount from "./SectionAccount";
-import ThemeToggle from "./ThemeToggle";
+
+// import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
 	const setIsDrawerOpened = useSetRecoilState(isDrawerOpenedAtom);
@@ -24,7 +25,7 @@ const Navbar = () => {
 			}
 			end={
 				<div className="flex flex-row gap-4">
-					<ThemeToggle />
+					{/* <ThemeToggle /> */}
 					<SectionAccount />
 				</div>
 			}
