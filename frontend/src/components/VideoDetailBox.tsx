@@ -30,6 +30,8 @@ const VideoDetailBox = (props: VideoDetailBoxProps) => {
 			<span className="text-gray-400">(no description)</span>
 		);
 
+	const details = `${props.stream.maxCount} view${props.stream.maxCount !== 1 ? "s" : ""} ${formatDate(props.stream.createdAt)}`;
+
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col gap-4">
@@ -56,9 +58,7 @@ const VideoDetailBox = (props: VideoDetailBoxProps) => {
 			</div>
 
 			<Panel header="Description">
-				<p className="font-bold mb-4">
-					{`${props.stream.maxCount} views ${formatDate(props.stream.createdAt)}`}
-				</p>
+				<p className="font-bold mb-4">{details}</p>
 				<p>{description}</p>
 			</Panel>
 		</div>
