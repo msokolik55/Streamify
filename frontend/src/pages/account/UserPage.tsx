@@ -2,7 +2,9 @@ import { TabMenu } from "primereact/tabmenu";
 import { Helmet } from "react-helmet";
 import { Outlet, useNavigate } from "react-router-dom";
 
+import { getUser } from "../../components/streamHelpers";
 import {
+	loginPath,
 	userPasswordPath,
 	userProfilePath,
 	userStreamKeyPath,
@@ -11,6 +13,11 @@ import {
 
 const UserPage = () => {
 	const navigate = useNavigate();
+
+	const { user } = getUser();
+	if (!user) {
+		navigate(loginPath);
+	}
 
 	const items = [
 		{ label: "Profile", command: () => navigate(userProfilePath) },
