@@ -2,9 +2,9 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { isDarkModeAtom, loggedUserUsernameAtom } from "./atom";
+import { loggedUserUsernameAtom } from "./atom";
 import { apiUrl } from "./env";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
@@ -34,12 +34,6 @@ import {
 } from "./urls";
 
 export const App = () => {
-	const isDarkMode = useRecoilValue(isDarkModeAtom);
-
-	useEffect(() => {
-		localStorage.setItem("darkMode", isDarkMode ? "true" : "false");
-	}, [isDarkMode]);
-
 	const setLoggedUsername = useSetRecoilState(loggedUserUsernameAtom);
 	useEffect(() => {
 		axios
@@ -62,7 +56,7 @@ export const App = () => {
 	}, []);
 
 	return (
-		<div className={isDarkMode ? "dark" : ""}>
+		<div>
 			<Helmet>
 				<title>Streamify</title>
 			</Helmet>
