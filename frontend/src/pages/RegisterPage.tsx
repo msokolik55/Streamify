@@ -1,8 +1,5 @@
 import axios from "axios";
 import { Button } from "primereact/button";
-import { FileUpload } from "primereact/fileupload";
-import { InputText } from "primereact/inputtext";
-import { Message } from "primereact/message";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
@@ -12,6 +9,8 @@ import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
 import Heading1 from "../components/Heading1";
+import FileUploadField from "../components/form/FileUploadField";
+import InputTextField from "../components/form/InputTextField";
 import { logError, logInfo } from "../logger";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
@@ -72,70 +71,49 @@ const RegisterPage = () => {
 				onSubmit={handleSubmit(onSubmit)}
 				className="flex flex-col gap-3 max-w-sm w-full mx-auto my-10"
 			>
-				<div className="flex flex-col gap-2">
-					<label htmlFor="username">*Username</label>
-					<InputText
-						{...register("username", {
-							required: true,
-							minLength: 3,
-							pattern: /[a-zA-Z0-9_]{3,}/,
-						})}
-						id="username"
-						name="username"
-						type="text"
-						required={true}
-						minLength={3}
-						pattern="[a-zA-Z0-9_]{3,}"
-						aria-invalid={errors.username ? "true" : "false"}
-					/>
-					{errors.username &&
-						errors.username.type === "minLength" && (
-							<Message severity="error" text="Min. length: 3" />
-						)}
-				</div>
-				<div className="flex flex-col gap-2">
-					<label htmlFor="email">*Email</label>
-					<InputText
-						{...register("email", {
-							required: true,
-						})}
-						id="email"
-						name="email"
-						type="email"
-						required={true}
-						aria-invalid={errors.email ? "true" : "false"}
-					/>
-				</div>
-				<div className="flex flex-col gap-2">
-					<label htmlFor="picture">Picture</label>
-					<FileUpload
-						{...register("picture")}
-						mode="basic"
-						id="picture"
-						name="picture"
-						accept="image/*"
-						aria-invalid={errors.picture ? "true" : "false"}
-					/>
-				</div>
-				<div className="flex flex-col gap-2">
-					<label htmlFor="password">*Password</label>
-					<InputText
-						{...register("password", {
-							required: true,
-							minLength: 5,
-						})}
-						id="password"
-						name="password"
-						type="password"
-						required={true}
-						minLength={5}
-						aria-invalid={errors.email ? "true" : "false"}
-					/>
-					{errors.password &&
-						errors.password.type === "minLength" && (
-							<Message severity="error" text="Min. length: 5" />
-						)}
-				</div>
+				<InputTextField
+					label="*Username"
+					name="username"
+					type="text"
+					register={register}
+					errorField={errors.username}
+					options={{
+						required: true,
+						minLength: 3,
+						pattern: /[a-zA-Z0-9_]{3,}/,
+					}}
+				/>
+
+				<InputTextField
+					label="*Email"
+					name="email"
+					type="email"
+					register={register}
+					errorField={errors.email}
+					options={{
+						required: true,
+					}}
+				/>
+
+				<FileUploadField
+					label="Picture"
+					name="picture"
+					register={register}
+					errorField={errors.picture}
+					accept="image/*"
+				/>
+
+				<InputTextField
+					label="*Password"
+					name="password"
+					type="password"
+					register={register}
+					errorField={errors.password}
+					options={{
+						required: true,
+						minLength: 5,
+					}}
+				/>
 
 				<Button label="Register" className="w-full" type="submit" />
 			</form>

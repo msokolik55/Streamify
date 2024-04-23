@@ -13,6 +13,8 @@ import { IStream } from "../../models/IStream";
 import { axiosConfig } from "../../models/fetcher";
 import { StreamEditInputs } from "../../models/form";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
+import InputTextField from "../form/InputTextField";
+import InputTextareaField from "../form/InputTextareaField";
 
 type EditDialogProps = {
 	show: boolean;
@@ -66,36 +68,26 @@ const EditDialog = (props: EditDialogProps) => {
 					type="hidden"
 				/>
 
-				<div className="flex flex-col gap-2">
-					<label htmlFor="name">*Name</label>
-					<InputText
-						{...register("name", {
-							required: true,
-							minLength: 3,
-						})}
-						id="name"
-						name="name"
-						type="text"
-						required={true}
-						minLength={3}
-						aria-invalid={errors.name ? "true" : "false"}
-						defaultValue={props.stream.name}
-						className="border px-2 rounded-md"
-					/>
-				</div>
+				<InputTextField
+					name="name"
+					label="*Name"
+					type="text"
+					register={register}
+					errorField={errors.name}
+					options={{
+						required: true,
+						minLength: 3,
+					}}
+					defaultValue={props.stream.name}
+				/>
 
-				<div className="flex flex-col gap-2">
-					<label htmlFor="description">Description</label>
-					<InputText
-						{...register("description")}
-						id="description"
-						name="description"
-						type="text"
-						aria-invalid={errors.description ? "true" : "false"}
-						defaultValue={props.stream.description}
-						className="border px-2 rounded-md"
-					/>
-				</div>
+				<InputTextareaField
+					name="description"
+					label="Description"
+					register={register}
+					errorField={errors.description}
+					defaultValue={props.stream.description}
+				/>
 
 				<div className="flex flex-row gap-2">
 					<Button

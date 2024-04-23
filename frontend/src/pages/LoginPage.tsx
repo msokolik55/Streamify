@@ -1,6 +1,4 @@
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
-import { Message } from "primereact/message";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +7,7 @@ import { useSetRecoilState } from "recoil";
 import { loggedUserUsernameAtom } from "../atom";
 import { login } from "../auth";
 import Heading1 from "../components/Heading1";
+import InputTextField from "../components/form/InputTextField";
 import { logError, logInfo } from "../logger";
 import { LoginInputs } from "../models/form";
 import { registerPath, userProfilePath } from "../urls";
@@ -46,6 +45,8 @@ const LoginPage = () => {
 		}
 	};
 
+	console.log(errors);
+
 	return (
 		<div>
 			<Helmet>
@@ -58,40 +59,29 @@ const LoginPage = () => {
 				className="flex flex-col gap-3 max-w-sm w-full mx-auto my-10"
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				<div className="flex flex-col gap-2">
-					<div>
-						<label htmlFor="username">Username</label>
-					</div>
-					<InputText
-						{...register("username", {
-							required: true,
-							minLength: 3,
-							pattern: /[a-zA-Z0-9_]{3,}/,
-						})}
-						id="username"
-						name="username"
-						type="text"
-						required={true}
-						minLength={3}
-						aria-invalid={errors.username ? "true" : "false"}
-					/>
-					{errors.username &&
-						errors.username.type === "minLength" && (
-							<Message severity="error" text="Min. length: 3" />
-						)}
-				</div>
+				<InputTextField
+					name="username"
+					label="Username"
+					type="text"
+					register={register}
+					errorField={errors.username}
+					options={{
+						required: true,
+						minLength: 3,
+						pattern: /[a-zA-Z0-9_]{3,}/,
+					}}
+				/>
 
-				<div className="flex flex-col gap-2">
-					<label htmlFor="password">Password</label>
-					<InputText
-						{...register("password", { required: true })}
-						id="password"
-						name="password"
-						type="password"
-						required={true}
-						aria-invalid={errors.password ? "true" : "false"}
-					/>
-				</div>
+				<InputTextField
+					name="password"
+					label="Password"
+					type="password"
+					register={register}
+					errorField={errors.password}
+					options={{
+						required: true,
+					}}
+				/>
 
 				<Button
 					className="w-full flex justify-center"

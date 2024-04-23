@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Button } from "primereact/button";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
-import { FileUpload } from "primereact/fileupload";
 import { Image } from "primereact/image";
 import { InputText } from "primereact/inputtext";
 import { useState } from "react";
@@ -13,6 +12,8 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import MainWindowError from "../../components/errors/MainWindowError";
+import FileUploadField from "../../components/form/FileUploadField";
+import InputTextField from "../../components/form/InputTextField";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
@@ -135,7 +136,7 @@ const UserProfilePage = () => {
 				className="flex flex-col gap-3"
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				<input
+				<InputText
 					{...register("id", {
 						required: true,
 					})}
@@ -146,58 +147,48 @@ const UserProfilePage = () => {
 					defaultValue={user.id}
 				/>
 
-				<div className="flex flex-col gap-2">
-					<label htmlFor="username">*Username</label>
-					<InputText
-						{...register("username", {
-							required: true,
-							minLength: 3,
-						})}
-						id="username"
-						name="username"
-						type="text"
-						required={true}
-						minLength={3}
-						aria-invalid={errors.username ? "true" : "false"}
-						defaultValue={user.username}
-						disabled={!edit}
-					/>
-				</div>
+				<InputTextField
+					label="*Username"
+					name="username"
+					type="text"
+					register={register}
+					errorField={errors.username}
+					options={{
+						required: true,
+						minLength: 3,
+					}}
+					defaultValue={user.username}
+					disabled={!edit}
+				/>
 
-				<div className="flex flex-col gap-2">
-					<label htmlFor="email">*Email</label>
-					<InputText
-						{...register("email", {
-							required: true,
-						})}
-						id="email"
-						name="email"
-						type="email"
-						required={true}
-						aria-invalid={errors.email ? "true" : "false"}
-						defaultValue={user.email}
-						disabled={!edit}
+				<InputTextField
+					label="*Email"
+					name="email"
+					type="email"
+					register={register}
+					errorField={errors.email}
+					options={{
+						required: true,
+					}}
+					defaultValue={user.email}
+					disabled={!edit}
+				/>
+
+				<FileUploadField
+					label="Profile picture"
+					name="picture"
+					register={register}
+					errorField={errors.picture}
+					accept="image/*"
+					disabled={!edit}
+				/>
+				{user.picture && (
+					<Image
+						src={user.picture}
+						alt="Profile picture"
+						imageClassName="w-24"
 					/>
-				</div>
-				<div className="flex flex-col gap-2">
-					<label htmlFor="picture">Picture</label>
-					{user.picture && (
-						<Image
-							src={user.picture}
-							alt="Profile picture"
-							imageClassName="w-24"
-						/>
-					)}
-					<FileUpload
-						{...register("picture")}
-						mode="basic"
-						id="picture"
-						name="picture"
-						accept="image/*"
-						aria-invalid={errors.picture ? "true" : "false"}
-						disabled={!edit}
-					/>
-				</div>
+				)}
 
 				{edit && (
 					<div className="flex flex-row gap-2">

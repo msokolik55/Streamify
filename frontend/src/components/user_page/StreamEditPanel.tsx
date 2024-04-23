@@ -1,7 +1,5 @@
 import axios from "axios";
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
@@ -15,6 +13,9 @@ import fetcher, { axiosConfig } from "../../models/fetcher";
 import { FormState, StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import MainWindowError from "../errors/MainWindowError";
+import InputTextField from "../form/InputTextField";
+import InputTextareaField from "../form/InputTextareaField";
+import { getActualStream } from "../streamHelpers";
 
 interface IStreamEditPanelProps {
 	formState: FormState;
@@ -184,29 +185,32 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 		}
 	}, [props.formState]);
 
+	const stream = getActualStream(user);
+
 	return (
 		<form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
 			<div className="mx-4 flex flex-col gap-3">
-				<label htmlFor="name">*Name</label>
-				<InputText
-					{...register("name", {
+				<InputTextField
+					name="name"
+					label="*Name"
+					type="text"
+					register={register}
+					errorField={errors.name}
+					options={{
 						required: true,
 						minLength: 3,
-					})}
-					id="name"
-					name="name"
-					type="text"
-					required={true}
-					minLength={3}
-					aria-invalid={errors.name ? "true" : "false"}
+					}}
+					defaultValue={stream.name}
 				/>
-				<label htmlFor="description">Description</label>
-				<InputTextarea
-					{...register("description")}
-					id="description"
+
+				<InputTextareaField
 					name="description"
-					aria-invalid={errors.description ? "true" : "false"}
+					label="Description"
+					register={register}
+					errorField={errors.description}
+					defaultValue={stream.description}
 				/>
+
 				<Button
 					label={
 						props.formState === FormState.CREATE
