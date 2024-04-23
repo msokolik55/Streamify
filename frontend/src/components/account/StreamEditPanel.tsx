@@ -7,6 +7,8 @@ import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
+import { getActualStream } from "../../functions/getStreams";
+import { useLoggedUser } from "../../functions/useFetch";
 import { logError, logInfo } from "../../logger";
 import { axiosJsonConfig } from "../../models/axiosConfig";
 import { FormState, StreamKeyInputs } from "../../models/form";
@@ -14,7 +16,6 @@ import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import ErrorBlock from "../errors/ErrorBlock";
 import InputTextField from "../form/InputTextField";
 import InputTextareaField from "../form/InputTextareaField";
-import { getActualStream, useLoggedUser } from "../getHelpers";
 
 interface IStreamEditPanelProps {
 	formState: FormState;
@@ -24,7 +25,7 @@ interface IStreamEditPanelProps {
 const StreamEditPanel = (props: IStreamEditPanelProps) => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 	const toast = useRef<Toast>(null);
-	const { user, error } = useLoggedUser();
+	const { data: user, error } = useLoggedUser();
 
 	const {
 		register,

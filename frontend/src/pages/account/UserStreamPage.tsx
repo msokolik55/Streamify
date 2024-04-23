@@ -8,12 +8,13 @@ import MessagesPanel from "../../components/account/MessagesPanel";
 import StreamEditPanel from "../../components/account/StreamEditPanel";
 import StreamInfoPanel from "../../components/account/StreamInfoPanel";
 import ErrorBlock from "../../components/errors/ErrorBlock";
-import { getActualStream, useLoggedUser } from "../../components/getHelpers";
+import { getActualStream } from "../../functions/getStreams";
+import { useLoggedUser } from "../../functions/useFetch";
 import { FormState } from "../../models/form";
 
 const UserStreamPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
-	const { user, error } = useLoggedUser();
+	const { data: user, error } = useLoggedUser();
 
 	const [formState, setFormState] = useState(
 		!user?.streamKey ? FormState.CREATE : FormState.UPDATE,

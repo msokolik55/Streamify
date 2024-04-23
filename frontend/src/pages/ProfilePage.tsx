@@ -5,12 +5,12 @@ import BrowseStreamsPanel from "../components/BrowseStreamsPanel";
 import Heading1 from "../components/Heading1";
 import ProfilePicture from "../components/ProfilePicture";
 import ErrorBlock from "../components/errors/ErrorBlock";
-import { useUser } from "../components/getHelpers";
+import { useUser } from "../functions/useFetch";
 import { streamPath } from "../urls";
 
 const ProfilePage = () => {
 	const { username } = useParams();
-	const { user, error } = useUser(username);
+	const { data: user, error } = useUser(username);
 
 	if (error) {
 		return <ErrorBlock error={error} />;

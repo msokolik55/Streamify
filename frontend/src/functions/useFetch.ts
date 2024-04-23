@@ -7,20 +7,21 @@ import { IUser } from "../models/IUser";
 import fetcher from "../models/fetcher";
 import { apiUserUrl } from "../urls";
 
-export const getActualStream = (user: IUser) => {
-	return user.streams.filter((stream) => stream.path === user.streamKey)[0];
-};
-
-export const useUser = (username: string | undefined) => {
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${username}`,
+export const useFetchSWR = <T>(url: string, options?: any) => {
+	const { data, error } = useSWR<IResponseData<T>, Error>(
+		url,
 		fetcher,
+		options,
 	);
 
 	return {
-		user: data?.data,
+		data: data?.data,
 		error,
 	};
+};
+
+export const useUser = (username: string | undefined) => {
+	return useFetchSWR<IUser>(`${apiUserUrl}/${username}`);
 };
 
 export const useLoggedUser = () => {

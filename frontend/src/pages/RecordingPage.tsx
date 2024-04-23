@@ -1,23 +1,19 @@
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
-import useSWR from "swr";
 
 import VideoDetailBox from "../components/VideoDetailBox";
 import VideoPlayer from "../components/VideoPlayer";
 import ErrorBlock from "../components/errors/ErrorBlock";
-import { IResponseData } from "../models/IResponseData";
+import { useFetchSWR } from "../functions/useFetch";
 import { IStream } from "../models/IStream";
-import fetcher from "../models/fetcher";
 import { apiStreamUrl } from "../urls";
 
 const RecordingPage = () => {
 	const { streamId } = useParams();
 
-	const { data, error } = useSWR<IResponseData<IStream>, Error>(
+	const { data: stream, error } = useFetchSWR<IStream>(
 		`${apiStreamUrl}/${streamId}`,
-		fetcher,
 	);
-	const stream = data?.data;
 
 	if (error) {
 		return <ErrorBlock error={error} />;

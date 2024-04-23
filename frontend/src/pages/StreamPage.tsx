@@ -3,32 +3,27 @@ import { Panel } from "primereact/panel";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import useSWR from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
 import MessageForm from "../components/MessageForm";
 import VideoDetailBox from "../components/VideoDetailBox";
 import VideoPlayer from "../components/VideoPlayer";
 import ErrorBlock from "../components/errors/ErrorBlock";
-import { getActualStream, useUser } from "../components/getHelpers";
-import { IResponseData } from "../models/IResponseData";
+import { getActualStream } from "../functions/getStreams";
+import { useFetchSWR, useUser } from "../functions/useFetch";
 import { IStream } from "../models/IStream";
-import fetcher from "../models/fetcher";
 import { apiStreamUrl, messagePath } from "../urls";
 
 const StreamPage = () => {
 	const loggedUsername = useRecoilValue(loggedUserUsernameAtom);
 	const { username } = useParams();
-	const { user, error } = useUser(username);
+	const { data: user, error: errorUser } = useUser(username);
+	const { data: stream, error: errorMessages } = useFetchSWR<IStream>(
+		`${apiStreamUrl}/${user?.streamKey}${messagePath}`,
+	);
 
-	const { data: dataMessages, error: errorMessages } = useSWR<
-		IResponseData<IStream>,
-		Error
-	>(`${apiStreamUrl}/${user?.streamKey}${messagePath}`, fetcher);
-	const stream = dataMessages?.data;
-
-	if (error) {
-		return <ErrorBlock error={error} />;
+	if (errorUser) {
+		return <ErrorBlock error={errorUser} />;
 	}
 	if (errorMessages) {
 		return <ErrorBlock error={errorMessages} />;

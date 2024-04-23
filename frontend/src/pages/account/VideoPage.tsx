@@ -11,7 +11,7 @@ import { loggedUserUsernameAtom } from "../../atom";
 import StreamCard from "../../components/StreamCard";
 import EditDialog from "../../components/account/EditDialog";
 import ErrorBlock from "../../components/errors/ErrorBlock";
-import { useLoggedUser } from "../../components/getHelpers";
+import { useLoggedUser } from "../../functions/useFetch";
 import { logError, logInfo } from "../../logger";
 import { IStream } from "../../models/IStream";
 import { axiosJsonConfig } from "../../models/axiosConfig";
@@ -23,7 +23,7 @@ const VideoPage = () => {
 	const toast = useRef<Toast>(null);
 
 	const { mutate } = useSWRConfig();
-	const { user, error } = useLoggedUser();
+	const { data: user, error } = useLoggedUser();
 
 	if (error) {
 		return <ErrorBlock error={error} />;

@@ -55,8 +55,6 @@ const LoginPage = () => {
 		}
 	};
 
-	console.log(errors);
-
 	return (
 		<div>
 			<Helmet>

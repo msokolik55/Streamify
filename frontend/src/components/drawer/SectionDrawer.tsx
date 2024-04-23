@@ -1,10 +1,8 @@
 import { Menu } from "primereact/menu";
 import { MenuItem } from "primereact/menuitem";
-import useSWR from "swr";
 
-import { IResponseData } from "../../models/IResponseData";
+import { useFetchSWR } from "../../functions/useFetch";
 import { IUser } from "../../models/IUser";
-import fetcher from "../../models/fetcher";
 import ErrorBlock from "../errors/ErrorBlock";
 import SectionItem from "./SectionItem";
 
@@ -15,8 +13,7 @@ interface ISectionDrawerProps {
 }
 
 const SectionDrawer = (props: ISectionDrawerProps) => {
-	const { data, error } = useSWR<IResponseData<IUser[]>>(props.url, fetcher);
-	const users = data?.data;
+	const { data: users, error } = useFetchSWR<IUser[]>(props.url);
 
 	if (error) return <ErrorBlock error={error} />;
 

@@ -1,18 +1,15 @@
-import useSWR from "swr";
-
 import BrowseStreamsPanel from "../components/BrowseStreamsPanel";
 import ErrorBlock from "../components/errors/ErrorBlock";
-import { IResponseData } from "../models/IResponseData";
+import { useFetchSWR } from "../functions/useFetch";
 import { IStream } from "../models/IStream";
 import fetcher from "../models/fetcher";
 import { apiStreamUrl, livePath, streamPath } from "../urls";
 
 const HomePage = () => {
-	const { data, error } = useSWR<IResponseData<IStream[]>, Error>(
+	const { data: streams, error } = useFetchSWR<IStream[]>(
 		apiStreamUrl,
 		fetcher,
 	);
-	const streams = data?.data;
 
 	if (error) return <ErrorBlock error={error} />;
 

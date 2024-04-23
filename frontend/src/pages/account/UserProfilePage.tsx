@@ -15,7 +15,7 @@ import { loggedUserUsernameAtom } from "../../atom";
 import ErrorBlock from "../../components/errors/ErrorBlock";
 import FileUploadField from "../../components/form/FileUploadField";
 import InputTextField from "../../components/form/InputTextField";
-import { useLoggedUser } from "../../components/getHelpers";
+import { useLoggedUser } from "../../functions/useFetch";
 import { logError, logInfo } from "../../logger";
 import {
 	axiosJsonConfig,
@@ -39,7 +39,7 @@ const UserProfilePage = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<UserEditInputs>();
-	const { user, error } = useLoggedUser();
+	const { data: user, error } = useLoggedUser();
 
 	if (error) {
 		return <ErrorBlock error={error} />;
