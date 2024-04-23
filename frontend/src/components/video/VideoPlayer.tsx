@@ -197,28 +197,31 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					<div className="flex flex-row justify-between">
 						<div className="flex flex-row gap-1 items-center">
 							<Button
-								className={`pi pi-${!controls.playing ? "play" : "pause"}`}
+								icon={`pi pi-${!controls.playing ? "play" : "pause"}`}
+								className="w-12"
 								onClick={handlePlayPause}
 								text
 							/>
 							<Button
-								className="pi pi-replay"
+								icon="pi pi-replay"
+								className="w-12"
 								onClick={() => setRetryKey((prev) => prev + 1)}
 								text
 							/>
-							<div className="flex flex-row items-center gap-2">
+							<div className="flex flex-row items-center gap-1">
 								<Button
-									className={`pi pi-volume-${!controls.muted ? "up" : "off"}`}
+									icon={`pi pi-volume-${!controls.muted ? "up" : "off"}`}
+									className="w-28"
 									onClick={handleToggleMuted}
 									text
 								/>
 								<Slider
-									className="w-full min-w-12"
+									className="w-full"
 									value={controls.volume}
 									onChange={handleVolumeChange}
 								/>
 
-								<div className="text-white text-nowrap">
+								<div className="text-white text-nowrap ml-2">
 									<Duration seconds={controls.duration} />
 									<span> / </span>
 									<Duration
@@ -232,6 +235,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 						<div className="flex flex-row items-center gap-1">
 							<Dropdown
+								className="bg-transparent text-white font-medium"
 								value={streamPort}
 								onChange={(event) => {
 									console.log(event.value);
@@ -245,7 +249,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 								})}
 							/>
 							<Button
-								className={`pi pi-window-${!controls.fullscreen ? "maximize" : "minimize"}`}
+								icon={`pi pi-window-${!controls.fullscreen ? "maximize" : "minimize"}`}
 								onClick={handleClickFullscreen}
 								text
 							/>
