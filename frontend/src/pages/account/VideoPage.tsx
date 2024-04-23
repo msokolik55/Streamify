@@ -15,7 +15,8 @@ import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IStream } from "../../models/IStream";
 import { IUser } from "../../models/IUser";
-import fetcher, { axiosConfig } from "../../models/fetcher";
+import { axiosJsonConfig } from "../../models/axiosConfig";
+import fetcher from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 
 const VideoPage = () => {
@@ -46,7 +47,10 @@ const VideoPage = () => {
 		logInfo(VideoPage.name, deleteStream.name, "Fetching");
 
 		try {
-			await axios.delete(`${apiStreamUrl}/${stream.path}`, axiosConfig);
+			await axios.delete(
+				`${apiStreamUrl}/${stream.path}`,
+				axiosJsonConfig,
+			);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
 		} catch (error) {

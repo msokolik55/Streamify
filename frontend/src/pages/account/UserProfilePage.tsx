@@ -18,7 +18,11 @@ import InputTextField from "../../components/form/InputTextField";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
-import fetcher, { axiosConfig } from "../../models/fetcher";
+import {
+	axiosJsonConfig,
+	axiosMultipartConfig,
+} from "../../models/axiosConfig";
+import fetcher from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
 import { apiLiveUrl, apiUserUrl, userPath } from "../../urls";
 
@@ -74,11 +78,11 @@ const UserProfilePage = () => {
 		}
 
 		try {
-			await axios.put(`${apiUserUrl}/${data.id}`, formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
+			await axios.put(
+				`${apiUserUrl}/${data.id}`,
+				formData,
+				axiosMultipartConfig,
+			);
 
 			mutateUser();
 
@@ -107,7 +111,7 @@ const UserProfilePage = () => {
 		try {
 			const response = await axios.delete(
 				`${apiUserUrl}/${loggedUserUsername}`,
-				axiosConfig,
+				axiosJsonConfig,
 			);
 
 			mutateUser();

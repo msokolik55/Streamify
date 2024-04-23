@@ -10,7 +10,8 @@ import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
 import { IUser } from "../../models/IUser";
-import fetcher, { axiosConfig } from "../../models/fetcher";
+import { axiosJsonConfig } from "../../models/axiosConfig";
+import fetcher from "../../models/fetcher";
 import { FormState, StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import ErrorBlock from "../errors/ErrorBlock";
@@ -68,7 +69,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 				{
 					live,
 				},
-				axiosConfig,
+				axiosJsonConfig,
 			);
 		} catch (error) {
 			logError(
@@ -97,7 +98,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 					...inputs,
 					username: user.username,
 				},
-				axiosConfig,
+				axiosJsonConfig,
 			);
 		} catch (error) {
 			logError(
@@ -132,7 +133,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 		try {
 			const sourceExistsRes = await axios.get(
 				`${apiStreamUrl}/${user.streamKey}/exists`,
-				axiosConfig,
+				axiosJsonConfig,
 			);
 
 			const sourceExists = sourceExistsRes.data;
@@ -160,7 +161,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 		try {
 			await axios.delete(
 				`${apiStreamUrl}/${user.streamKey}`,
-				axiosConfig,
+				axiosJsonConfig,
 			);
 
 			mutateUsers();
@@ -188,7 +189,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			await axios.put(
 				`${apiStreamUrl}/${user.streamKey}/end`,
 				{},
-				axiosConfig,
+				axiosJsonConfig,
 			);
 
 			mutateUsers();

@@ -8,7 +8,7 @@ import { useSWRConfig } from "swr";
 
 import { logError, logInfo } from "../logger";
 import { IMessage } from "../models/IMessage";
-import { axiosConfig } from "../models/fetcher";
+import { axiosJsonConfig } from "../models/axiosConfig";
 import UserStreamPage from "../pages/account/UserStreamPage";
 import { apiMessageUrl, apiStreamUrl, apiUserUrl, messagePath } from "../urls";
 
@@ -31,7 +31,10 @@ const MessageCard = (props: IMessageCardProps) => {
 		logInfo(UserStreamPage.name, deleteMessage.name, "Fetching");
 
 		try {
-			await axios.delete(`${apiMessageUrl}/${messageId}`, axiosConfig);
+			await axios.delete(
+				`${apiMessageUrl}/${messageId}`,
+				axiosJsonConfig,
+			);
 
 			mutateMessage();
 		} catch (error) {
@@ -71,7 +74,7 @@ const MessageCard = (props: IMessageCardProps) => {
 				{
 					answered: !answered,
 				},
-				axiosConfig,
+				axiosJsonConfig,
 			);
 
 			mutateMessage();

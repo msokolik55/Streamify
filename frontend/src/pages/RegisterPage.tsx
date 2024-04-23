@@ -13,6 +13,7 @@ import Heading1 from "../components/Heading1";
 import FileUploadField from "../components/form/FileUploadField";
 import InputTextField from "../components/form/InputTextField";
 import { logError, logInfo } from "../logger";
+import { axiosMultipartConfig } from "../models/axiosConfig";
 import { UserCreateInputs } from "../models/form";
 import { apiUserUrl, userProfilePath } from "../urls";
 
@@ -40,11 +41,7 @@ const RegisterPage = () => {
 		formData.append("password", data.password);
 
 		try {
-			await axios.post(apiUserUrl, formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
+			await axios.post(apiUserUrl, formData, axiosMultipartConfig);
 
 			mutate(apiUserUrl);
 			setLoggedUserUsername(data.username);

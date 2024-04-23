@@ -11,7 +11,7 @@ import { useSWRConfig } from "swr";
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
 import { IStream } from "../../models/IStream";
-import { axiosConfig } from "../../models/fetcher";
+import { axiosJsonConfig } from "../../models/axiosConfig";
 import { StreamEditInputs } from "../../models/form";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 import InputTextField from "../form/InputTextField";
@@ -38,7 +38,11 @@ const EditDialog = (props: EditDialogProps) => {
 		logInfo(EditDialog.name, onSubmit.name, "Fetching");
 
 		try {
-			await axios.put(`${apiStreamUrl}/${data.id}`, data, axiosConfig);
+			await axios.put(
+				`${apiStreamUrl}/${data.id}`,
+				data,
+				axiosJsonConfig,
+			);
 
 			mutate(`${apiUserUrl}/${loggedUserUsername}`);
 			props.setShow(false);

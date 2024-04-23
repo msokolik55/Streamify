@@ -10,7 +10,7 @@ import { useSWRConfig } from "swr";
 import { loggedUserUsernameAtom } from "../../atom";
 import InputTextField from "../../components/form/InputTextField";
 import { logError, logInfo } from "../../logger";
-import { axiosConfig } from "../../models/fetcher";
+import { axiosJsonConfig } from "../../models/axiosConfig";
 import { PasswordEditInputs } from "../../models/form";
 import { apiPasswordUrl, apiUserUrl } from "../../urls";
 
@@ -40,7 +40,7 @@ const PasswordPage = () => {
 					oldPassword: data.oldPassword,
 					newPassword: data.newPassword,
 				},
-				axiosConfig,
+				axiosJsonConfig,
 			);
 
 			const resData = response.data;

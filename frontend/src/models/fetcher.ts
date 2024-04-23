@@ -1,12 +1,7 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 import { logInfo } from "../logger";
-
-export const axiosConfig: AxiosRequestConfig = {
-	headers: {
-		"Content-Type": "application/json",
-	},
-};
+import { axiosJsonConfig } from "./axiosConfig";
 
 const fetcher = async (url: string, header: Headers) => {
 	logInfo("global", fetcher.name, `Fetching: ${url}, ${header}`);
@@ -19,7 +14,7 @@ const fetcher = async (url: string, header: Headers) => {
 	}
 
 	try {
-		const response = await axios.get(url, axiosConfig);
+		const response = await axios.get(url, axiosJsonConfig);
 		return response.data;
 	} catch (error) {
 		throw error;

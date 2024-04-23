@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { apiUrl } from "./env";
-import { axiosConfig } from "./models/fetcher";
+import { axiosJsonConfig } from "./models/axiosConfig";
 import { LoginInputs } from "./models/form";
 import { apiLoginUrl } from "./urls";
 
@@ -17,20 +17,20 @@ export const register = async (
 			email,
 			password,
 		},
-		axiosConfig,
+		axiosJsonConfig,
 	);
 };
 
 export const login = async (data: LoginInputs) => {
 	return await axios.post(apiLoginUrl, data, {
-		...axiosConfig,
+		...axiosJsonConfig,
 		withCredentials: true,
 	});
 };
 
 export const logout = async () => {
 	return await axios.get(`${apiUrl}/logout`, {
-		...axiosConfig,
+		...axiosJsonConfig,
 		withCredentials: true,
 	});
 };
