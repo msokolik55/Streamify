@@ -37,7 +37,12 @@ const ProfilePage = () => {
 			</Helmet>
 			<div className="flex flex-row gap-x-4 items-center">
 				<ProfilePicture src={user.picture} username={user.username} />
-				<Heading1 title={user.username} />
+				<div className="flex flex-col gap-2">
+					<Heading1 title={user.username} />
+					<span className="text-gray-500">
+						{`${user.streams.length} video${user.streams.length !== 1 ? "s" : ""}`}
+					</span>
+				</div>
 			</div>
 
 			<BrowseStreamsPanel
