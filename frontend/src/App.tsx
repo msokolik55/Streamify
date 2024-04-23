@@ -42,13 +42,15 @@ export const App = () => {
 
 	const setLoggedUsername = useSetRecoilState(loggedUserUsernameAtom);
 	useEffect(() => {
-		const res = axios.get(`${apiUrl}/authenticated`, {
-			withCredentials: true,
-		});
-		res.then(async (res) => {
-			const username = res.data.data.passport.user;
-			setLoggedUsername(username);
-		}).catch(() => {});
+		axios
+			.get(`${apiUrl}/authenticated`, {
+				withCredentials: true,
+			})
+			.then(async (res) => {
+				const username = res.data.data.passport.user;
+				setLoggedUsername(username);
+			})
+			.catch(() => {});
 	}, []);
 
 	useEffect(() => {
