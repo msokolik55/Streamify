@@ -30,6 +30,8 @@ const ProfilePage = () => {
 		);
 	}
 
+	const savedStreams = user.streams.filter((stream) => stream.ended);
+
 	return (
 		<div className="flex flex-col gap-4">
 			<Helmet>
@@ -40,14 +42,14 @@ const ProfilePage = () => {
 				<div className="flex flex-col gap-2">
 					<Heading1 title={user.username} />
 					<span className="text-gray-500">
-						{`${user.streams.length} video${user.streams.length !== 1 ? "s" : ""}`}
+						{`${savedStreams.length} video${savedStreams.length !== 1 ? "s" : ""}`}
 					</span>
 				</div>
 			</div>
 
 			<BrowseStreamsPanel
 				title="Videos"
-				streams={user.streams.filter((stream) => stream.ended)}
+				streams={savedStreams}
 				streamType="saved"
 				getUrl={(stream) => `${streamPath}/${stream.id}`}
 			/>
