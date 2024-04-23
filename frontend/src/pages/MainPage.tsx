@@ -10,13 +10,11 @@ const MainPage = () => {
 			<Helmet>
 				<title>Streamify</title>
 			</Helmet>
-			<div className="flex flex-col min-h-screen h-full w-full text-white">
+			<div className="flex flex-col min-h-screen h-full w-full">
 				<Navbar />
 				<div className="flex flex-row flex-1">
 					<MainDrawer />
-					<main
-						className={`pb-10 bg-white dark:bg-blue-900 flex flex-col flex-1 text-blue-950 dark:text-white gap-1 overflow-x-auto`}
-					>
+					<main className="flex-1 mx-10 mt-5">
 						<Outlet />
 					</main>
 				</div>

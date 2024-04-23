@@ -63,6 +63,7 @@ router.get("/authenticated", login.isAuthenticated);
 //#region Stream
 
 // router.get(`${streamPath}/:folderName`, stream.getVideoName);
+router.get(streamUrl, stream.get);
 router.post(streamUrl, stream.createStream);
 
 router.get(`${streamUrl}/${idPart}`, stream.getById);

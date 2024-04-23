@@ -9,6 +9,24 @@ import { StreamDetailSelect, StreamSelect } from "./selects";
 import { findByUsername } from "./user";
 
 /**
+ * Return all streams
+ */
+export const get = async (req: Request, res: Response) => {
+	logInfo(req.path, get.name, "Method called");
+
+	try {
+		const streams = await prisma.stream.findMany({
+			select: StreamDetailSelect,
+		});
+
+		return sendResponseSuccess(res, Status.OK, streams);
+	} catch (error) {
+		logError(req.path, getById.name, "Prisma findMany");
+		return sendResponseError(res, Status.BAD_REQUEST, error as string);
+	}
+};
+
+/**
  * Creates stream
  */
 export const createStream = async (req: Request, res: Response) => {

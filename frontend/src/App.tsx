@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isDarkModeAtom, loggedUserUsernameAtom } from "./atom";
 import ErrorPage from "./components/errors/ErrorPage";
 import { apiUrl } from "./env";
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -66,6 +67,7 @@ export const App = () => {
 			<Router>
 				<Routes>
 					<Route path="/" element={<MainPage />}>
+						<Route path="/" element={<HomePage />} />
 						<Route
 							path={`${profilePath}/:username`}
 							element={<ProfilePage />}

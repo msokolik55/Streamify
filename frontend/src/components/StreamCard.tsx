@@ -4,7 +4,6 @@ import { IStream } from "../models/IStream";
 
 interface IStreamCardProps {
 	stream: IStream;
-	username: string;
 	footer?: JSX.Element;
 }
 
@@ -18,22 +17,24 @@ const StreamCard = (props: IStreamCardProps) => {
 		</video>
 	);
 
-	const description =
-		props.stream.description !== "" ? (
-			<span>{props.stream.description}</span>
-		) : (
-			<span className="text-gray-400">(no description)</span>
-		);
+	// const description =
+	// 	props.stream.description !== "" ? (
+	// 		<span>{props.stream.description}</span>
+	// 	) : (
+	// 		<span className="text-gray-400">(no description)</span>
+	// 	);
 
 	return (
 		<Card
 			title={props.stream.name}
-			subTitle={props.username}
+			subTitle={props.stream.user.username}
 			header={header}
 			footer={props.footer}
-			className="my-0.5"
+			className="my-0.5 w-64"
 		>
-			{description}
+			{
+				//description
+			}
 		</Card>
 	);
 };

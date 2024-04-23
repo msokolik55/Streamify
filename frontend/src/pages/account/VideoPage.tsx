@@ -86,7 +86,6 @@ const VideoPage = () => {
 							<div className="flex flex-col gap-2">
 								<StreamCard
 									stream={stream}
-									username={user.username}
 									footer={
 										<div className="flex flex-row gap-2">
 											<Button
