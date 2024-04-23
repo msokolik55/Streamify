@@ -5,18 +5,16 @@ import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useRecoilValue } from "recoil";
-import useSWR, { useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import StreamCard from "../../components/StreamCard";
+import EditDialog from "../../components/account/EditDialog";
 import ErrorBlock from "../../components/errors/ErrorBlock";
-import EditDialog from "../../components/user_page/EditDialog";
+import { useLoggedUser } from "../../components/getHelpers";
 import { logError, logInfo } from "../../logger";
-import { IResponseData } from "../../models/IResponseData";
 import { IStream } from "../../models/IStream";
-import { IUser } from "../../models/IUser";
 import { axiosJsonConfig } from "../../models/axiosConfig";
-import fetcher from "../../models/fetcher";
 import { apiStreamUrl, apiUserUrl } from "../../urls";
 
 const VideoPage = () => {
@@ -25,11 +23,7 @@ const VideoPage = () => {
 	const toast = useRef<Toast>(null);
 
 	const { mutate } = useSWRConfig();
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${loggedUserUsername}`,
-		fetcher,
-	);
-	const user = data?.data;
+	const { user, error } = useLoggedUser();
 
 	if (error) {
 		return <ErrorBlock error={error} />;

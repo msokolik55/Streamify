@@ -2,7 +2,7 @@ import { TabMenu } from "primereact/tabmenu";
 import { Helmet } from "react-helmet";
 import { Outlet, useNavigate } from "react-router-dom";
 
-import { getUser } from "../../components/streamHelpers";
+import { useLoggedUser } from "../../components/getHelpers";
 import {
 	loginPath,
 	userPasswordPath,
@@ -14,7 +14,7 @@ import {
 const UserPage = () => {
 	const navigate = useNavigate();
 
-	const { user } = getUser();
+	const { user } = useLoggedUser();
 	if (!user) {
 		navigate(loginPath);
 	}

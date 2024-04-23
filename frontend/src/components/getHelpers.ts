@@ -11,18 +11,19 @@ export const getActualStream = (user: IUser) => {
 	return user.streams.filter((stream) => stream.path === user.streamKey)[0];
 };
 
-export const getUser = () => {
-	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
-
+export const useUser = (username: string | undefined) => {
 	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${loggedUserUsername}`,
-
+		`${apiUserUrl}/${username}`,
 		fetcher,
 	);
 
-	const user = data?.data;
 	return {
-		user,
+		user: data?.data,
 		error,
 	};
+};
+
+export const useLoggedUser = () => {
+	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
+	return useUser(loggedUserUsername);
 };

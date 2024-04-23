@@ -10,22 +10,16 @@ import MessageForm from "../components/MessageForm";
 import VideoDetailBox from "../components/VideoDetailBox";
 import VideoPlayer from "../components/VideoPlayer";
 import ErrorBlock from "../components/errors/ErrorBlock";
-import { getActualStream } from "../components/streamHelpers";
+import { getActualStream, useUser } from "../components/getHelpers";
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
-import { IUser } from "../models/IUser";
 import fetcher from "../models/fetcher";
-import { apiStreamUrl, apiUserUrl, messagePath } from "../urls";
+import { apiStreamUrl, messagePath } from "../urls";
 
 const StreamPage = () => {
 	const loggedUsername = useRecoilValue(loggedUserUsernameAtom);
 	const { username } = useParams();
-
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${username}`,
-		fetcher,
-	);
-	const user = data?.data;
+	const { user, error } = useUser(username);
 
 	const { data: dataMessages, error: errorMessages } = useSWR<
 		IResponseData<IStream>,

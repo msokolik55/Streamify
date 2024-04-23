@@ -9,20 +9,18 @@ import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import useSWR, { useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import ErrorBlock from "../../components/errors/ErrorBlock";
 import FileUploadField from "../../components/form/FileUploadField";
 import InputTextField from "../../components/form/InputTextField";
+import { useLoggedUser } from "../../components/getHelpers";
 import { logError, logInfo } from "../../logger";
-import { IResponseData } from "../../models/IResponseData";
-import { IUser } from "../../models/IUser";
 import {
 	axiosJsonConfig,
 	axiosMultipartConfig,
 } from "../../models/axiosConfig";
-import fetcher from "../../models/fetcher";
 import { UserEditInputs } from "../../models/form";
 import { apiLiveUrl, apiUserUrl, userPath } from "../../urls";
 
@@ -41,12 +39,7 @@ const UserProfilePage = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<UserEditInputs>();
-
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${loggedUserUsername}`,
-		fetcher,
-	);
-	const user = data?.data;
+	const { user, error } = useLoggedUser();
 
 	if (error) {
 		return <ErrorBlock error={error} />;

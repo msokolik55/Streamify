@@ -4,20 +4,17 @@ import { Toast } from "primereact/toast";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
-import useSWR, { useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import { logError, logInfo } from "../../logger";
-import { IResponseData } from "../../models/IResponseData";
-import { IUser } from "../../models/IUser";
 import { axiosJsonConfig } from "../../models/axiosConfig";
-import fetcher from "../../models/fetcher";
 import { FormState, StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
 import ErrorBlock from "../errors/ErrorBlock";
 import InputTextField from "../form/InputTextField";
 import InputTextareaField from "../form/InputTextareaField";
-import { getActualStream } from "../streamHelpers";
+import { getActualStream, useLoggedUser } from "../getHelpers";
 
 interface IStreamEditPanelProps {
 	formState: FormState;
@@ -27,12 +24,7 @@ interface IStreamEditPanelProps {
 const StreamEditPanel = (props: IStreamEditPanelProps) => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 	const toast = useRef<Toast>(null);
-
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${loggedUserUsername}`,
-		fetcher,
-	);
-	const user = data?.data;
+	const { user, error } = useLoggedUser();
 
 	const {
 		register,

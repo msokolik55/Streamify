@@ -1,29 +1,20 @@
 import { TabPanel, TabView } from "primereact/tabview";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import useSWR from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import VideoPlayer from "../../components/VideoPlayer";
+import MessagesPanel from "../../components/account/MessagesPanel";
+import StreamEditPanel from "../../components/account/StreamEditPanel";
+import StreamInfoPanel from "../../components/account/StreamInfoPanel";
 import ErrorBlock from "../../components/errors/ErrorBlock";
-import { getActualStream } from "../../components/streamHelpers";
-import MessagesPanel from "../../components/user_page/MessagesPanel";
-import StreamEditPanel from "../../components/user_page/StreamEditPanel";
-import StreamInfoPanel from "../../components/user_page/StreamInfoPanel";
-import { IResponseData } from "../../models/IResponseData";
-import { IUser } from "../../models/IUser";
-import fetcher from "../../models/fetcher";
+import { getActualStream, useLoggedUser } from "../../components/getHelpers";
 import { FormState } from "../../models/form";
-import { apiUserUrl } from "../../urls";
 
 const UserStreamPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
+	const { user, error } = useLoggedUser();
 
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${loggedUserUsername}`,
-		fetcher,
-	);
-	const user = data?.data;
 	const [formState, setFormState] = useState(
 		!user?.streamKey ? FormState.CREATE : FormState.UPDATE,
 	);

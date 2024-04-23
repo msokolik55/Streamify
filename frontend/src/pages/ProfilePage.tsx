@@ -1,24 +1,16 @@
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
-import useSWR from "swr";
 
 import BrowseStreamsPanel from "../components/BrowseStreamsPanel";
 import Heading1 from "../components/Heading1";
 import ProfilePicture from "../components/ProfilePicture";
 import ErrorBlock from "../components/errors/ErrorBlock";
-import { IResponseData } from "../models/IResponseData";
-import { IUser } from "../models/IUser";
-import fetcher from "../models/fetcher";
-import { apiUserUrl, streamPath } from "../urls";
+import { useUser } from "../components/getHelpers";
+import { streamPath } from "../urls";
 
 const ProfilePage = () => {
 	const { username } = useParams();
-
-	const { data, error } = useSWR<IResponseData<IUser>, Error>(
-		`${apiUserUrl}/${username}`,
-		fetcher,
-	);
-	const user = data?.data;
+	const { user, error } = useUser(username);
 
 	if (error) {
 		return <ErrorBlock error={error} />;
