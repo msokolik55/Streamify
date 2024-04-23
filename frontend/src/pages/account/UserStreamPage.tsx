@@ -5,7 +5,7 @@ import useSWR from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import VideoPlayer from "../../components/VideoPlayer";
-import MainWindowError from "../../components/errors/MainWindowError";
+import ErrorBlock from "../../components/errors/ErrorBlock";
 import { getActualStream } from "../../components/streamHelpers";
 import MessagesPanel from "../../components/user_page/MessagesPanel";
 import StreamEditPanel from "../../components/user_page/StreamEditPanel";
@@ -29,12 +29,14 @@ const UserStreamPage = () => {
 	);
 
 	if (error) {
-		return <MainWindowError message={error.message} />;
+		return <ErrorBlock error={error} />;
 	}
 
 	if (!user) {
 		return (
-			<MainWindowError message="Cannot find user with given username." />
+			<ErrorBlock
+				error={new Error("Cannot find user with given username.")}
+			/>
 		);
 	}
 

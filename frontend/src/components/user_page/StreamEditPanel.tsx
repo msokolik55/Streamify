@@ -12,7 +12,7 @@ import { IUser } from "../../models/IUser";
 import fetcher, { axiosConfig } from "../../models/fetcher";
 import { FormState, StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
-import MainWindowError from "../errors/MainWindowError";
+import ErrorBlock from "../errors/ErrorBlock";
 import InputTextField from "../form/InputTextField";
 import InputTextareaField from "../form/InputTextareaField";
 import { getActualStream } from "../streamHelpers";
@@ -39,12 +39,14 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 	} = useForm<StreamKeyInputs>();
 
 	if (error) {
-		return <MainWindowError message={error.message} />;
+		return <ErrorBlock error={error} />;
 	}
 
 	if (!user) {
 		return (
-			<MainWindowError message="Cannot find user with given username." />
+			<ErrorBlock
+				error={new Error("Cannot find user with given username.")}
+			/>
 		);
 	}
 

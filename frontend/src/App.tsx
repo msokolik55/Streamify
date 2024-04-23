@@ -5,8 +5,8 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { isDarkModeAtom, loggedUserUsernameAtom } from "./atom";
-import ErrorPage from "./components/errors/ErrorPage";
 import { apiUrl } from "./env";
+import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";

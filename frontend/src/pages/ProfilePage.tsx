@@ -5,7 +5,7 @@ import useSWR from "swr";
 import BrowseStreamsPanel from "../components/BrowseStreamsPanel";
 import Heading1 from "../components/Heading1";
 import ProfilePicture from "../components/ProfilePicture";
-import MainWindowError from "../components/errors/MainWindowError";
+import ErrorBlock from "../components/errors/ErrorBlock";
 import { IResponseData } from "../models/IResponseData";
 import { IUser } from "../models/IUser";
 import fetcher from "../models/fetcher";
@@ -21,12 +21,14 @@ const ProfilePage = () => {
 	const user = data?.data;
 
 	if (error) {
-		return <MainWindowError message={error.message} />;
+		return <ErrorBlock error={error} />;
 	}
 
 	if (!user) {
 		return (
-			<MainWindowError message="Cannot find user with given username." />
+			<ErrorBlock
+				error={new Error("Cannot find user with given username.")}
+			/>
 		);
 	}
 

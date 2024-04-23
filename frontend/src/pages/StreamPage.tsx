@@ -9,7 +9,7 @@ import { loggedUserUsernameAtom } from "../atom";
 import MessageForm from "../components/MessageForm";
 import VideoDetailBox from "../components/VideoDetailBox";
 import VideoPlayer from "../components/VideoPlayer";
-import MainWindowError from "../components/errors/MainWindowError";
+import ErrorBlock from "../components/errors/ErrorBlock";
 import { getActualStream } from "../components/streamHelpers";
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
@@ -34,26 +34,25 @@ const StreamPage = () => {
 	const stream = dataMessages?.data;
 
 	if (error) {
-		return (
-			<MainWindowError
-				message={
-					error?.message ||
-					errorMessages?.message ||
-					"Error when fetching data."
-				}
-			/>
-		);
+		return <ErrorBlock error={error} />;
+	}
+	if (errorMessages) {
+		return <ErrorBlock error={errorMessages} />;
 	}
 
 	if (!user) {
 		return (
-			<MainWindowError message="Cannot find user with given username." />
+			<ErrorBlock
+				error={new Error("Cannot find user with given username.")}
+			/>
 		);
 	}
 
 	if (user.streamKey === null) {
 		return (
-			<MainWindowError message="This user is not currently streaming." />
+			<ErrorBlock
+				error={new Error("This user is not currently streaming.")}
+			/>
 		);
 	}
 

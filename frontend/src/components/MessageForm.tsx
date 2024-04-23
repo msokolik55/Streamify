@@ -63,9 +63,7 @@ const MessageForm = (props: MessageFormProps) => {
 				aria-label="Message content"
 				aria-placeholder="Type a message..."
 			/>
-			<Button type="submit" disabled={loading}>
-				{loading ? "Sending..." : "Send"}
-			</Button>
+			<Button type="submit" label="Send" disabled={loading} />
 		</form>
 	);
 };

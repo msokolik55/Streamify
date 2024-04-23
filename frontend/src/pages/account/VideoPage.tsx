@@ -8,7 +8,7 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import StreamCard from "../../components/StreamCard";
-import MainWindowError from "../../components/errors/MainWindowError";
+import ErrorBlock from "../../components/errors/ErrorBlock";
 import EditDialog from "../../components/user_page/EditDialog";
 import { logError, logInfo } from "../../logger";
 import { IResponseData } from "../../models/IResponseData";
@@ -29,12 +29,14 @@ const VideoPage = () => {
 	const user = data?.data;
 
 	if (error) {
-		return <MainWindowError message={error.message} />;
+		return <ErrorBlock error={error} />;
 	}
 
 	if (!user) {
 		return (
-			<MainWindowError message="Cannot find user with given username." />
+			<ErrorBlock
+				error={new Error("Cannot find user with given username.")}
+			/>
 		);
 	}
 
@@ -69,7 +71,7 @@ const VideoPage = () => {
 	const endedVideos = user.streams.filter((stream) => stream.ended);
 
 	return (
-		<div className="flex flex-row gap-4 overflow-auto flex-wrap">
+		<main className="flex flex-row gap-4 overflow-auto flex-wrap">
 			<Helmet>
 				<title>{user.username} - Streamify</title>
 			</Helmet>
@@ -118,7 +120,7 @@ const VideoPage = () => {
 						</div>
 					))
 			)}
-		</div>
+		</main>
 	);
 };
 

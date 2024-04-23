@@ -11,7 +11,7 @@ import { useRecoilState } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import MainWindowError from "../../components/errors/MainWindowError";
+import ErrorBlock from "../../components/errors/ErrorBlock";
 import FileUploadField from "../../components/form/FileUploadField";
 import InputTextField from "../../components/form/InputTextField";
 import { logError, logInfo } from "../../logger";
@@ -43,12 +43,14 @@ const UserProfilePage = () => {
 	const user = data?.data;
 
 	if (error) {
-		return <MainWindowError message={error.message} />;
+		return <ErrorBlock error={error} />;
 	}
 
 	if (!user) {
 		return (
-			<MainWindowError message="Cannot find user with given username." />
+			<ErrorBlock
+				error={new Error("Cannot find user with given username.")}
+			/>
 		);
 	}
 

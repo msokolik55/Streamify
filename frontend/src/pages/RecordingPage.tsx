@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 import VideoDetailBox from "../components/VideoDetailBox";
 import VideoPlayer from "../components/VideoPlayer";
-import MainWindowError from "../components/errors/MainWindowError";
+import ErrorBlock from "../components/errors/ErrorBlock";
 import { IResponseData } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
 import fetcher from "../models/fetcher";
@@ -20,11 +20,15 @@ const RecordingPage = () => {
 	const stream = data?.data;
 
 	if (error) {
-		return <MainWindowError message={error.message} />;
+		return <ErrorBlock error={error} />;
 	}
 
 	if (!stream) {
-		return <MainWindowError message="Cannot find stream with given id." />;
+		return (
+			<ErrorBlock
+				error={new Error("Cannot find stream with given id.")}
+			/>
+		);
 	}
 
 	const videoSrc = `/recordings/${stream.path}/video.mp4`;

@@ -1,17 +1,20 @@
 import useSWR from "swr";
 
 import BrowseStreamsPanel from "../components/BrowseStreamsPanel";
+import ErrorBlock from "../components/errors/ErrorBlock";
 import { IResponseDatas } from "../models/IResponseData";
 import { IStream } from "../models/IStream";
 import fetcher from "../models/fetcher";
 import { apiStreamUrl, livePath, streamPath } from "../urls";
 
 const HomePage = () => {
-	const { data } = useSWR<IResponseDatas<IStream>, Error>(
+	const { data, error } = useSWR<IResponseDatas<IStream>, Error>(
 		apiStreamUrl,
 		fetcher,
 	);
 	const streams = data?.data;
+
+	if (error) return <ErrorBlock error={error} />;
 
 	const liveStreams = streams?.filter((stream) => !stream.ended) ?? [];
 	const savedStreams = streams?.filter((stream) => stream.ended) ?? [];
