@@ -13,7 +13,7 @@ import { logError, logInfo } from "../../logger";
 import { axiosJsonConfig } from "../../models/axiosConfig";
 import { FormState, StreamKeyInputs } from "../../models/form";
 import { apiLiveUrl, apiStreamUrl, apiUserUrl } from "../../urls";
-import ErrorBlock from "../errors/ErrorBlock";
+import ErrorBlock from "../error/ErrorBlock";
 import InputTextField from "../form/InputTextField";
 import InputTextareaField from "../form/InputTextareaField";
 

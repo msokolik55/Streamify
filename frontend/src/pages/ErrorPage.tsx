@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
 
-import Heading1 from "../components/Heading1";
+import Heading1 from "../components/heading/Heading1";
 
 const ErrorPage = () => {
 	return (

@@ -1,7 +1,7 @@
 import { Panel } from "primereact/panel";
 
 import { IMessage } from "../../models/IMessage";
-import MessageCard from "../MessageCard";
+import MessageCard from "../message/MessageCard";
 
 interface IMessagesBlockProps {
 	title: string;

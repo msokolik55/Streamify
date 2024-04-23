@@ -8,8 +8,8 @@ import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "../atom";
 import { login } from "../auth";
-import Heading1 from "../components/Heading1";
 import InputTextField from "../components/form/InputTextField";
+import Heading1 from "../components/heading/Heading1";
 import { logError, logInfo } from "../logger";
 import { LoginInputs } from "../models/form";
 import { registerPath, userProfilePath } from "../urls";

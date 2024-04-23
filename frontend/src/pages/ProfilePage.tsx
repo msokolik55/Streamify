@@ -2,9 +2,9 @@ import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 import BrowseStreamsPanel from "../components/BrowseStreamsPanel";
-import Heading1 from "../components/Heading1";
 import ProfilePicture from "../components/ProfilePicture";
-import ErrorBlock from "../components/errors/ErrorBlock";
+import ErrorBlock from "../components/error/ErrorBlock";
+import Heading1 from "../components/heading/Heading1";
 import { useUser } from "../functions/useFetch";
 import { streamPath } from "../urls";
 

@@ -3,7 +3,7 @@ import { MenuItem } from "primereact/menuitem";
 
 import { useFetchSWR } from "../../functions/useFetch";
 import { IUser } from "../../models/IUser";
-import ErrorBlock from "../errors/ErrorBlock";
+import ErrorBlock from "../error/ErrorBlock";
 import SectionItem from "./SectionItem";
 
 interface ISectionDrawerProps {

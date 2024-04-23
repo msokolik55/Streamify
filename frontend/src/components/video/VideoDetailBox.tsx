@@ -1,12 +1,12 @@
 import { Panel } from "primereact/panel";
 import { Link } from "react-router-dom";
 
-import { IStream } from "../models/IStream";
-import { IUser } from "../models/IUser";
-import { profilePath } from "../urls";
-import Heading1 from "./Heading1";
-import ProfilePicture from "./ProfilePicture";
-import ViewerCounter from "./ViewerCounter";
+import { IStream } from "../../models/IStream";
+import { IUser } from "../../models/IUser";
+import { profilePath } from "../../urls";
+import ProfilePicture from "../ProfilePicture";
+import ViewerCounter from "../counter/ViewerCounter";
+import Heading1 from "../heading/Heading1";
 
 type VideoDetailBoxProps = {
 	stream: IStream;

@@ -5,8 +5,8 @@ import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
 
-import { baseUrl } from "../env";
-import Duration from "./Duration";
+import { baseUrl } from "../../env";
+import Duration from "../Duration";
 
 interface IStreamSource {
 	streamKey: string;

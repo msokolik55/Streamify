@@ -9,9 +9,9 @@ import { useSetRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
-import Heading1 from "../components/Heading1";
 import FileUploadField from "../components/form/FileUploadField";
 import InputTextField from "../components/form/InputTextField";
+import Heading1 from "../components/heading/Heading1";
 import { logError, logInfo } from "../logger";
 import { axiosMultipartConfig } from "../models/axiosConfig";
 import { UserCreateInputs } from "../models/form";

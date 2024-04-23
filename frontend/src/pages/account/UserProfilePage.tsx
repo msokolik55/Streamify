@@ -12,7 +12,7 @@ import { useRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import ErrorBlock from "../../components/errors/ErrorBlock";
+import ErrorBlock from "../../components/error/ErrorBlock";
 import FileUploadField from "../../components/form/FileUploadField";
 import InputTextField from "../../components/form/InputTextField";
 import { useLoggedUser } from "../../functions/useFetch";

@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
-import VideoDetailBox from "../components/VideoDetailBox";
-import VideoPlayer from "../components/VideoPlayer";
-import ErrorBlock from "../components/errors/ErrorBlock";
+import ErrorBlock from "../components/error/ErrorBlock";
+import VideoDetailBox from "../components/video/VideoDetailBox";
+import VideoPlayer from "../components/video/VideoPlayer";
 import { useFetchSWR } from "../functions/useFetch";
 import { IStream } from "../models/IStream";
 import { apiStreamUrl } from "../urls";

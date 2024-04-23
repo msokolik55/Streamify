@@ -1,5 +1,5 @@
 import BrowseStreamsPanel from "../components/BrowseStreamsPanel";
-import ErrorBlock from "../components/errors/ErrorBlock";
+import ErrorBlock from "../components/error/ErrorBlock";
 import { useFetchSWR } from "../functions/useFetch";
 import { IStream } from "../models/IStream";
 import fetcher from "../models/fetcher";

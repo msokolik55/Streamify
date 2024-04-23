@@ -6,9 +6,9 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSWRConfig } from "swr";
 
-import { logError, logInfo } from "../logger";
-import { MessageInputs } from "../models/form";
-import { apiMessageUrl, apiStreamUrl, messagePath } from "../urls";
+import { logError, logInfo } from "../../logger";
+import { MessageInputs } from "../../models/form";
+import { apiMessageUrl, apiStreamUrl, messagePath } from "../../urls";
 
 type MessageFormProps = {
 	streamKey: string;

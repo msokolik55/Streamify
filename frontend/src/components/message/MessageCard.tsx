@@ -6,11 +6,16 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { useSWRConfig } from "swr";
 
-import { logError, logInfo } from "../logger";
-import { IMessage } from "../models/IMessage";
-import { axiosJsonConfig } from "../models/axiosConfig";
-import UserStreamPage from "../pages/account/UserStreamPage";
-import { apiMessageUrl, apiStreamUrl, apiUserUrl, messagePath } from "../urls";
+import { logError, logInfo } from "../../logger";
+import { IMessage } from "../../models/IMessage";
+import { axiosJsonConfig } from "../../models/axiosConfig";
+import UserStreamPage from "../../pages/account/UserStreamPage";
+import {
+	apiMessageUrl,
+	apiStreamUrl,
+	apiUserUrl,
+	messagePath,
+} from "../../urls";
 
 interface IMessageCardProps {
 	message: IMessage;

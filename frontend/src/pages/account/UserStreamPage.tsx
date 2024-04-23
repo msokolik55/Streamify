@@ -3,11 +3,11 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import { loggedUserUsernameAtom } from "../../atom";
-import VideoPlayer from "../../components/VideoPlayer";
 import MessagesPanel from "../../components/account/MessagesPanel";
 import StreamEditPanel from "../../components/account/StreamEditPanel";
 import StreamInfoPanel from "../../components/account/StreamInfoPanel";
-import ErrorBlock from "../../components/errors/ErrorBlock";
+import ErrorBlock from "../../components/error/ErrorBlock";
+import VideoPlayer from "../../components/video/VideoPlayer";
 import { getActualStream } from "../../functions/getStreams";
 import { useLoggedUser } from "../../functions/useFetch";
 import { FormState } from "../../models/form";

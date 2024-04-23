@@ -1,4 +1,4 @@
-import CircleLive from "./CircleLive";
+import CircleLive from "../CircleLive";
 
 interface ICounterProps {
 	count: number;

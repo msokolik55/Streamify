@@ -5,10 +5,10 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { loggedUserUsernameAtom } from "../atom";
-import MessageForm from "../components/MessageForm";
-import VideoDetailBox from "../components/VideoDetailBox";
-import VideoPlayer from "../components/VideoPlayer";
-import ErrorBlock from "../components/errors/ErrorBlock";
+import ErrorBlock from "../components/error/ErrorBlock";
+import MessageForm from "../components/message/MessageForm";
+import VideoDetailBox from "../components/video/VideoDetailBox";
+import VideoPlayer from "../components/video/VideoPlayer";
 import { getActualStream } from "../functions/getStreams";
 import { useFetchSWR, useUser } from "../functions/useFetch";
 import { IStream } from "../models/IStream";
