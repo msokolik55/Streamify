@@ -1,6 +1,9 @@
 import axios from "axios";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
+import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 import { useSWRConfig } from "swr";
 
 import { logError, logInfo } from "../logger";
@@ -16,6 +19,7 @@ interface IMessageCardProps {
 }
 
 const MessageCard = (props: IMessageCardProps) => {
+	const toast = useRef<Toast>(null);
 	const { mutate } = useSWRConfig();
 
 	const mutateMessage = () => {
@@ -37,7 +41,25 @@ const MessageCard = (props: IMessageCardProps) => {
 				"Error deleting message",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error deleting message",
+				life: 3000,
+			});
 		}
+	};
+
+	const promptDelete = (e: any) => {
+		confirmPopup({
+			target: e.currentTarget,
+			message: "Do you want to delete this video?",
+			icon: "pi pi-trash",
+			defaultFocus: "reject",
+			acceptClassName: "p-button-danger",
+			accept: () => deleteMessage(props.message.id),
+		});
 	};
 
 	const answerMessage = async (messageId: string, answered: boolean) => {
@@ -60,11 +82,21 @@ const MessageCard = (props: IMessageCardProps) => {
 				"Error answering message",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error answering message",
+				life: 3000,
+			});
 		}
 	};
 
 	const footer = (
 		<div className="flex flex-row gap-2">
+			<Toast ref={toast} />
+			<ConfirmPopup />
+
 			<Button
 				label={props.message.answered ? "Open" : "Answer"}
 				onClick={() =>
@@ -73,7 +105,8 @@ const MessageCard = (props: IMessageCardProps) => {
 			></Button>
 			<Button
 				label="Delete"
-				onClick={() => deleteMessage(props.message.id)}
+				className="p-button-danger"
+				onClick={promptDelete}
 			/>
 		</div>
 	);

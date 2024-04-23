@@ -1,5 +1,7 @@
 import axios from "axios";
 import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
@@ -14,6 +16,7 @@ import { apiPasswordUrl, apiUserUrl } from "../../urls";
 
 const PasswordPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
+	const toast = useRef<Toast>(null);
 
 	const {
 		register,
@@ -52,9 +55,16 @@ const PasswordPage = () => {
 			logError(
 				PasswordPage.name,
 				onSubmit.name,
-				"Error submitting form:",
+				"Error submitting form",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error submitting form",
+				life: 3000,
+			});
 		}
 	};
 
@@ -63,6 +73,9 @@ const PasswordPage = () => {
 			<Helmet>
 				<title>Password - Streamify</title>
 			</Helmet>
+
+			<Toast ref={toast} />
+
 			<form
 				className="flex flex-col gap-3"
 				onSubmit={handleSubmit(onSubmit)}

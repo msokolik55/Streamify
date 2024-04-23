@@ -1,4 +1,6 @@
 import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,6 +23,7 @@ const LoginPage = () => {
 	} = useForm<LoginInputs>();
 
 	const setLoggedUserUsername = useSetRecoilState(loggedUserUsernameAtom);
+	const toast = useRef<Toast>(null);
 
 	const onSubmit = async (data: LoginInputs) => {
 		logInfo(LoginPage.name, onSubmit.name, "Fetching");
@@ -39,9 +42,16 @@ const LoginPage = () => {
 			logError(
 				LoginPage.name,
 				onSubmit.name,
-				"Error submitting login form:",
+				"Error submitting login form",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error Message",
+				detail: "Invalid login data. Please try again.",
+				life: 3000,
+			});
 		}
 	};
 
@@ -52,6 +62,9 @@ const LoginPage = () => {
 			<Helmet>
 				<title>Login - Streamify</title>
 			</Helmet>
+
+			<Toast ref={toast} />
+
 			<div className="text-center mt-10">
 				<Heading1 title="Sign in to your account" />
 			</div>

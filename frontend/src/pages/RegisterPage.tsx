@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Button } from "primereact/button";
-import { useState } from "react";
+import { Toast } from "primereact/toast";
+import { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
@@ -18,6 +19,7 @@ import { apiUserUrl, userProfilePath } from "../urls";
 const RegisterPage = () => {
 	const setLoggedUserUsername = useSetRecoilState(loggedUserUsernameAtom);
 	const [success, setSuccess] = useState(false);
+	const toast = useRef<Toast>(null);
 
 	const {
 		register,
@@ -51,9 +53,16 @@ const RegisterPage = () => {
 			logError(
 				RegisterPage.name,
 				onSubmit.name,
-				"Error submitting form:",
+				"Error submitting form",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error submitting form",
+				life: 3000,
+			});
 		}
 	};
 
@@ -63,6 +72,8 @@ const RegisterPage = () => {
 				<title>Register new account - Streamify</title>
 			</Helmet>
 			{success && <Navigate to={userProfilePath} />}
+
+			<Toast ref={toast} />
 
 			<div className="text-center mt-10">
 				<Heading1 title="Register" />

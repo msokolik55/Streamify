@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Button } from "primereact/button";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
-import { useState } from "react";
+import { Toast } from "primereact/toast";
+import { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
@@ -20,6 +21,7 @@ import { apiStreamUrl, apiUserUrl } from "../../urls";
 const VideoPage = () => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
 	const [showEditDialog, setShowEditDialog] = useState(false);
+	const toast = useRef<Toast>(null);
 
 	const { mutate } = useSWRConfig();
 	const { data, error } = useSWR<IResponseData<IUser>, Error>(
@@ -51,9 +53,16 @@ const VideoPage = () => {
 			logError(
 				VideoPage.name,
 				deleteStream.name,
-				"Error deleting stream:",
+				"Error deleting stream",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error deleting stream",
+				life: 3000,
+			});
 		}
 	};
 
@@ -75,6 +84,9 @@ const VideoPage = () => {
 			<Helmet>
 				<title>{user.username} - Streamify</title>
 			</Helmet>
+
+			<Toast ref={toast} />
+
 			{endedVideos.length === 0 ? (
 				<p>No videos to show.</p>
 			) : (

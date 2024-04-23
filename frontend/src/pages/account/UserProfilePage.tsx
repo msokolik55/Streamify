@@ -3,7 +3,8 @@ import { Button } from "primereact/button";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { Image } from "primereact/image";
 import { InputText } from "primereact/inputtext";
-import { useState } from "react";
+import { Toast } from "primereact/toast";
+import { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -29,6 +30,7 @@ const UserProfilePage = () => {
 	);
 	const [edit, setEdit] = useState(false);
 	const [deleted, setDeleted] = useState(false);
+	const toast = useRef<Toast>(null);
 
 	const {
 		register,
@@ -86,9 +88,16 @@ const UserProfilePage = () => {
 			logError(
 				UserProfilePage.name,
 				onSubmit.name,
-				"Error updating user profile:",
+				"Error updating user profile",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error updating user profile",
+				life: 3000,
+			});
 		}
 	};
 
@@ -112,9 +121,16 @@ const UserProfilePage = () => {
 			logError(
 				"UserProfilePage",
 				"deleteAccount",
-				"Error deleting user account:",
+				"Error deleting user account",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error deleting user account",
+				life: 3000,
+			});
 		}
 	};
 
@@ -134,6 +150,9 @@ const UserProfilePage = () => {
 			<Helmet>
 				<title>User Profile - Streamify</title>
 			</Helmet>
+
+			<Toast ref={toast} />
+
 			<form
 				className="flex flex-col gap-3"
 				onSubmit={handleSubmit(onSubmit)}

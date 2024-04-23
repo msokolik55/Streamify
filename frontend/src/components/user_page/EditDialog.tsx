@@ -2,7 +2,8 @@ import axios from "axios";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { SetStateAction } from "react";
+import { Toast } from "primereact/toast";
+import { SetStateAction, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
@@ -24,6 +25,7 @@ type EditDialogProps = {
 
 const EditDialog = (props: EditDialogProps) => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
+	const toast = useRef<Toast>(null);
 
 	const {
 		register,
@@ -47,6 +49,13 @@ const EditDialog = (props: EditDialogProps) => {
 				"Error submitting form",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error submitting form",
+				life: 3000,
+			});
 		}
 	};
 
@@ -56,6 +65,8 @@ const EditDialog = (props: EditDialogProps) => {
 			header="Edit Stream"
 			onHide={() => props.setShow(false)}
 		>
+			<Toast ref={toast} />
+
 			<form
 				className="flex flex-col gap-4"
 				onSubmit={handleSubmit(onSubmit)}

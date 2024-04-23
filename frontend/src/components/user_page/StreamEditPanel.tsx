@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Button } from "primereact/button";
-import { useEffect } from "react";
+import { Toast } from "primereact/toast";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import useSWR, { useSWRConfig } from "swr";
@@ -24,6 +25,7 @@ interface IStreamEditPanelProps {
 
 const StreamEditPanel = (props: IStreamEditPanelProps) => {
 	const loggedUserUsername = useRecoilValue(loggedUserUsernameAtom);
+	const toast = useRef<Toast>(null);
 
 	const { data, error } = useSWR<IResponseData<IUser>, Error>(
 		`${apiUserUrl}/${loggedUserUsername}`,
@@ -72,9 +74,16 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			logError(
 				StreamEditPanel.name,
 				setUserLive.name,
-				"Error setting user live:",
+				"Error setting user live",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error setting user live",
+				life: 3000,
+			});
 		}
 	};
 
@@ -94,9 +103,16 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			logError(
 				StreamEditPanel.name,
 				upsertStream.name,
-				"Error creating stream:",
+				"Error creating stream",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error creating stream",
+				life: 3000,
+			});
 		}
 	};
 
@@ -125,9 +141,16 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			logError(
 				StreamEditPanel.name,
 				streamExists.name,
-				"Error checking if stream exists:",
+				"Error checking if stream exists",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error checking if stream exists",
+				life: 3000,
+			});
 		}
 	};
 
@@ -145,9 +168,16 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			logError(
 				StreamEditPanel.name,
 				deleteStream.name,
-				"Error deleting stream:",
+				"Error deleting stream",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error deleting stream",
+				life: 3000,
+			});
 		}
 	};
 
@@ -166,9 +196,16 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			logError(
 				StreamEditPanel.name,
 				endStream.name,
-				"Error ending stream:",
+				"Error ending stream",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error ending stream",
+				life: 3000,
+			});
 		}
 	};
 
@@ -191,6 +228,8 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 
 	return (
 		<form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+			<Toast ref={toast} />
+
 			<div className="mx-4 flex flex-col gap-3">
 				<InputTextField
 					name="name"

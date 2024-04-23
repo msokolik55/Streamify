@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { useState } from "react";
+import { Toast } from "primereact/toast";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSWRConfig } from "swr";
 
@@ -16,6 +17,7 @@ type MessageFormProps = {
 
 const MessageForm = (props: MessageFormProps) => {
 	const [loading, setLoading] = useState(false);
+	const toast = useRef<Toast>(null);
 
 	const {
 		register,
@@ -42,9 +44,16 @@ const MessageForm = (props: MessageFormProps) => {
 			logError(
 				MessageForm.name,
 				onSubmit.name,
-				"Error submitting message form:",
+				"Error submitting message form",
 				error,
 			);
+
+			toast.current?.show({
+				severity: "error",
+				summary: "Error",
+				detail: "Error submitting message",
+				life: 3000,
+			});
 		} finally {
 			setLoading(false);
 		}
@@ -52,6 +61,8 @@ const MessageForm = (props: MessageFormProps) => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
+			<Toast ref={toast} />
+
 			<InputText
 				{...register("content", { required: true })}
 				type="text"
