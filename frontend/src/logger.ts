@@ -1,3 +1,5 @@
+import { environment } from "./env";
+
 const getLocaleTimeString = () => {
 	const current = new Date();
 	return current.toLocaleTimeString();
@@ -16,6 +18,10 @@ const log = (
 	logFunction: (...data: any[]) => void,
 	level: LogLevel,
 ) => {
+	if (environment !== "development") {
+		return;
+	}
+
 	const argsMessage = args ? ` ${args}` : "";
 	logFunction(
 		`[${getLocaleTimeString()}] [${level}] [${componentName}] [${functionName}] ${message}${argsMessage}`,
