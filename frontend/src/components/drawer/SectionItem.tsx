@@ -13,7 +13,7 @@ const SectionItem = (props: ISectionItemProps) => {
 		<NavLink
 			key={`li-${props.user.username}`}
 			to={props.to}
-			className="flex flex-row items-center gap-4 px-4 my-4"
+			className="flex flex-row items-center gap-4 px-4 py-2 hover:bg-gray-200"
 		>
 			<Avatar
 				imageAlt="avatar"
