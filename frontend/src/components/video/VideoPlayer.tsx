@@ -254,7 +254,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 						<div className="flex flex-row items-center gap-1">
 							<span className="text-white">(Q)</span>
 							<Dropdown
-								className="bg-transparent text-white font-medium"
+								className="bg-transparent text-white border-none font-medium"
 								value={streamPort}
 								onChange={(event) => {
 									console.log(event.value);
