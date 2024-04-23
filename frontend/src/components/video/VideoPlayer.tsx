@@ -166,8 +166,26 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					return { ...prev, controls: false };
 				})
 			}
+			onKeyDown={(e) => {
+				if (e.key === "q") {
+					setStreamPort((prev) => {
+						const currentIndex = qualities.findIndex(
+							(quality) => quality.port === prev,
+						);
+						const nextIndex =
+							currentIndex === qualities.length - 1
+								? 0
+								: currentIndex + 1;
+						return qualities[nextIndex].port;
+					});
+				}
+			}}
 		>
-			<div className="bg-black w-full" onClick={handlePlayPause}>
+			<div
+				className="bg-black w-full"
+				tabIndex={0}
+				onClick={handlePlayPause}
+			>
 				<ReactPlayer
 					key={retryKey}
 					ref={reactPlayerRef}
@@ -184,7 +202,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 			<div
 				className={`absolute bottom-0 w-full
 					ease-in-out duration-200 transition-opacity
-					${controls.controls ? "opacity-100" : "opacity-0"}
+					${controls.controls ? "opacity-100" : "opacity-100"}
 					`}
 			>
 				<Slider
@@ -234,6 +252,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 						</div>
 
 						<div className="flex flex-row items-center gap-1">
+							<span className="text-white">(Q)</span>
 							<Dropdown
 								className="bg-transparent text-white font-medium"
 								value={streamPort}
