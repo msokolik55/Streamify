@@ -17,7 +17,12 @@ type MessageFormProps = {
 const MessageForm = (props: MessageFormProps) => {
 	const [loading, setLoading] = useState(false);
 
-	const { register, handleSubmit, reset } = useForm<MessageInputs>();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<MessageInputs>();
 
 	const { mutate } = useSWRConfig();
 	const onSubmit = async (data: MessageInputs) => {
@@ -53,6 +58,10 @@ const MessageForm = (props: MessageFormProps) => {
 				required={true}
 				placeholder="Type a message..."
 				disabled={loading}
+				aria-invalid={errors.content ? "true" : "false"}
+				aria-required="true"
+				aria-label="Message content"
+				aria-placeholder="Type a message..."
 			/>
 			<Button type="submit" disabled={loading}>
 				{loading ? "Sending..." : "Send"}

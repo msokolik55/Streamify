@@ -26,6 +26,8 @@ const InputTextareaField = (props: ITextareaFieldProps) => {
 				minLength={props.options?.minLength}
 				defaultValue={props.defaultValue}
 				aria-invalid={props.errorField ? "true" : "false"}
+				aria-required={props.options?.required ? "true" : "false"}
+				aria-label={props.label}
 			/>
 
 			{props.errorField && props.errorField.type === "minLength" && (

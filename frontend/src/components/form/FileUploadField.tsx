@@ -24,8 +24,10 @@ const FileUploadField = (props: ITextFieldProps) => {
 				id={props.name}
 				name={props.name}
 				accept={props.accept}
-				aria-invalid={props.errorField ? "true" : "false"}
 				disabled={props.disabled}
+				aria-invalid={props.errorField ? "true" : "false"}
+				aria-required={props.options?.required ? "true" : "false"}
+				aria-label={props.label}
 			/>
 		</div>
 	);
