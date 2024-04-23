@@ -167,7 +167,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 				})
 			}
 		>
-			<div className="bg-black w-full">
+			<div className="bg-black w-full" onClick={handlePlayPause}>
 				<ReactPlayer
 					key={retryKey}
 					ref={reactPlayerRef}
@@ -197,17 +197,20 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					<div className="flex flex-row justify-between">
 						<div className="flex flex-row gap-1 items-center">
 							<Button
-								className={`pi pi-${!controls.playing ? "play" : "pause"} p-button-secondary`}
+								className={`pi pi-${!controls.playing ? "play" : "pause"}`}
 								onClick={handlePlayPause}
+								text
 							/>
 							<Button
-								className="pi pi-replay p-button-secondary"
+								className="pi pi-replay"
 								onClick={() => setRetryKey((prev) => prev + 1)}
+								text
 							/>
 							<div className="flex flex-row items-center gap-2">
 								<Button
-									className={`pi pi-volume-${!controls.muted ? "up" : "off"} p-button-secondary`}
+									className={`pi pi-volume-${!controls.muted ? "up" : "off"}`}
 									onClick={handleToggleMuted}
+									text
 								/>
 								<Slider
 									className="w-full min-w-12"
@@ -242,8 +245,9 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 								})}
 							/>
 							<Button
-								className={`pi pi-window-${!controls.fullscreen ? "maximize" : "minimize"} p-button-secondary`}
+								className={`pi pi-window-${!controls.fullscreen ? "maximize" : "minimize"}`}
 								onClick={handleClickFullscreen}
+								text
 							/>
 						</div>
 					</div>

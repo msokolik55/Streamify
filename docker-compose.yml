@@ -1,14 +1,14 @@
 services:
   
-  stream-orig:
-    image: bluenviron/mediamtx:latest-ffmpeg
-    ports:
-      - 1935:1935
-      - 8554:8554
-      - 8888:8888
-    volumes:
-      - shared-volume:/recordings
-      - ./k8s/mediamtx.yml:/mediamtx.yml
+  # stream-orig:
+  #   image: bluenviron/mediamtx:latest-ffmpeg
+  #   ports:
+  #     - 1935:1935
+  #     - 8554:8554
+  #     - 8888:8888
+  #   volumes:
+  #     - shared-volume:/recordings
+  #     - ./k8s/mediamtx.yml:/mediamtx.yml
   
   # stream-360p:
   #   image: bluenviron/mediamtx:latest-ffmpeg
