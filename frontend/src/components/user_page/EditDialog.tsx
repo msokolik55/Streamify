@@ -67,7 +67,7 @@ const EditDialog = (props: EditDialogProps) => {
 				/>
 
 				<div className="flex flex-col gap-2">
-					<label htmlFor="name">Name</label>
+					<label htmlFor="name">*Name</label>
 					<InputText
 						{...register("name", {
 							required: true,

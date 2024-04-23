@@ -147,7 +147,7 @@ const UserProfilePage = () => {
 				/>
 
 				<div className="flex flex-col gap-2">
-					<label htmlFor="username">Username</label>
+					<label htmlFor="username">*Username</label>
 					<InputText
 						{...register("username", {
 							required: true,
@@ -165,7 +165,7 @@ const UserProfilePage = () => {
 				</div>
 
 				<div className="flex flex-col gap-2">
-					<label htmlFor="email">Email</label>
+					<label htmlFor="email">*Email</label>
 					<InputText
 						{...register("email", {
 							required: true,

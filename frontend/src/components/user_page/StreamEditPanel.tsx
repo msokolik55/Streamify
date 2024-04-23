@@ -187,7 +187,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 	return (
 		<form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
 			<div className="mx-4 flex flex-col gap-3">
-				<label htmlFor="name">Stream name</label>
+				<label htmlFor="name">*Name</label>
 				<InputText
 					{...register("name", {
 						required: true,

@@ -73,7 +73,7 @@ const RegisterPage = () => {
 				className="flex flex-col gap-3 max-w-sm w-full mx-auto my-10"
 			>
 				<div className="flex flex-col gap-2">
-					<label htmlFor="username">Username</label>
+					<label htmlFor="username">*Username</label>
 					<InputText
 						{...register("username", {
 							required: true,
@@ -94,7 +94,7 @@ const RegisterPage = () => {
 						)}
 				</div>
 				<div className="flex flex-col gap-2">
-					<label htmlFor="email">Email</label>
+					<label htmlFor="email">*Email</label>
 					<InputText
 						{...register("email", {
 							required: true,
@@ -118,7 +118,7 @@ const RegisterPage = () => {
 					/>
 				</div>
 				<div className="flex flex-col gap-2">
-					<label htmlFor="password">Password</label>
+					<label htmlFor="password">*Password</label>
 					<InputText
 						{...register("password", {
 							required: true,

@@ -75,7 +75,7 @@ const PasswordPage = () => {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className="flex flex-col gap-2">
-					<label htmlFor="oldPassword">Old password</label>
+					<label htmlFor="oldPassword">*Old password</label>
 					<InputText
 						{...register("oldPassword", {
 							required: true,
@@ -90,7 +90,7 @@ const PasswordPage = () => {
 					/>
 				</div>
 				<div className="flex flex-col gap-2">
-					<label htmlFor="newPassword">New password</label>
+					<label htmlFor="newPassword">*New password</label>
 					<InputText
 						{...register("newPassword", {
 							required: true,
@@ -106,7 +106,7 @@ const PasswordPage = () => {
 				</div>
 				<div className="flex flex-col gap-2">
 					<label htmlFor="confirmNewPassword">
-						Confirm new password
+						*Confirm new password
 					</label>
 					<InputText
 						{...register("confirmNewPassword", {
