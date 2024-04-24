@@ -15,7 +15,6 @@ import router from "./router";
 import { checkHeartbeat, registerCounter } from "./socket";
 
 const api = express();
-const httpServer = createServer(api);
 
 dotenv.config({
 	path:
@@ -34,7 +33,7 @@ const port = process.env.PORT ?? 4000;
 // redisClient.connect().catch((err) => logError("(index)", "redisClient", err));
 
 const corsPolicy = {
-	origin: `${process.env.FE_URL}:${process.env.FE_PORT}`, // TODO Production: Change to frontend URL
+	origin: `${process.env.FE_URL}:${process.env.FE_PORT}`,
 	methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 	credentials: true,
 };
@@ -42,9 +41,15 @@ const corsPolicy = {
 const secret = "session_secret";
 
 api.use(express.json());
-api.use(cors(corsPolicy));
+
+if (process.env.NODE_ENV === "test") {
+	api.use(cors());
+} else {
+	api.use(cors(corsPolicy));
+}
 api.use(cookieParser(secret));
 
+const httpServer = createServer(api);
 const io = new SocketIOServer(httpServer, {
 	cors: corsPolicy,
 });
@@ -74,6 +79,10 @@ serializeUser(passport);
 deserializeUser(passport);
 
 api.use("/", router);
-httpServer.listen(port, () =>
-	logInfo("httpServer", "listen", "Example app listening on port", port),
-);
+if (process.env.NODE_ENV !== "test") {
+	httpServer.listen(port, () =>
+		logInfo("httpServer", "listen", "Example app listening on port", port),
+	);
+}
+
+export default httpServer;
