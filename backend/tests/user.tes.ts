@@ -4,14 +4,17 @@ import request from "supertest";
 
 import { prismaMock } from "../singleton";
 import httpServer from "../src/index";
-import { generateUser, mockUser, mockUsers } from "./generators/mockUser";
+import {
+	generateUser,
+	mockUser,
+	mockUsers,
+	transformUser,
+} from "./generators/mockUser";
 import { IMockUser } from "./models/IMockUser";
 
 jest.mock("bcrypt", () => ({
 	hashSync: jest.fn(() => "hashedPassword"),
 }));
-
-const getTimeFromDate = (date: Date) => new Date(date).getTime();
 
 describe("User endpoints", () => {
 	describe("GET /users", () => {
@@ -20,21 +23,9 @@ describe("User endpoints", () => {
 
 			const res = await request(httpServer).get("/users");
 			expect(res.status).toBe(200);
-			res.body.data.forEach((user: IMockUser, index: number) => {
-				expect(user.id).toEqual(mockUsers[index].id);
-				expect(user.username).toEqual(mockUsers[index].username);
-				expect(user.email).toEqual(mockUsers[index].email);
-				expect(user.picture).toEqual(mockUsers[index].picture);
-				expect(user.streamKey).toEqual(mockUsers[index].streamKey);
-				expect(user.password).toEqual(mockUsers[index].password);
-
-				expect(getTimeFromDate(user.createdAt)).toEqual(
-					getTimeFromDate(mockUsers[index].createdAt),
-				);
-				expect(getTimeFromDate(user.updatedAt)).toEqual(
-					getTimeFromDate(mockUsers[index].updatedAt),
-				);
-			});
+			expect(res.body.data.map(transformUser)).toEqual(
+				mockUsers.map(transformUser),
+			);
 			expect(res.body.status).toEqual("success");
 		});
 
@@ -94,20 +85,10 @@ describe("User endpoints", () => {
 				.expect("Content-Type", /json/)
 				.expect(201);
 
-			expect(res.body.data.id).toEqual(newUser.id);
-			expect(res.body.data.username).toEqual(newUser.username);
-			expect(res.body.data.email).toEqual(newUser.email);
-			expect(res.body.data.picture).toEqual(newUser.picture);
-			expect(res.body.data.streamKey).toEqual(newUser.streamKey);
-			expect(res.body.data.password).toEqual(newUser.password);
-			expect(getTimeFromDate(res.body.data.createdAt)).toEqual(
-				getTimeFromDate(newUser.createdAt),
-			);
-			expect(getTimeFromDate(res.body.data.updatedAt)).toEqual(
-				getTimeFromDate(newUser.updatedAt),
-			);
-
 			expect(res.body.status).toEqual("success");
+			expect(transformUser(res.body.data)).toEqual(
+				transformUser(newUser),
+			);
 		});
 
 		it("should return a 400 status if required fields are missing", async () => {
@@ -170,24 +151,14 @@ describe("User endpoints", () => {
 				.expect(200);
 
 			expect(res.body.status).toEqual("success");
-
-			expect(res.body.data.id).toEqual(mockUser.id);
-			expect(res.body.data.username).toEqual(mockUser.username);
-			expect(res.body.data.email).toEqual(mockUser.email);
-			expect(res.body.data.picture).toEqual(mockUser.picture);
-			expect(res.body.data.streamKey).toEqual(mockUser.streamKey);
-			expect(res.body.data.password).toEqual(mockUser.password);
-			expect(getTimeFromDate(res.body.data.createdAt)).toEqual(
-				getTimeFromDate(mockUser.createdAt),
-			);
-			expect(getTimeFromDate(res.body.data.updatedAt)).toEqual(
-				getTimeFromDate(mockUser.updatedAt),
+			expect(transformUser(res.body.data)).toEqual(
+				transformUser(mockUser),
 			);
 		});
 
 		it("should return a 200 status if the username is not found", async () => {
-			const username = faker.internet.userName();
-			prismaMock.user.findUnique.mockResolvedValue(mockUser);
+			const username = "nonexistentuser";
+			prismaMock.user.findUnique.mockResolvedValue(null);
 
 			const res = await request(httpServer)
 				.get(`/users/${username}`)
@@ -195,19 +166,7 @@ describe("User endpoints", () => {
 				.expect(200);
 
 			expect(res.body.status).toEqual("success");
-
-			expect(res.body.data.id).toEqual(mockUser.id);
-			expect(res.body.data.username).toEqual(mockUser.username);
-			expect(res.body.data.email).toEqual(mockUser.email);
-			expect(res.body.data.picture).toEqual(mockUser.picture);
-			expect(res.body.data.streamKey).toEqual(mockUser.streamKey);
-			expect(res.body.data.password).toEqual(mockUser.password);
-			expect(getTimeFromDate(res.body.data.createdAt)).toEqual(
-				getTimeFromDate(mockUser.createdAt),
-			);
-			expect(getTimeFromDate(res.body.data.updatedAt)).toEqual(
-				getTimeFromDate(mockUser.updatedAt),
-			);
+			expect(res.body.data).toEqual(null);
 		});
 
 		it("should handle errors during user retrieval", async () => {

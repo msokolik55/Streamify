@@ -14,6 +14,10 @@ jest.mock("fs", () => ({
 	unlinkSync: jest.fn(),
 }));
 
+jest.mock("bcrypt", () => ({
+	hashSync: jest.fn(() => "hashedPassword"),
+}));
+
 beforeEach(() => {
 	mockReset(prismaMock);
 });

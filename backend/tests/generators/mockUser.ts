@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 import { IMockUser } from "../models/IMockUser";
+import { transformAny } from "../transformer";
 
 export const generateUser = (live?: boolean): IMockUser => {
 	return {
@@ -13,6 +14,10 @@ export const generateUser = (live?: boolean): IMockUser => {
 		updatedAt: faker.date.recent(),
 		streamKey: live ? faker.string.uuid() : null,
 	};
+};
+
+export const transformUser = (user: IMockUser) => {
+	return transformAny(user) as IMockUser;
 };
 
 export const mockUser = generateUser();
