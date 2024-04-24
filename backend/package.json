@@ -15,6 +15,7 @@
 	"author": "Michal Sokolik",
 	"license": "ISC",
 	"devDependencies": {
+		"@faker-js/faker": "^8.4.1",
 		"@trivago/prettier-plugin-sort-imports": "^4.3.0",
 		"@types/bcrypt": "^5.0.2",
 		"@types/cookie-parser": "^1.4.7",

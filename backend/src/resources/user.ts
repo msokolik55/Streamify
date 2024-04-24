@@ -9,11 +9,6 @@ import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
 import { UserDetailSelect, UserSelect } from "./selects";
 
-// const ops = {
-// 	inc: (a: number) => a + 1,
-// 	dec: (a: number) => a - 1,
-// };
-
 export const getPassword = async (username: string) => {
 	logInfo("global", getPassword.name, "Method called");
 
@@ -78,6 +73,10 @@ export const create = async (req: Request, res: Response) => {
 
 	const { username, email, password } = req.body;
 
+	if (!username || username === "") {
+		return sendResponseError(res, Status.BAD_REQUEST, "Missing username.");
+	}
+
 	try {
 		const user = await prisma.user.create({
 			data: {
@@ -117,7 +116,7 @@ export const getByUsername = async (req: Request, res: Response) => {
  * Update user
  */
 export const update = async (req: Request, res: Response) => {
-	logInfo(req.path, update.name, "Method called");
+	logInfo(req.path, update.name, "Method called", req.body);
 
 	const id = req.params.id;
 	const { username, email } = req.body;
@@ -183,64 +182,6 @@ export const deleteUser = async (req: Request, res: Response) => {
 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
 };
-
-// const alterCount = async (
-// 	req: Request,
-// 	res: Response,
-// 	op: (a: number) => number,
-// ) => {
-// 	logInfo(req.path, alterCount.name, "Method called");
-
-// 	const username = req.params.username;
-
-// 	if (!username || username === "") {
-// 		return sendResponseError(res, Status.BAD_REQUEST, "Missing username.");
-// 	}
-
-// 	try {
-// 		const user = await findByUsername(username);
-// 		if (!user) {
-// 			return sendResponseError(
-// 				res,
-// 				Status.NOT_FOUND,
-// 				"Cannot find user with given id.",
-// 			);
-// 		}
-
-// 		const newCount = Math.max(0, op(user.count));
-// 		await prisma.user.update({
-// 			where: {
-// 				username,
-// 			},
-// 			data: {
-// 				count: newCount,
-// 			},
-// 		});
-
-// 		return sendResponseSuccess(res, Status.NO_CONTENT, true);
-// 	} catch (error) {
-// 		logError(req.path, alterCount.name, "Prisma update", username);
-// 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
-// 	}
-// };
-
-// /**
-//  * Increase user count
-//  */
-// export const increaseCount = async (req: Request, res: Response) => {
-// 	logInfo(req.path, increaseCount.name, "Method called");
-
-// 	return alterCount(req, res, ops.inc);
-// };
-
-// /**
-//  * Decrease user count
-//  */
-// export const decreaseCount = async (req: Request, res: Response) => {
-// 	logInfo(req.path, decreaseCount.name, "Method called");
-
-// 	return alterCount(req, res, ops.dec);
-// };
 
 /**
  * Update live

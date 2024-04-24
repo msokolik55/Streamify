@@ -8,6 +8,12 @@ jest.mock("./src/client", () => ({
 	default: mockDeep<PrismaClient>(),
 }));
 
+jest.mock("fs", () => ({
+	existsSync: jest.fn(() => true),
+	readdirSync: jest.fn(() => ["test.jpg"]),
+	unlinkSync: jest.fn(),
+}));
+
 beforeEach(() => {
 	mockReset(prismaMock);
 });
