@@ -257,7 +257,6 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 								className="bg-transparent text-white border-none font-medium"
 								value={streamPort}
 								onChange={(event) => {
-									console.log(event.value);
 									setStreamPort(event.value);
 								}}
 								options={qualities.map((quality) => {

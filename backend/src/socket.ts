@@ -26,7 +26,7 @@ const disconnectUser = async (io: Server, socket: Socket) => {
 		return;
 	}
 
-	console.log("A user disconnected");
+	logInfo("socket", disconnectUser.name, "A user disconnected");
 	delete alreadyConnected[socket.data.browserId];
 	connectedSockets = connectedSockets.filter((s) => s !== socket);
 	streamViewers[socket.data.streamKey] = Math.max(

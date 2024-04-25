@@ -29,7 +29,6 @@ export const createMessage = async (req: Request, res: Response) => {
 	}
 
 	try {
-		console.log(content, streamKey, username);
 		const message = await prisma.message.create({
 			data: {
 				content,
@@ -41,7 +40,6 @@ export const createMessage = async (req: Request, res: Response) => {
 
 		return sendResponseSuccess(res, Status.CREATED, message);
 	} catch (error) {
-		console.log(error);
 		logError(req.path, createMessage.name, "Prisma create", streamKey);
 		return sendResponseError(res, Status.BAD_REQUEST, error as string);
 	}
