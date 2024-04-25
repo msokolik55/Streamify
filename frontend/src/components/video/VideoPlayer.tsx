@@ -217,7 +217,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					onChange={handleSeekChange}
 					onMouseUp={handleSeekMouseUp}
 				/>
-				<div className="mx-1 flex flex-col gap-2">
+				<div className="mx-1 flex flex-col gap-2 bg-black">
 					<div className="flex flex-row justify-between">
 						<div className="flex flex-row gap-1 items-center">
 							<Button
