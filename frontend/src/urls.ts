@@ -14,7 +14,7 @@ export const messagePath = "/messages";
 export const userPath = "/users";
 export const userProfilePath = `${userPath}/profile`;
 export const userVideosPath = `${userPath}/video`;
-export const userStreamKeyPath = `${userPath}/stream-key`;
+export const userStreamKeyPath = `${userPath}/stream`;
 export const userPasswordPath = `${userPath}/password`;
 
 /**
