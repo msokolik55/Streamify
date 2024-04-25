@@ -235,7 +235,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 						required: true,
 						minLength: 3,
 					}}
-					defaultValue={stream.name}
+					defaultValue={stream?.name}
 				/>
 
 				<InputTextareaField
@@ -243,7 +243,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 					label="Description"
 					register={register}
 					errorField={errors.description}
-					defaultValue={stream.description}
+					defaultValue={stream?.description}
 				/>
 
 				<Button
