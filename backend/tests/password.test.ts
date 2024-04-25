@@ -1,24 +1,27 @@
-import bcrypt from "bcrypt";
 import request from "supertest";
 
 import { prismaMock } from "../singleton";
 import httpServer from "../src/index";
 import { generateUser } from "./generators/mockUser";
 
+const newPassword = "hashedPassword";
+
 jest.mock("bcrypt", () => ({
-	hashSync: jest.fn(() => "hashedPassword"),
+	hashSync: jest.fn(() => newPassword),
+	compareSync: jest.fn(
+		(oldPassword: string, newPassword: string) =>
+			oldPassword === newPassword,
+	),
 }));
 
 const mockUser = generateUser();
 
 describe("Password endpoints", () => {
 	it("should successfully change the password for a valid user and correct old password", async () => {
-		const newPassword = "newPassword";
-
 		prismaMock.user.findUnique.mockResolvedValue(mockUser);
 		prismaMock.user.update.mockResolvedValue({
 			...mockUser,
-			password: bcrypt.hashSync(newPassword, 10),
+			password: newPassword,
 		});
 
 		await request(httpServer)
@@ -33,12 +36,8 @@ describe("Password endpoints", () => {
 
 	it("should return a bad request if the old password is incorrect", async () => {
 		const oldPassword = "incorrectOldPassword";
-		const newPassword = "newPassword";
 
-		prismaMock.user.findUnique.mockResolvedValue({
-			...mockUser,
-			password: bcrypt.hashSync("actualOldPassword", 10),
-		});
+		prismaMock.user.findUnique.mockResolvedValue(mockUser);
 
 		const res = await request(httpServer)
 			.put("/password")
@@ -47,21 +46,18 @@ describe("Password endpoints", () => {
 
 		expect(res.body).toEqual({
 			status: "error",
-			error: {},
+			error: "Wrong password.",
 		});
 	});
 
 	it("should return not found if the user does not exist", async () => {
 		const username = "nonexistentUser";
-		const oldPassword = "oldPassword";
-		const newPassword = "newPassword";
 
-		// No user found
 		prismaMock.user.findUnique.mockResolvedValue(null);
 
 		const res = await request(httpServer)
 			.put("/password")
-			.send({ username, oldPassword, newPassword })
+			.send({ username, oldPassword: mockUser.password, newPassword })
 			.expect(404);
 
 		expect(res.body).toEqual({
@@ -71,19 +67,16 @@ describe("Password endpoints", () => {
 	});
 
 	it("should handle database errors during password update", async () => {
-		const oldPassword = "oldPassword";
-		const newPassword = "newPassword";
-
-		prismaMock.user.findUnique.mockResolvedValue({
-			...mockUser,
-			password: bcrypt.hashSync(oldPassword, 10),
-		});
-
+		prismaMock.user.findUnique.mockResolvedValue(mockUser);
 		prismaMock.user.update.mockRejectedValue(new Error("Database error"));
 
 		const res = await request(httpServer)
 			.put("/password")
-			.send({ username: mockUser.username, oldPassword, newPassword })
+			.send({
+				username: mockUser.username,
+				oldPassword: mockUser.password,
+				newPassword,
+			})
 			.expect(400);
 
 		expect(res.body).toEqual({

@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 import { IMockMessage } from "../models/IMockMessage";
-import { transformAny } from "../transformer";
+import { transformAny } from "../utils/transformer";
 
 export const generateMessage = (): IMockMessage => {
 	return {

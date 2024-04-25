@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { transformAny } from "../transformer";
+import { transformAny } from "../utils/transformer";
 
 export const generateStream = (): IMockStream => {
 	return {

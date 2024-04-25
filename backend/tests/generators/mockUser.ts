@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 import { IMockUser } from "../models/IMockUser";
-import { transformAny } from "../transformer";
+import { transformAny } from "../utils/transformer";
 
 export const generateUser = (live?: boolean): IMockUser => {
 	return {
