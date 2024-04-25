@@ -93,6 +93,15 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 				},
 				axiosJsonConfig,
 			);
+
+			if (props.formState === FormState.UPDATE) {
+				toast.current?.show({
+					severity: "success",
+					summary: "Success",
+					detail: "Stream updated",
+					life: 3000,
+				});
+			}
 		} catch (error) {
 			logError(
 				StreamEditPanel.name,
