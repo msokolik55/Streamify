@@ -81,7 +81,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 	const handlePlayPause = () => {
 		setControls((prev) => {
-			return { ...prev, playing: !prev.playing };
+			return { ...prev, playing: !prev.playing, seeking: false };
 		});
 	};
 
@@ -99,6 +99,34 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		});
 	};
 
+	const handleClickFullscreen = () => {
+		if (!playerWrapperRef.current) return;
+
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+			setControls((prev) => {
+				return { ...prev, fullscreen: false };
+			});
+			return;
+		}
+
+		playerWrapperRef.current
+			.requestFullscreen()
+			.then(() =>
+				setControls((prev) => {
+					return { ...prev, fullscreen: true };
+				}),
+			)
+			.catch((err) => {
+				toast.current?.show({
+					severity: "error",
+					summary: "Error",
+					detail: `Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
+					life: 3000,
+				});
+			});
+	};
+
 	//#endregion React Player Events
 
 	return (
@@ -108,6 +136,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 			onPointerEnter={() => toggleControls(true)}
 			onPointerLeave={() => toggleControls(false)}
 			onKeyDown={(e) => handleKeyDown(e.key)}
+			onDoubleClick={handleClickFullscreen}
 		>
 			<div
 				className="bg-black w-full"
@@ -130,7 +159,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 			<div
 				className={`absolute bottom-0 w-full
 					ease-in-out duration-200 transition-opacity
-					${controls.controls ? "opacity-100" : "opacity-0"}
+					${controls.controls || controls.seeking ? "opacity-100" : "opacity-0"}
 					`}
 			>
 				<SeekControls
@@ -171,9 +200,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 							<FullscreenControls
 								controls={controls}
-								setControls={setControls}
-								playerWrapperRef={playerWrapperRef}
-								toast={toast}
+								handleClickFullscreen={handleClickFullscreen}
 							/>
 						</div>
 					</div>
