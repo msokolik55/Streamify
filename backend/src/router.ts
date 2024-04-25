@@ -35,8 +35,9 @@ router.get(userUrl, user.get);
 router.post(userUrl, upload.single("picture"), user.create);
 
 router.get(`${userUrl}/${usernamePart}`, user.getByUsername);
-router.put(`${userUrl}/${idPart}`, upload.single("picture"), user.update);
 router.delete(`${userUrl}/${usernamePart}`, user.deleteUser);
+
+router.put(`${userUrl}/${idPart}`, upload.single("picture"), user.update);
 
 router.patch(`${userUrl}${liveUrl}/${idPart}`, user.updateLive);
 
@@ -59,7 +60,6 @@ router.get("/authenticated", login.isAuthenticated);
 
 //#region Stream
 
-// router.get(`${streamPath}/:folderName`, stream.getVideoName);
 router.get(streamUrl, stream.get);
 router.post(streamUrl, stream.createStream);
 
@@ -69,7 +69,7 @@ router.put(`${streamUrl}/${idPart}`, stream.updateStream);
 router.delete(`${streamUrl}/${streamPathPart}`, stream.deleteStream);
 router.get(`${streamUrl}/${streamPathPart}/exists`, stream.streamSourceExists);
 router.put(`${streamUrl}/${streamPathPart}/end`, stream.endStream);
-router.get(`${streamUrl}/:streamPath${messageUrl}`, stream.getMessages);
+router.get(`${streamUrl}/${streamPathPart}${messageUrl}`, stream.getMessages);
 
 //#endregion Stream
 
