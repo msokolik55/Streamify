@@ -22,6 +22,7 @@ const PasswordPage = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm<PasswordEditInputs>();
 
 	const { mutate } = useSWRConfig();
@@ -33,7 +34,7 @@ const PasswordPage = () => {
 		logInfo(PasswordPage.name, onSubmit.name, "Fetching");
 
 		try {
-			const response = await axios.put(
+			await axios.put(
 				apiPasswordUrl,
 				{
 					username: loggedUserUsername,
@@ -43,14 +44,14 @@ const PasswordPage = () => {
 				axiosJsonConfig,
 			);
 
-			const resData = response.data;
-
-			const changeSuccess = resData.data;
-
-			if (changeSuccess) {
-				mutate(`${apiUserUrl}/${loggedUserUsername}`);
-				alert("Password successfully changed");
-			}
+			mutate(`${apiUserUrl}/${loggedUserUsername}`);
+			reset();
+			toast.current?.show({
+				severity: "success",
+				summary: "Success",
+				detail: "Password updated",
+				life: 3000,
+			});
 		} catch (error) {
 			logError(
 				PasswordPage.name,
