@@ -1,6 +1,7 @@
 import { Avatar } from "primereact/avatar";
 import { NavLink } from "react-router-dom";
 
+import { getPictureUrl } from "../../functions/getPicture";
 import { IUser } from "../../models/IUser";
 
 interface ISectionItemProps {
@@ -17,7 +18,7 @@ const SectionItem = (props: ISectionItemProps) => {
 		>
 			<Avatar
 				imageAlt="avatar"
-				image={props.user.picture}
+				image={getPictureUrl(props.user.picture)}
 				shape="circle"
 			/>
 			<span>{props.user.username}</span>

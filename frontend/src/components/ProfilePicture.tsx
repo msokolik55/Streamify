@@ -1,6 +1,7 @@
 import { Image } from "primereact/image";
 import { Link } from "react-router-dom";
 
+import { getPictureUrl } from "../functions/getPicture";
 import { profilePath } from "../urls";
 
 type ProfilePictureProps = {
@@ -12,7 +13,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
 	return (
 		<Link to={`${profilePath}/${props.username}`}>
 			<Image
-				src={props.src ?? "/profile_picture.jpg"}
+				src={getPictureUrl(props.src)}
 				alt="Profile picture"
 				imageClassName="rounded-full w-12 h-12"
 			/>
