@@ -80,10 +80,9 @@ export const checkHeartbeat = (io: Server) => {
 	setInterval(() => {
 		const now = Date.now();
 		connectedSockets.forEach((socket) => {
-			// TODO: Change 2000 to 30000
-			if (now - socket.data.heartbeat > 2000) {
+			if (now - socket.data.heartbeat > 30000) {
 				logInfo(
-					"WS",
+					"socket",
 					setInterval.name,
 					"No heartbeat received in the last 30 seconds. Assuming disconnected.",
 				);
@@ -91,6 +90,5 @@ export const checkHeartbeat = (io: Server) => {
 				disconnectUser(io, socket);
 			}
 		});
-		// TODO: Change 1000 to 10000
-	}, 1000);
+	}, 10000);
 };
