@@ -167,6 +167,13 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			);
 
 			mutateUsers();
+			toast.current?.show({
+				severity: "info",
+				summary: "Info",
+				detail: "No stream source found, stream deleted",
+				life: 3000,
+			});
+			reset();
 		} catch (error) {
 			logError(
 				StreamEditPanel.name,
@@ -195,6 +202,7 @@ const StreamEditPanel = (props: IStreamEditPanelProps) => {
 			);
 
 			mutateUsers();
+			reset();
 		} catch (error) {
 			logError(
 				StreamEditPanel.name,
