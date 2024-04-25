@@ -53,7 +53,7 @@ const StreamPage = () => {
 			</Helmet>
 			<div className="flex flex-row gap-1">
 				<div className="flex-1">
-					<VideoPlayer streamKey={user.streamKey} />
+					<VideoPlayer streamKey={user.streamKey} live={true} />
 					<VideoDetailBox
 						stream={getActualStream(user)}
 						user={user}

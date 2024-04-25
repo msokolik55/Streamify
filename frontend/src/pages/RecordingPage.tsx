@@ -34,7 +34,7 @@ const RecordingPage = () => {
 			<Helmet>
 				<title>{stream.name} - Streamify</title>
 			</Helmet>
-			<VideoPlayer url={videoSrc} />
+			<VideoPlayer url={videoSrc} live={false} />
 			<VideoDetailBox
 				stream={stream}
 				user={stream.user}

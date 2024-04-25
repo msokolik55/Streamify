@@ -7,6 +7,8 @@ import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
 
 import { baseUrl } from "../../env";
+import { IVideoControls } from "../../models/IVideoControls";
+import CircleLive from "../CircleLive";
 import Duration from "../Duration";
 
 interface IStreamSource {
@@ -19,22 +21,7 @@ interface IFileSource {
 	url: string;
 }
 
-type IVideoPlayerProps = IStreamSource | IFileSource;
-
-interface IControls {
-	playing: boolean;
-	seeking: boolean;
-	controls: boolean;
-	light: boolean;
-	volume: number;
-	muted: boolean;
-	played: number;
-	loaded: number;
-	duration: number;
-	playbackRate: number;
-	loop: boolean;
-	fullscreen: boolean;
-}
+type IVideoPlayerProps = { live: boolean } & (IStreamSource | IFileSource);
 
 const VideoPlayer = (props: IVideoPlayerProps) => {
 	const qualities = [
@@ -45,7 +32,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 	const toast = useRef<Toast>(null);
 
-	const [controls, setControls] = useState<IControls>({
+	const [controls, setControls] = useState<IVideoControls>({
 		playing: true,
 		seeking: false,
 		controls: false,
@@ -245,15 +232,23 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 									onChange={handleVolumeChange}
 								/>
 
-								<div className="text-white text-nowrap ml-2">
-									<Duration
-										seconds={
-											controls.duration * controls.played
-										}
-									/>
-									<span> / </span>
-									<Duration seconds={controls.duration} />
-								</div>
+								{!props.live ? (
+									<div className="text-white text-nowrap ml-2">
+										<Duration
+											seconds={
+												controls.duration *
+												controls.played
+											}
+										/>
+										<span> / </span>
+										<Duration seconds={controls.duration} />
+									</div>
+								) : (
+									<div className="flex flex-row items-center gap-1">
+										<CircleLive />
+										<span className="text-white">Live</span>
+									</div>
+								)}
 							</div>
 						</div>
 

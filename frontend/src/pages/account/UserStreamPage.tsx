@@ -64,7 +64,10 @@ const UserStreamPage = () => {
 
 				{submitted && (
 					<TabPanel header="Preview">
-						<VideoPlayer streamKey={user.streamKey ?? ""} />
+						<VideoPlayer
+							streamKey={user.streamKey ?? ""}
+							live={true}
+						/>
 					</TabPanel>
 				)}
 			</TabView>
