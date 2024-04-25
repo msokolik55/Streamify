@@ -35,6 +35,7 @@ const SeekControls = (props: ISeekControlsProps) => {
 
 	return (
 		<Slider
+			className="rounded-none"
 			value={props.controls.played * 100}
 			onMouseDown={handleSeekMouseDown}
 			onChange={handleSeekChange}
