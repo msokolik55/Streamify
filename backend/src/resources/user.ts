@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 
 import prisma from "../client";
+import { uploadFolderName } from "../constants";
 import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
 import { UserDetailSelect, UserSelect } from "./selects";
@@ -116,7 +117,7 @@ export const getByUsername = async (req: Request, res: Response) => {
  * Update user
  */
 export const update = async (req: Request, res: Response) => {
-	logInfo(req.path, update.name, "Method called", req.body);
+	logInfo(req.path, update.name, "Method called");
 
 	const id = req.params.id;
 	const { username, email } = req.body;
@@ -126,10 +127,9 @@ export const update = async (req: Request, res: Response) => {
 	}
 
 	const oldUser = await findByUsername(username);
-	const folderPath = "uploads";
-	if (fs.existsSync(folderPath)) {
-		fs.readdirSync(folderPath).forEach((file) => {
-			const fullPath = path.join(folderPath, file);
+	if (fs.existsSync(uploadFolderName)) {
+		fs.readdirSync(uploadFolderName).forEach((file) => {
+			const fullPath = path.join(uploadFolderName, file);
 			if (file === oldUser?.picture) fs.unlinkSync(fullPath);
 		});
 	}

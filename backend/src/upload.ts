@@ -2,13 +2,14 @@ import { randomUUID } from "crypto";
 import fs from "fs";
 import multer from "multer";
 
+import { uploadFolderName } from "./constants";
+
 const storage = multer.diskStorage({
 	destination: (_req, _file, cb) => {
-		const uploadFolder = "uploads";
-		if (!fs.existsSync(uploadFolder)) {
-			fs.mkdirSync(uploadFolder);
+		if (!fs.existsSync(uploadFolderName)) {
+			fs.mkdirSync(uploadFolderName);
 		}
-		cb(null, uploadFolder);
+		cb(null, uploadFolderName);
 	},
 	filename: (_req, file, cb) => {
 		cb(null, `${randomUUID()}-${file.originalname}`);

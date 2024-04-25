@@ -19,7 +19,7 @@ import UserPage from "./pages/account/UserPage";
 import UserProfilePage from "./pages/account/UserProfilePage";
 import UserStreamPage from "./pages/account/UserStreamPage";
 import VideoPage from "./pages/account/VideoPage";
-import { socket } from "./socket";
+// import { socket } from "./socket";
 import {
 	livePath,
 	loginPath,
@@ -47,13 +47,13 @@ export const App = () => {
 			.catch(() => {});
 	}, []);
 
-	useEffect(() => {
-		socket.connect();
+	// useEffect(() => {
+	// 	socket.connect();
 
-		return () => {
-			socket.disconnect();
-		};
-	}, []);
+	// 	return () => {
+	// 		socket.disconnect();
+	// 	};
+	// }, []);
 
 	return (
 		<div>
