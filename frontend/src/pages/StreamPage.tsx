@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 
 import { loggedUserUsernameAtom } from "../atom";
 import ErrorBlock from "../components/error/ErrorBlock";
+import Heading2 from "../components/heading/Heading2";
 import MessageForm from "../components/message/MessageForm";
 import VideoDetailBox from "../components/video/VideoDetailBox";
 import VideoPlayer from "../components/video/VideoPlayer";
@@ -65,15 +66,13 @@ const StreamPage = () => {
 						streamKey={user.streamKey}
 						username={loggedUsername}
 					/>
-					<div className="max-h-screen overflow-y-auto flex flex-col gap-2 mt-4">
+					<div className="max-h-screen max-w-xs overflow-y-auto flex flex-col gap-2 mt-4">
 						{stream?.messages
 							?.filter((message) => !message.answered)
 							.map((message) => (
-								<Card
-									key={message.id}
-									title={message.content}
-									className="m-0.5"
-								/>
+								<Card key={message.id} className="m-0.5">
+									<Heading2 title={message.content} />
+								</Card>
 							))}
 					</div>
 				</Panel>

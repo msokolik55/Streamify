@@ -60,7 +60,7 @@ const MessageForm = (props: MessageFormProps) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-row gap-1">
 			<Toast ref={toast} />
 
 			<InputTextField

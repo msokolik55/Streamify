@@ -62,7 +62,7 @@ const MessageCard = (props: IMessageCardProps) => {
 	const promptDelete = (e: any) => {
 		confirmPopup({
 			target: e.currentTarget,
-			message: "Do you want to delete this video?",
+			message: "Do you want to delete this message?",
 			icon: "pi pi-trash",
 			defaultFocus: "reject",
 			acceptClassName: "p-button-danger",
@@ -107,19 +107,21 @@ const MessageCard = (props: IMessageCardProps) => {
 
 			<Button
 				label={props.message.answered ? "Open" : "Answer"}
+				className="flex-1"
 				onClick={() =>
 					answerMessage(props.message.id, props.message.answered)
 				}
 			></Button>
 			<Button
 				label="Delete"
-				className="p-button-danger"
+				className="flex-1 p-button-danger"
 				onClick={promptDelete}
 			/>
 		</div>
 	);
+
 	return (
-		<Card footer={footer}>
+		<Card footer={footer} className="max-w-xs">
 			<span className={props.message.answered ? "line-through" : ""}>
 				{props.message.content}
 			</span>
