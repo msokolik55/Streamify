@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { Slider, SliderChangeEvent } from "primereact/slider";
+import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
@@ -41,6 +42,8 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		{ port: 7888, resolution: "720p" },
 	];
 	const [streamPort, setStreamPort] = useState(qualities[0].port);
+
+	const toast = useRef<Toast>(null);
 
 	const [controls, setControls] = useState<IControls>({
 		playing: true,
@@ -146,9 +149,12 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 				}),
 			)
 			.catch((err) => {
-				alert(
-					`Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
-				);
+				toast.current?.show({
+					severity: "error",
+					summary: "Error",
+					detail: `Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
+					life: 3000,
+				});
 			});
 	};
 
@@ -202,7 +208,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 			<div
 				className={`absolute bottom-0 w-full
 					ease-in-out duration-200 transition-opacity
-					${controls.controls ? "opacity-100" : "opacity-100"}
+					${controls.controls ? "opacity-100" : "opacity-0"}
 					`}
 			>
 				<Slider
@@ -275,6 +281,8 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					</div>
 				</div>
 			</div>
+
+			<Toast ref={toast} />
 		</div>
 	);
 };
