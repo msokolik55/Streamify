@@ -2,7 +2,6 @@ import { faker } from "@faker-js/faker";
 import fs from "fs";
 import request from "supertest";
 
-import { prismaMock } from "../singleton";
 import httpServer from "../src";
 import {
 	mockStream,
@@ -10,6 +9,7 @@ import {
 	transformStream,
 } from "./generators/mockStream";
 import { generateUser } from "./generators/mockUser";
+import { prismaMock } from "./singleton";
 
 jest.mock("fs", () => ({
 	...jest.requireActual("fs"),

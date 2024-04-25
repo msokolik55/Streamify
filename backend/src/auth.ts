@@ -31,7 +31,6 @@ export const authenticate = (passport: any) => {
 
 export const serializeUser = (passport: any) => {
 	passport.serializeUser((user: any, done: any) => {
-		console.log(user);
 		done(null, user.username);
 	});
 };

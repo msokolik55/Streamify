@@ -2,7 +2,6 @@ import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
 import request from "supertest";
 
-import { prismaMock } from "../singleton";
 import httpServer from "../src/index";
 import {
 	generateUser,
@@ -11,6 +10,7 @@ import {
 	transformUser,
 } from "./generators/mockUser";
 import { IMockUser } from "./models/IMockUser";
+import { prismaMock } from "./singleton";
 
 jest.mock("bcrypt", () => ({
 	hashSync: jest.fn(() => "hashedPassword"),

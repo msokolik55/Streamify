@@ -1,8 +1,8 @@
 import request from "supertest";
 
-import { prismaMock } from "../singleton";
 import httpServer from "../src/index";
 import { generateUser } from "./generators/mockUser";
+import { prismaMock } from "./singleton";
 
 const newPassword = "hashedPassword";
 
