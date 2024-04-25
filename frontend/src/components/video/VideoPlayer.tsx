@@ -1,6 +1,3 @@
-import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { Slider, SliderChangeEvent } from "primereact/slider";
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
@@ -8,8 +5,14 @@ import { OnProgressProps } from "react-player/base";
 
 import { baseUrl } from "../../env";
 import { IVideoControls } from "../../models/IVideoControls";
-import CircleLive from "../CircleLive";
-import Duration from "../Duration";
+import DurationPanel from "./controls/DurationPanel";
+import FullscreenControls from "./controls/FullscreenControls";
+import LiveIndicator from "./controls/LiveIndicator";
+import PlayPauseControls from "./controls/PlayPauseControls";
+import ResolutionControls from "./controls/ResolutionControls";
+import RetryControls from "./controls/RetryControls";
+import SeekControls from "./controls/SeekControls";
+import VolumeControls from "./controls/VolumeControls";
 
 interface IStreamSource {
 	streamKey: string;
@@ -28,10 +31,8 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		{ port: 8888, resolution: "360p" },
 		{ port: 7888, resolution: "720p" },
 	];
+
 	const [streamPort, setStreamPort] = useState(qualities[0].port);
-
-	const toast = useRef<Toast>(null);
-
 	const [controls, setControls] = useState<IVideoControls>({
 		playing: true,
 		seeking: false,
@@ -40,19 +41,46 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		volume: 0.8,
 		muted: false,
 		played: 0,
-		loaded: 0,
 		duration: 0,
 		playbackRate: 1.0,
 		loop: false,
 		fullscreen: false,
 	});
-
 	const [retryKey, setRetryKey] = useState(0);
+
 	const playerWrapperRef = useRef<HTMLDivElement>(null);
 	const reactPlayerRef = useRef<ReactPlayer>(null);
+	const toast = useRef<Toast>(null);
 
 	const hlsUrl = `${baseUrl}:${streamPort}/${props.streamKey}/index.m3u8`;
 	const url = props.streamKey ? hlsUrl : props.url;
+
+	const toggleControls = (show: boolean) => {
+		setControls((prev) => {
+			return { ...prev, controls: show };
+		});
+	};
+
+	const handleKeyDown = (pressedKey: string) => {
+		if (pressedKey === " ") {
+			handlePlayPause();
+		}
+
+		if (pressedKey === "q") {
+			setStreamPort((prev) => {
+				const currentIndex = qualities.findIndex(
+					(quality) => quality.port === prev,
+				);
+				const nextIndex =
+					currentIndex === qualities.length - 1
+						? 0
+						: currentIndex + 1;
+				return qualities[nextIndex].port;
+			});
+		}
+	};
+
+	//#region React Player Events
 
 	const handlePlayPause = () => {
 		setControls((prev) => {
@@ -60,55 +88,12 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		});
 	};
 
-	//#region Volume
-
-	const handleVolumeChange = (e: SliderChangeEvent) => {
-		const newVolume = (e.value as number) / 100;
-		setControls((prev) => {
-			return { ...prev, volume: newVolume };
-		});
-	};
-
-	const handleToggleMuted = () => {
-		setControls((prev) => {
-			return { ...prev, muted: !prev.muted };
-		});
-	};
-
-	//#endregion Volume
-
-	//#region Seek
-
-	const handleSeekMouseDown = () => {
-		setControls((prev) => {
-			return { ...prev, seeking: true };
-		});
-	};
-
-	const handleSeekChange = (e: SliderChangeEvent) => {
-		const newPlayed = (e.value as number) / 100;
-		setControls((prev) => {
-			return { ...prev, played: newPlayed };
-		});
-		if (reactPlayerRef.current) {
-			reactPlayerRef.current.seekTo(newPlayed, "fraction");
-		}
-	};
-
-	const handleSeekMouseUp = (): void => {
-		setControls((prev) => {
-			return { ...prev, seeking: false };
-		});
-	};
-
-	//#endregion Seek
-
 	const handleProgress = (state: OnProgressProps) => {
-		if (!controls.seeking) {
-			setControls((prev) => {
-				return { ...prev, played: state.played, loaded: state.loaded };
-			});
-		}
+		if (controls.seeking) return;
+
+		setControls((prev) => {
+			return { ...prev, played: state.played };
+		});
 	};
 
 	const handleDuration = (duration: number) => {
@@ -117,62 +102,15 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		});
 	};
 
-	const handleClickFullscreen = () => {
-		if (!playerWrapperRef.current) return;
-
-		if (document.fullscreenElement) {
-			document.exitFullscreen();
-			setControls((prev) => {
-				return { ...prev, fullscreen: false };
-			});
-			return;
-		}
-
-		playerWrapperRef.current
-			.requestFullscreen()
-			.then(() =>
-				setControls((prev) => {
-					return { ...prev, fullscreen: true };
-				}),
-			)
-			.catch((err) => {
-				toast.current?.show({
-					severity: "error",
-					summary: "Error",
-					detail: `Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
-					life: 3000,
-				});
-			});
-	};
+	//#endregion React Player Events
 
 	return (
 		<div
 			className="flex flex-col relative"
 			ref={playerWrapperRef}
-			onPointerEnter={() =>
-				setControls((prev) => {
-					return { ...prev, controls: true };
-				})
-			}
-			onPointerLeave={() =>
-				setControls((prev) => {
-					return { ...prev, controls: false };
-				})
-			}
-			onKeyDown={(e) => {
-				if (e.key === "q") {
-					setStreamPort((prev) => {
-						const currentIndex = qualities.findIndex(
-							(quality) => quality.port === prev,
-						);
-						const nextIndex =
-							currentIndex === qualities.length - 1
-								? 0
-								: currentIndex + 1;
-						return qualities[nextIndex].port;
-					});
-				}
-			}}
+			onPointerEnter={() => toggleControls(true)}
+			onPointerLeave={() => toggleControls(false)}
+			onKeyDown={(e) => handleKeyDown(e.key)}
 		>
 			<div
 				className="bg-black w-full"
@@ -198,79 +136,47 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					${controls.controls ? "opacity-100" : "opacity-0"}
 					`}
 			>
-				<Slider
-					value={controls.played * 100}
-					onMouseDown={handleSeekMouseDown}
-					onChange={handleSeekChange}
-					onMouseUp={handleSeekMouseUp}
+				<SeekControls
+					controls={controls}
+					setControls={setControls}
+					reactPlayerRef={reactPlayerRef}
 				/>
+
 				<div className="mx-1 flex flex-col gap-2 bg-black">
 					<div className="flex flex-row justify-between">
 						<div className="flex flex-row gap-1 items-center">
-							<Button
-								icon={`pi pi-${!controls.playing ? "play" : "pause"}`}
-								className="w-12"
-								onClick={handlePlayPause}
-								text
+							<PlayPauseControls
+								controls={controls}
+								handlePlayPause={handlePlayPause}
 							/>
-							<Button
-								icon="pi pi-replay"
-								className="w-12"
-								onClick={() => setRetryKey((prev) => prev + 1)}
-								text
-							/>
-							<div className="flex flex-row items-center gap-1">
-								<Button
-									icon={`pi pi-volume-${!controls.muted ? "up" : "off"}`}
-									className="w-28"
-									onClick={handleToggleMuted}
-									text
-								/>
-								<Slider
-									className="w-full"
-									value={controls.volume * 100}
-									onChange={handleVolumeChange}
-								/>
+							<RetryControls setRetryKey={setRetryKey} />
 
-								{!props.live ? (
-									<div className="text-white text-nowrap ml-2">
-										<Duration
-											seconds={
-												controls.duration *
-												controls.played
-											}
-										/>
-										<span> / </span>
-										<Duration seconds={controls.duration} />
-									</div>
-								) : (
-									<div className="flex flex-row items-center gap-1">
-										<CircleLive />
-										<span className="text-white">Live</span>
-									</div>
-								)}
-							</div>
+							<VolumeControls
+								controls={controls}
+								setControls={setControls}
+							/>
+
+							{!props.live ? (
+								<DurationPanel controls={controls} />
+							) : (
+								<LiveIndicator />
+							)}
 						</div>
 
 						<div className="flex flex-row items-center gap-1">
-							<span className="text-white">(Q)</span>
-							<Dropdown
-								className="bg-transparent text-white border-none font-medium"
-								value={streamPort}
-								onChange={(event) => {
-									setStreamPort(event.value);
-								}}
-								options={qualities.map((quality) => {
-									return {
-										label: quality.resolution,
-										value: quality.port,
-									};
-								})}
-							/>
-							<Button
-								icon={`pi pi-window-${!controls.fullscreen ? "maximize" : "minimize"}`}
-								onClick={handleClickFullscreen}
-								text
+							{props.live && (
+								<ResolutionControls
+									streamPort={streamPort}
+									setStreamPort={setStreamPort}
+									qualities={qualities}
+								/>
+							)}
+
+							<FullscreenControls
+								controls={controls}
+								setControls={setControls}
+								playerWrapperRef={playerWrapperRef}
+								toast={toast}
 							/>
 						</div>
 					</div>

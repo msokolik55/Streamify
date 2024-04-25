@@ -6,7 +6,6 @@ export interface IVideoControls {
 	volume: number;
 	muted: boolean;
 	played: number;
-	loaded: number;
 	duration: number;
 	playbackRate: number;
 	loop: boolean;
