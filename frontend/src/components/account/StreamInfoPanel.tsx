@@ -12,7 +12,10 @@ const StreamInfoPanel = (props: IStreamInfoPanelProps) => {
 
 	return (
 		<div className="flex flex-row gap-2 justify-between items-center">
-			<span>{props.streamKey}</span>
+			<div className="flex flex-row gap-2">
+				<span className="font-bold">Stream Key:</span>
+				<span>{props.streamKey}</span>
+			</div>
 			<Button label="Copy" onClick={copyStreamKey} />
 		</div>
 	);
