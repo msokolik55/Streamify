@@ -24,7 +24,7 @@ const VolumeControls = (props: IVolumeControlsProps) => {
 	};
 
 	return (
-		<div className="flex flex-row items-center gap-1">
+		<div className="flex flex-row items-center gap-1 mr-4">
 			<Button
 				icon={`pi pi-volume-${!props.controls.muted ? "up" : "off"}`}
 				className="w-28"
@@ -32,7 +32,7 @@ const VolumeControls = (props: IVolumeControlsProps) => {
 				text
 			/>
 			<Slider
-				className="w-full"
+				className="w-full rounded-none"
 				value={props.controls.volume * 100}
 				onChange={handleVolumeChange}
 			/>
