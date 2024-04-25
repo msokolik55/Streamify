@@ -4,10 +4,11 @@ import { HTMLInputTypeAttribute } from "react";
 import { FieldError, UseFormRegister } from "react-hook-form";
 
 interface ITextFieldProps {
-	label: string;
+	label?: string;
 	name: string;
 	type: HTMLInputTypeAttribute;
 	defaultValue?: string;
+	placeholder?: string;
 	register: UseFormRegister<any>;
 	errorField: FieldError | undefined;
 	options?: {
@@ -21,7 +22,7 @@ interface ITextFieldProps {
 const InputTextField = (props: ITextFieldProps) => {
 	return (
 		<div className="flex flex-col gap-2">
-			<label htmlFor={props.name}>{props.label}</label>
+			{props.label && <label htmlFor={props.name}>{props.label}</label>}
 			<InputText
 				{...props.register(props.name, props.options)}
 				id={props.name}
@@ -32,6 +33,7 @@ const InputTextField = (props: ITextFieldProps) => {
 				pattern={props.options?.pattern?.source}
 				defaultValue={props.defaultValue}
 				disabled={props.disabled}
+				placeholder={props.placeholder}
 				aria-invalid={props.errorField ? "true" : "false"}
 				aria-required={props.options?.required ? "true" : "false"}
 				aria-label={props.label}

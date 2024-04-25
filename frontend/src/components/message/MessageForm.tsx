@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,7 @@ import { useSWRConfig } from "swr";
 import { logError, logInfo } from "../../logger";
 import { MessageInputs } from "../../models/form";
 import { apiMessageUrl, apiStreamUrl, messagePath } from "../../urls";
+import InputTextField from "../form/InputTextField";
 
 type MessageFormProps = {
 	streamKey: string;
@@ -63,10 +63,12 @@ const MessageForm = (props: MessageFormProps) => {
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Toast ref={toast} />
 
-			<InputText
-				{...register("content", { required: true })}
+			<InputTextField
+				register={register}
+				errorField={errors.content}
+				name="content"
+				options={{ required: true, minLength: 3 }}
 				type="text"
-				required={true}
 				placeholder="Type a message..."
 				disabled={loading}
 				aria-invalid={errors.content ? "true" : "false"}
