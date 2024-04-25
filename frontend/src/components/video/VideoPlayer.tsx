@@ -212,7 +212,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 					`}
 			>
 				<Slider
-					value={controls.played}
+					value={controls.played * 100}
 					onMouseDown={handleSeekMouseDown}
 					onChange={handleSeekChange}
 					onMouseUp={handleSeekMouseUp}
@@ -241,18 +241,18 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 								/>
 								<Slider
 									className="w-full"
-									value={controls.volume}
+									value={controls.volume * 100}
 									onChange={handleVolumeChange}
 								/>
 
 								<div className="text-white text-nowrap ml-2">
-									<Duration seconds={controls.duration} />
-									<span> / </span>
 									<Duration
 										seconds={
 											controls.duration * controls.played
 										}
 									/>
+									<span> / </span>
+									<Duration seconds={controls.duration} />
 								</div>
 							</div>
 						</div>
