@@ -246,6 +246,9 @@ export const getMessages = async (req: Request, res: Response) => {
 	}
 };
 
+/**
+ * Updates max count of stream
+ */
 export const updateMaxCount = async (streamKey: string, count: number) => {
 	try {
 		const oldStream = await prisma.stream.findUnique({

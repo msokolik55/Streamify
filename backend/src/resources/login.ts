@@ -3,12 +3,18 @@ import { Request, Response } from "express";
 import { logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
 
+/**
+ * Logs user in
+ */
 export const login = (_req: Request, res: Response) => {
 	logInfo("/login", login.name, "User logged in.");
 
 	return sendResponseSuccess(res, Status.OK, true);
 };
 
+/**
+ * Logs user out
+ */
 export const logout = (req: Request, res: Response) => {
 	logInfo("/logout", logout.name, "User logged out.");
 
@@ -17,6 +23,9 @@ export const logout = (req: Request, res: Response) => {
 	});
 };
 
+/**
+ * Checks if user is authenticated
+ */
 export const isAuthenticated = (req: Request, res: Response) => {
 	logInfo(
 		"/authenticated",

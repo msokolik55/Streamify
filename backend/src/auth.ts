@@ -4,6 +4,9 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { logInfo } from "./logger";
 import { findByUsername, getPassword } from "./resources/user";
 
+/**
+ * Authenticates user
+ */
 export const authenticate = (passport: any) => {
 	logInfo("auth", authenticate.name, "Initializing passport.");
 
@@ -32,6 +35,9 @@ export const authenticate = (passport: any) => {
 	);
 };
 
+/**
+ * Serializes user
+ */
 export const serializeUser = (passport: any) => {
 	logInfo("auth", serializeUser.name, "Serializing user.");
 
@@ -40,6 +46,9 @@ export const serializeUser = (passport: any) => {
 	});
 };
 
+/**
+ * Deserializes user
+ */
 export const deserializeUser = (passport: any) => {
 	logInfo("auth", deserializeUser.name, "Deserializing user.");
 

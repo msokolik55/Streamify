@@ -10,6 +10,9 @@ import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
 import { UserDetailSelect, UserSelect } from "./selects";
 
+/**
+ * Return user password
+ */
 export const getPassword = async (username: string) => {
 	logInfo("global", getPassword.name, "Method called");
 
@@ -26,6 +29,9 @@ export const getPassword = async (username: string) => {
 	return user;
 };
 
+/**
+ * Return user by username
+ */
 export const findByUsername = async (username: string) => {
 	logInfo("global", findByUsername.name, "Method called");
 
