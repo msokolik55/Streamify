@@ -14,8 +14,8 @@ import ProfilePage from "./pages/ProfilePage";
 import RecordingPage from "./pages/RecordingPage";
 import RegisterPage from "./pages/RegisterPage";
 import StreamPage from "./pages/StreamPage";
+import AccountPage from "./pages/account/AccountPage";
 import PasswordPage from "./pages/account/PasswordPage";
-import UserPage from "./pages/account/UserPage";
 import UserProfilePage from "./pages/account/UserProfilePage";
 import UserStreamPage from "./pages/account/UserStreamPage";
 import VideoPage from "./pages/account/VideoPage";
@@ -78,7 +78,7 @@ export const App = () => {
 						/>
 						<Route path={registerPath} element={<RegisterPage />} />
 						<Route path={loginPath} element={<LoginPage />} />
-						<Route path={userPath} element={<UserPage />}>
+						<Route path={userPath} element={<AccountPage />}>
 							<Route
 								path={userProfilePath}
 								element={<UserProfilePage />}

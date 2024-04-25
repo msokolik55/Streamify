@@ -11,7 +11,7 @@ import {
 	userVideosPath,
 } from "../../urls";
 
-const UserPage = () => {
+const AccountPage = () => {
 	const navigate = useNavigate();
 
 	const { data: user } = useLoggedUser();
@@ -32,11 +32,11 @@ const UserPage = () => {
 				<title>User - Streamify</title>
 			</Helmet>
 			<div className="px-4">
-				<TabMenu model={items} />
+				<TabMenu model={items} className="mb-2" />
 				<Outlet />
 			</div>
 		</div>
 	);
 };
 
-export default UserPage;
+export default AccountPage;
