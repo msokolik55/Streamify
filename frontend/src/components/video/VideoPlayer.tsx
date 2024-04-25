@@ -37,13 +37,10 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		playing: true,
 		seeking: false,
 		controls: false,
-		light: false,
 		volume: 0.8,
 		muted: false,
 		played: 0,
 		duration: 0,
-		playbackRate: 1.0,
-		loop: false,
 		fullscreen: false,
 	});
 	const [retryKey, setRetryKey] = useState(0);
