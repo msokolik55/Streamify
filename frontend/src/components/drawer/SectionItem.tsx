@@ -1,4 +1,4 @@
-import { Avatar } from "primereact/avatar";
+import { Image } from "primereact/image";
 import { NavLink } from "react-router-dom";
 
 import { getPictureUrl } from "../../functions/getPicture";
@@ -16,10 +16,10 @@ const SectionItem = (props: ISectionItemProps) => {
 			to={props.to}
 			className="flex flex-row items-center gap-4 px-4 py-2 hover:bg-gray-200"
 		>
-			<Avatar
-				imageAlt="avatar"
-				image={getPictureUrl(props.user.picture)}
-				shape="circle"
+			<Image
+				src={getPictureUrl(props.user.picture)}
+				alt="avatar"
+				imageClassName="rounded-full w-8 h-8"
 			/>
 			<span>{props.user.username}</span>
 		</NavLink>
