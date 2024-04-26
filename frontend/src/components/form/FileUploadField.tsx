@@ -25,7 +25,6 @@ const PictureUploadField = (props: ITextFieldProps) => {
 					props.setFile(undefined);
 				}}
 				onSelect={(e) => {
-					console.log(e.files[0]);
 					props.setFile(e.files[0]);
 				}}
 			/>
