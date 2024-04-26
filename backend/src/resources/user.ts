@@ -89,7 +89,7 @@ export const create = async (req: Request, res: Response) => {
 			data: {
 				username,
 				email,
-				picture: req.file?.filename,
+				picture: req.file?.path ?? null,
 				password: bcrypt.hashSync(password, 10),
 			},
 			select: UserSelect,
@@ -119,6 +119,15 @@ export const getByUsername = async (req: Request, res: Response) => {
 	}
 };
 
+const deleteFile = (oldFile: string | null | undefined) => {
+	if (!fs.existsSync(uploadFolderName)) return;
+
+	fs.readdirSync(uploadFolderName).forEach((file) => {
+		const fullPath = path.join(uploadFolderName, file);
+		if (fullPath === oldFile) fs.unlinkSync(fullPath);
+	});
+};
+
 /**
  * Update user
  */
@@ -133,12 +142,7 @@ export const update = async (req: Request, res: Response) => {
 	}
 
 	const oldUser = await findByUsername(username);
-	if (fs.existsSync(uploadFolderName)) {
-		fs.readdirSync(uploadFolderName).forEach((file) => {
-			const fullPath = path.join(uploadFolderName, file);
-			if (file === oldUser?.picture) fs.unlinkSync(fullPath);
-		});
-	}
+	deleteFile(oldUser?.picture);
 
 	try {
 		await prisma.user.update({
@@ -148,7 +152,7 @@ export const update = async (req: Request, res: Response) => {
 			data: {
 				username,
 				email,
-				picture: req.file?.filename,
+				picture: req.file?.path ?? null,
 			},
 		});
 
