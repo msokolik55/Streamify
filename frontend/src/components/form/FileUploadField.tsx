@@ -1,36 +1,44 @@
 import { FileUpload } from "primereact/fileupload";
-import { FieldError, UseFormRegister } from "react-hook-form";
+import { Image } from "primereact/image";
+import { Dispatch, SetStateAction } from "react";
 
 interface ITextFieldProps {
 	label: string;
 	name: string;
-	defaultValue?: string;
-	register: UseFormRegister<any>;
-	errorField: FieldError | undefined;
-	options?: {
-		required?: boolean;
-	};
 	accept?: string;
 	disabled?: boolean;
+	picture: any;
+	setFile: Dispatch<SetStateAction<File | undefined>>;
 }
 
-const FileUploadField = (props: ITextFieldProps) => {
+const PictureUploadField = (props: ITextFieldProps) => {
 	return (
 		<div className="flex flex-col gap-2">
 			<label htmlFor={props.name}>{props.label}</label>
 			<FileUpload
-				{...props.register(props.name, props.options)}
 				mode="basic"
 				id={props.name}
 				name={props.name}
 				accept={props.accept}
 				disabled={props.disabled}
-				aria-invalid={props.errorField ? "true" : "false"}
-				aria-required={props.options?.required ? "true" : "false"}
-				aria-label={props.label}
+				onClear={() => {
+					props.setFile(undefined);
+				}}
+				onSelect={(e) => {
+					console.log(e.files[0]);
+					props.setFile(e.files[0]);
+				}}
 			/>
+
+			{props.picture && (
+				<Image
+					src={props.picture.objectURL}
+					alt="Profile picture"
+					imageClassName="w-32"
+				/>
+			)}
 		</div>
 	);
 };
 
-export default FileUploadField;
+export default PictureUploadField;

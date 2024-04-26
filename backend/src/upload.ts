@@ -17,11 +17,9 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (_req: any, file: any, cb: any) => {
-	for (let i = 0; i < file.length; i++) {
-		if (!file[i].type.includes("image")) {
-			cb(new Error("Only .jpeg, .png, or .gif formats allowed!"), false);
-			return;
-		}
+	if (!file.mimetype.includes("image")) {
+		cb(new Error("Only .jpeg, .png, or .gif formats allowed!"), false);
+		return;
 	}
 
 	cb(null, true);

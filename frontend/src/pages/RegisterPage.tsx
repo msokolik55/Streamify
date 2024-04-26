@@ -9,7 +9,7 @@ import { useSetRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../atom";
-import FileUploadField from "../components/form/FileUploadField";
+import PictureUploadField from "../components/form/FileUploadField";
 import InputTextField from "../components/form/InputTextField";
 import Heading1 from "../components/heading/Heading1";
 import { logError, logInfo } from "../logger";
@@ -20,6 +20,7 @@ import { apiUserUrl, userProfilePath } from "../urls";
 const RegisterPage = () => {
 	const setLoggedUserUsername = useSetRecoilState(loggedUserUsernameAtom);
 	const [success, setSuccess] = useState(false);
+	const [picture, setPicture] = useState<File | undefined>(undefined);
 	const toast = useRef<Toast>(null);
 
 	const {
@@ -35,9 +36,7 @@ const RegisterPage = () => {
 		const formData = new FormData();
 		formData.append("username", data.username);
 		formData.append("email", data.email);
-		if (data.picture && data.picture.length > 0) {
-			formData.append("picture", data.picture[0]);
-		}
+		formData.append("picture", picture ?? "");
 		formData.append("password", data.password);
 
 		try {
@@ -103,12 +102,12 @@ const RegisterPage = () => {
 					}}
 				/>
 
-				<FileUploadField
-					label="Picture"
+				<PictureUploadField
+					label="Profile picture"
 					name="picture"
-					register={register}
-					errorField={errors.picture}
 					accept="image/*"
+					picture={picture}
+					setFile={setPicture}
 				/>
 
 				<InputTextField

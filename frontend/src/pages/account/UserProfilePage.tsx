@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Button } from "primereact/button";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
-import { Image } from "primereact/image";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
@@ -13,7 +12,7 @@ import { useSWRConfig } from "swr";
 
 import { loggedUserUsernameAtom } from "../../atom";
 import ErrorBlock from "../../components/error/ErrorBlock";
-import FileUploadField from "../../components/form/FileUploadField";
+import PictureUploadField from "../../components/form/FileUploadField";
 import InputTextField from "../../components/form/InputTextField";
 import { useLoggedUser } from "../../functions/useFetch";
 import { logError, logInfo } from "../../logger";
@@ -32,6 +31,7 @@ const UserProfilePage = () => {
 	);
 	const [edit, setEdit] = useState(false);
 	const [deleted, setDeleted] = useState(false);
+	const [picture, setPicture] = useState<File | undefined>(undefined);
 	const toast = useRef<Toast>(null);
 
 	const {
@@ -66,9 +66,7 @@ const UserProfilePage = () => {
 		const formData = new FormData();
 		formData.append("username", data.username);
 		formData.append("email", data.email);
-		if (data.picture && data.picture.length > 0) {
-			formData.append("picture", data.picture[0]);
-		}
+		formData.append("picture", picture ?? "");
 
 		try {
 			await axios.put(
@@ -192,21 +190,14 @@ const UserProfilePage = () => {
 					disabled={!edit}
 				/>
 
-				<FileUploadField
+				<PictureUploadField
 					label="Profile picture"
 					name="picture"
-					register={register}
-					errorField={errors.picture}
 					accept="image/*"
 					disabled={!edit}
+					picture={picture ?? user.picture}
+					setFile={setPicture}
 				/>
-				{user.picture && (
-					<Image
-						src={user.picture}
-						alt="Profile picture"
-						imageClassName="w-24"
-					/>
-				)}
 
 				{edit && (
 					<div className="flex flex-row gap-2">

@@ -22,13 +22,11 @@ export type UserEditInputs = {
 	id: string;
 	username: string;
 	email: string;
-	picture?: FileList;
 };
 
 export type UserCreateInputs = {
 	username: string;
 	email: string;
-	picture?: FileList;
 	password: string;
 };
 
