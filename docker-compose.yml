@@ -20,19 +20,19 @@ services:
   #     - shared-volume:/recordings
   #     - ./k8s/mediamtx-360p.yml:/mediamtx.yml
   
-  # redis:
-  #   image: redis:latest
-  #   ports:
-  #     - 6379:6379
-  #   volumes:
-  #     - redis-volume:/data
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-volume:/data
  
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    # depends_on:
-    #   - redis
+    depends_on:
+      - redis
     ports:
       - 4000:4000
       - 5555:5555
@@ -50,7 +50,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     depends_on:
-      # - stream-orig
+      - stream-orig
       - backend
     ports:
       - 8080:8080
