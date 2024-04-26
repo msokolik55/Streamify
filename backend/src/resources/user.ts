@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 
 import prisma from "../client";
-import { uploadFolderName } from "../constants";
+import { uploadsFolderName } from "../constants";
 import { logError, logInfo } from "../logger";
 import { Status, sendResponseError, sendResponseSuccess } from "./response";
 import { UserDetailSelect, UserSelect } from "./selects";
@@ -120,10 +120,10 @@ export const getByUsername = async (req: Request, res: Response) => {
 };
 
 const deleteFile = (oldFile: string | null | undefined) => {
-	if (!fs.existsSync(uploadFolderName)) return;
+	if (!fs.existsSync(uploadsFolderName)) return;
 
-	fs.readdirSync(uploadFolderName).forEach((file) => {
-		const fullPath = path.join(uploadFolderName, file);
+	fs.readdirSync(uploadsFolderName).forEach((file) => {
+		const fullPath = path.join(uploadsFolderName, file);
 		if (fullPath === oldFile) fs.unlinkSync(fullPath);
 	});
 };
