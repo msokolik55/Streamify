@@ -1,3 +1,4 @@
+import HyperDX from "@hyperdx/browser";
 import axios from "axios";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
@@ -5,7 +6,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "./atom";
-import { apiUrl } from "./env";
+import { apiUrl, hyperdxKey } from "./env";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -54,6 +55,16 @@ export const App = () => {
 	// 		socket.disconnect();
 	// 	};
 	// }, []);
+
+	useEffect(() => {
+		HyperDX.init({
+			apiKey: hyperdxKey,
+			service: "streamify-frontend",
+			tracePropagationTargets: [/localhost/i],
+			consoleCapture: true,
+			advancedNetworkCapture: true,
+		});
+	}, []);
 
 	return (
 		<div>

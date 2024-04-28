@@ -39,6 +39,7 @@
 		"typescript": "^5.4.3"
 	},
 	"dependencies": {
+		"@hyperdx/node-opentelemetry": "^0.6.2",
 		"@prisma/client": "^5.11.0",
 		"bcrypt": "^5.1.1",
 		"connect-redis": "^7.1.1",

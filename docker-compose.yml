@@ -44,6 +44,8 @@ services:
       NODE_ENV: production
       DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: redis://redis:6379
+      HYPERDX_API_KEY: b0ba629c-2cfc-4649-88a3-ba884c4dd3f1
+      OTEL_SERVICE_NAME: streamify-backend
 
   frontend:
     build:
