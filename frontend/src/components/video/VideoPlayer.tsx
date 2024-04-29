@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
 
-import { baseUrl } from "../../env";
+import { baseUrl, port360p, port720p, port1080p } from "../../env";
 import { IVideoControls } from "../../models/IVideoControls";
 import DurationPanel from "./controls/DurationPanel";
 import FullscreenControls from "./controls/FullscreenControls";
@@ -28,11 +28,12 @@ type IVideoPlayerProps = { live: boolean } & (IStreamSource | IFileSource);
 
 const VideoPlayer = (props: IVideoPlayerProps) => {
 	const qualities = [
-		{ port: 8888, resolution: "360p" },
-		{ port: 7888, resolution: "720p" },
+		{ port: port360p, resolution: "360p" },
+		{ port: port720p, resolution: "720p" },
+		{ port: port1080p, resolution: "1080p" },
 	];
 
-	const [streamPort, setStreamPort] = useState(qualities[0].port);
+	const [streamPort, setStreamPort] = useState<number>(qualities[0].port);
 	const [controls, setControls] = useState<IVideoControls>({
 		playing: true,
 		seeking: false,

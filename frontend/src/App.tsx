@@ -57,13 +57,13 @@ export const App = () => {
 	// }, []);
 
 	useEffect(() => {
-		HyperDX.init({
-			apiKey: hyperdxKey,
-			service: "streamify-frontend",
-			tracePropagationTargets: [/localhost/i],
-			consoleCapture: true,
-			advancedNetworkCapture: true,
-		});
+		// HyperDX.init({
+		// 	apiKey: hyperdxKey,
+		// 	service: "streamify-frontend",
+		// 	tracePropagationTargets: [/localhost/i],
+		// 	consoleCapture: true,
+		// 	advancedNetworkCapture: true,
+		// });
 	}, []);
 
 	return (

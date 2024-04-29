@@ -22,14 +22,14 @@ const HomePage = () => {
 				title="Live"
 				streamType="live"
 				streams={liveStreams}
-				getUrl={(stream) => `${streamPath}/${stream.id}`}
+				getUrl={(stream) => `${livePath}/${stream.user.username}`}
 			/>
 
 			<BrowseStreamsPanel
 				title="Browse videos"
 				streamType="saved"
 				streams={savedStreams}
-				getUrl={(stream) => `${livePath}/${stream.user.username}`}
+				getUrl={(stream) => `${streamPath}/${stream.id}`}
 			/>
 		</div>
 	);
