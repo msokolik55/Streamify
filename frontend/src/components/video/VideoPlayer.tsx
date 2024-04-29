@@ -53,7 +53,14 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 	const hlsUrl = `${baseUrl}:${streamPort}/${props.streamKey}/index.m3u8`;
 	const url = props.streamKey ? hlsUrl : props.url;
 
-	const toggleControls = (show: boolean) => {
+	const toggleControls = (show?: boolean) => {
+		if (!show) {
+			setControls((prev) => {
+				return { ...prev, controls: !prev.controls };
+			});
+			return;
+		}
+
 		setControls((prev) => {
 			return { ...prev, controls: show };
 		});
@@ -75,6 +82,14 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 						: currentIndex + 1;
 				return qualities[nextIndex].port;
 			});
+		}
+
+		if (pressedKey === "f") {
+			handleFullscreen();
+		}
+
+		if (pressedKey === "t" && controls.fullscreen) {
+			toggleControls();
 		}
 	};
 
@@ -100,7 +115,7 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 		});
 	};
 
-	const handleClickFullscreen = () => {
+	const handleFullscreen = () => {
 		if (!playerWrapperRef.current) return;
 
 		if (document.fullscreenElement) {
@@ -132,12 +147,12 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 	return (
 		<div
-			className="flex flex-col relative"
+			className="flex flex-col relative mb-10 min-w-96"
 			ref={playerWrapperRef}
 			onPointerEnter={() => toggleControls(true)}
 			onPointerLeave={() => toggleControls(false)}
 			onKeyDown={(e) => handleKeyDown(e.key)}
-			onDoubleClick={handleClickFullscreen}
+			onDoubleClick={handleFullscreen}
 		>
 			<div
 				className="bg-black w-full"
@@ -191,6 +206,12 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 						</div>
 
 						<div className="flex flex-row items-center gap-1">
+							{controls.fullscreen && (
+								<span className="text-white mx-2">
+									(T)oggle
+								</span>
+							)}
+
 							{props.live && (
 								<ResolutionControls
 									streamPort={streamPort}
@@ -201,12 +222,16 @@ const VideoPlayer = (props: IVideoPlayerProps) => {
 
 							<FullscreenControls
 								controls={controls}
-								handleClickFullscreen={handleClickFullscreen}
+								handleClickFullscreen={handleFullscreen}
 							/>
 						</div>
 					</div>
 				</div>
 			</div>
+			<span className="absolute -bottom-6">
+				If the stream is loading more than 10 seconds, click on Refresh
+				button.
+			</span>
 
 			<Toast ref={toast} />
 		</div>

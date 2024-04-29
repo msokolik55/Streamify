@@ -10,7 +10,7 @@ interface IResolutionControlsProps {
 const ResolutionControls = (props: IResolutionControlsProps) => {
 	return (
 		<>
-			<span className="text-white">(Q)</span>
+			<span className="text-white">(Q)uality</span>
 			<Dropdown
 				className="bg-transparent text-white border-none font-medium"
 				value={props.streamPort}
