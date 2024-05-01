@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stream-720p
+spec:
+  type: LoadBalancer
+  selector:
+    app: stream-720p
+  ports:
+    - name: rtmp
+      protocol: TCP
+      port: 3935
+      targetPort: 3935
+    - name: rtsp
+      protocol: TCP
+      port: 6554
+      targetPort: 6554
+    - name: hls
+      protocol: TCP
+      port: 6888
+      targetPort: 6888

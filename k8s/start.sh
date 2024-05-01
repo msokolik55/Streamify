@@ -2,10 +2,10 @@
 
 ./clean.sh
 
-echo
-kubectl create configmap stream-config --from-file=mediamtx.yml
-kubectl apply -f stream-deployment.yml
-kubectl apply -f stream-service.yml
+./configs/start.sh
+./volumes/start.sh
+./deployments/start.sh
+./services/start.sh
 
 echo
 kubectl get deployments

@@ -1,20 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stream-deployment
+  name: stream-1080p
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stream
+      app: stream-1080p
   template:
     metadata:
       labels:
-        app: stream
+        app: stream-1080p
     spec:
       containers:
-        - name: stream
-          image: bluenviron/mediamtx:latest
+        - name: stream-1080p
+          image: bluenviron/mediamtx:latest-ffmpeg
+          ports:
+            - containerPort: 4935
+            - containerPort: 5554
+            - containerPort: 5888
           volumeMounts:
             - name: shared-volume
               mountPath: /recordings
@@ -23,7 +27,8 @@ spec:
               subPath: mediamtx.yml
       volumes:
         - name: shared-volume
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: shared-data-pvc
         - name: config-volume
           configMap:
-            name: stream-config
+            name: stream-1080p-config

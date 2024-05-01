@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cockroachdb
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 26257
+      targetPort: 26257
+      name: db
+    - port: 8090
+      targetPort: 8080
+      name: webui
+  selector:
+    app: cockroachdb

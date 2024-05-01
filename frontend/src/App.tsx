@@ -20,7 +20,7 @@ import PasswordPage from "./pages/account/PasswordPage";
 import UserProfilePage from "./pages/account/UserProfilePage";
 import UserStreamPage from "./pages/account/UserStreamPage";
 import VideoPage from "./pages/account/VideoPage";
-// import { socket } from "./socket";
+import { socket } from "./socket";
 import {
 	livePath,
 	loginPath,
@@ -48,22 +48,22 @@ export const App = () => {
 			.catch(() => {});
 	}, []);
 
-	// useEffect(() => {
-	// 	socket.connect();
+	useEffect(() => {
+		socket.connect();
 
-	// 	return () => {
-	// 		socket.disconnect();
-	// 	};
-	// }, []);
+		return () => {
+			socket.disconnect();
+		};
+	}, []);
 
 	useEffect(() => {
-		// HyperDX.init({
-		// 	apiKey: hyperdxKey,
-		// 	service: "streamify-frontend",
-		// 	tracePropagationTargets: [/localhost/i],
-		// 	consoleCapture: true,
-		// 	advancedNetworkCapture: true,
-		// });
+		HyperDX.init({
+			apiKey: hyperdxKey,
+			service: "streamify-frontend",
+			tracePropagationTargets: [/localhost/i],
+			consoleCapture: true,
+			advancedNetworkCapture: true,
+		});
 	}, []);
 
 	return (

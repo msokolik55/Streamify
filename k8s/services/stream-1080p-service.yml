@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stream-1080p
+spec:
+  type: LoadBalancer
+  selector:
+    app: stream-1080p
+  ports:
+    - name: rtmp
+      protocol: TCP
+      port: 4935
+      targetPort: 4935
+    - name: rtsp
+      protocol: TCP
+      port: 5554
+      targetPort: 5554
+    - name: hls
+      protocol: TCP
+      port: 5888
+      targetPort: 5888

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: msokolik55/backend:latest
+          ports:
+            - containerPort: 4000
+            - containerPort: 5555
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: DATABASE_URL
+              value: "postgresql://root@cockroachdb:26257/streamify?sslmode=disable"
+            - name: REDIS_URL
+              value: "redis://redis:6379"
+            - name: OTEL_SERVICE_NAME
+              value: "streamify-backend"
+          volumeMounts:
+            - name: recordings
+              mountPath: /app/recordings
+            - name: uploads
+              mountPath: /app/uploads
+      volumes:
+        - name: recordings
+          persistentVolumeClaim:
+            claimName: shared-data-pvc
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: upload-data-pvc

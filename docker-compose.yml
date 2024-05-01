@@ -8,7 +8,7 @@ services:
       - 8888:8888
     volumes:
       - shared-volume:/recordings
-      - ./k8s/mediamtx.yml:/mediamtx.yml
+      - ./k8s/configs/mediamtx.yml:/mediamtx.yml
   
   stream-360p:
     image: bluenviron/mediamtx:latest-ffmpeg
@@ -18,7 +18,7 @@ services:
       - 7888:7888
     volumes:
       - shared-volume:/recordings
-      - ./k8s/mediamtx-360p.yml:/mediamtx.yml
+      - ./k8s/configs/mediamtx-360p.yml:/mediamtx.yml
   
   stream-720p:
     image: bluenviron/mediamtx:latest-ffmpeg
@@ -28,7 +28,7 @@ services:
       - 6888:6888
     volumes:
       - shared-volume:/recordings
-      - ./k8s/mediamtx-720p.yml:/mediamtx.yml
+      - ./k8s/configs/mediamtx-720p.yml:/mediamtx.yml
   
   stream-1080p:
     image: bluenviron/mediamtx:latest-ffmpeg
@@ -38,7 +38,7 @@ services:
       - 5888:5888
     volumes:
       - shared-volume:/recordings
-      - ./k8s/mediamtx-1080p.yml:/mediamtx.yml
+      - ./k8s/configs/mediamtx-1080p.yml:/mediamtx.yml
   
   redis:
     image: redis:latest
@@ -46,39 +46,52 @@ services:
       - 6379:6379
     volumes:
       - redis-volume:/data
- 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - redis
-  #   ports:
-  #     - 4000:4000
-  #     - 5555:5555
-  #   volumes:
-  #     - shared-volume:/app/recordings
-  #     - upload-volume:/app/uploads
-  #     - ./backend/prisma/dev.db:/app/prisma/dev.db
-  #   environment:
-  #     NODE_ENV: production
-  #     DATABASE_URL: ${DATABASE_URL}
-  #     REDIS_URL: redis://redis:6379
-  #     HYPERDX_API_KEY: b0ba629c-2cfc-4649-88a3-ba884c4dd3f1
-  #     OTEL_SERVICE_NAME: streamify-backend
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - stream-orig
-  #     - backend
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - shared-volume:/app/dist/recordings
-  #     - upload-volume:/app/dist/uploads
+  cockroachdb:
+    image: cockroachdb/cockroach:latest
+    command: start-single-node --insecure
+    volumes:
+      - cockroachdb-volume:/cockroach/cockroach-data
+    ports:
+      - "26257:26257"
+      - "8090:8080"
+    environment:
+      - COCKROACHDB_USER=root
+      - COCKROACHDB_PASSWORD=root
+    restart: unless-stopped
+ 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    ports:
+      - 4000:4000
+      - 5555:5555
+    volumes:
+      - shared-volume:/app/recordings
+      - upload-volume:/app/uploads
+      - ./backend/prisma/dev.db:/app/prisma/dev.db
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://root@cockroachdb:26257/streamify?sslmode=disable
+      REDIS_URL: redis://redis:6379
+      HYPERDX_API_KEY: ${HYPERDX_API_KEY}
+      OTEL_SERVICE_NAME: streamify-backend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - stream-orig
+      - backend
+    ports:
+      - 8080:8080
+    volumes:
+      - shared-volume:/app/dist/recordings
+      - upload-volume:/app/dist/uploads
 
 volumes:
   shared-volume:
@@ -87,3 +100,5 @@ volumes:
     name: upload-data
   redis-volume:
     name: redis-data
+  cockroachdb-volume:
+    name: cockroachdb-data

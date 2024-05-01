@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cockroachdb
+spec:
+  selector:
+    matchLabels:
+      app: cockroachdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cockroachdb
+    spec:
+      containers:
+        - name: cockroachdb
+          image: cockroachdb/cockroach:latest
+          args: ["start-single-node", "--insecure"]
+          ports:
+            - containerPort: 26257
+              name: db
+            - containerPort: 8090
+              name: webui
+          env:
+            - name: COCKROACHDB_USER
+              value: "root"
+            - name: COCKROACHDB_PASSWORD
+              value: "root"
+          volumeMounts:
+            - name: cockroachdb-volume
+              mountPath: /cockroach/cockroach-data
+      volumes:
+        - name: cockroachdb-volume
+          persistentVolumeClaim:
+            claimName: cockroachdb-data-pvc

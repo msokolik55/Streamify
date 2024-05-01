@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stream-720p
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stream-720p
+  template:
+    metadata:
+      labels:
+        app: stream-720p
+    spec:
+      containers:
+        - name: stream-720p
+          image: bluenviron/mediamtx:latest-ffmpeg
+          ports:
+            - containerPort: 3935
+            - containerPort: 6554
+            - containerPort: 6888
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /recordings
+            - name: config-volume
+              mountPath: /mediamtx.yml
+              subPath: mediamtx.yml
+      volumes:
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: shared-data-pvc
+        - name: config-volume
+          configMap:
+            name: stream-720p-config

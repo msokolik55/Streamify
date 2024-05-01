@@ -1,5 +1,5 @@
 #!/bin/bash
 
-kubectl delete configmap stream-config
-kubectl delete service stream-service
-kubectl delete deployment stream-deployment
+./configs/clean.sh
+./services/clean.sh
+./deployments/clean.sh

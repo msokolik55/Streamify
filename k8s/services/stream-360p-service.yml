@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stream-360p
+spec:
+  type: LoadBalancer
+  selector:
+    app: stream-360p
+  ports:
+    - name: rtmp
+      protocol: TCP
+      port: 2935
+      targetPort: 2935
+    - name: rtsp
+      protocol: TCP
+      port: 7554
+      targetPort: 7554
+    - name: hls
+      protocol: TCP
+      port: 7888
+      targetPort: 7888
