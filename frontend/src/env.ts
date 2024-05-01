@@ -1,7 +1,9 @@
 export const environment = import.meta.env.VITE_MODE;
 export const hyperdxKey = import.meta.env.VITE_HYPERDX_KEY;
 
-export const baseUrl = import.meta.env.VITE_API_URL;
+const apiProtocol = import.meta.env.VITE_API_PROTOCOL;
+export const addressUrl = import.meta.env.VITE_API_URL;
+export const baseUrl = `${apiProtocol}://${addressUrl}`;
 const apiPort = import.meta.env.VITE_API_PORT;
 
 export const apiUrl = `${baseUrl}:${apiPort}`;

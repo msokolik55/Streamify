@@ -6,7 +6,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 import { loggedUserUsernameAtom } from "./atom";
-import { apiUrl, hyperdxKey } from "./env";
+import { addressUrl, apiUrl, hyperdxKey } from "./env";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -60,7 +60,7 @@ export const App = () => {
 		HyperDX.init({
 			apiKey: hyperdxKey,
 			service: "streamify-frontend",
-			tracePropagationTargets: [/localhost/i],
+			tracePropagationTargets: [addressUrl],
 			consoleCapture: true,
 			advancedNetworkCapture: true,
 		});
