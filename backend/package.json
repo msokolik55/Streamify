@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "tsc",
 		"dev": "npm run generate && cross-env PORT=4000 nodemon src/index.ts",
-		"test": "cross-env NODE_ENV=test jest --detectOpenHandles",
+		"test": "cross-env NODE_ENV=test jest --detectOpenHandles --silent",
 		"generate": "npx prisma generate",
 		"push-db": "npx prisma db push",
 		"reset": "node src/reset.mjs",
