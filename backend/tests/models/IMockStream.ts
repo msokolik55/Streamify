@@ -1,4 +1,4 @@
-interface IMockStream {
+export interface IMockStream {
 	id: string;
 	name: string;
 	description: string;
