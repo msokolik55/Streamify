@@ -32,7 +32,7 @@
 								"schema": {
 									"type": "array",
 									"items": {
-										"$ref": "#/components/schemas/User"
+										"$ref": "#/components/schemas/UsersResponseSuccess"
 									}
 								}
 							}
@@ -71,7 +71,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/User"
+									"$ref": "#/components/schemas/UserResponseSuccess"
 								}
 							}
 						}
@@ -110,7 +110,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/User"
+									"$ref": "#/components/schemas/UserResponseSuccess"
 								}
 							}
 						}
@@ -143,7 +143,14 @@
 				],
 				"responses": {
 					"204": {
-						"description": "User deleted successfully"
+						"description": "User deleted successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrueResponseSuccess"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "User not found",
@@ -201,7 +208,14 @@
 				},
 				"responses": {
 					"204": {
-						"description": "User updated successfully"
+						"description": "User updated successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrueResponseSuccess"
+								}
+							}
+						}
 					},
 					"400": {
 						"description": "Bad Request due to invalid input or missing required fields"
@@ -248,7 +262,14 @@
 				},
 				"responses": {
 					"204": {
-						"description": "Live status updated successfully"
+						"description": "Live status updated successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrueResponseSuccess"
+								}
+							}
+						}
 					},
 					"400": {
 						"description": "Bad Request due to invalid input or missing required fields"
@@ -293,17 +314,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "string",
-											"example": "OK"
-										},
-										"message": {
-											"type": "string",
-											"example": "Login successful"
-										}
-									}
+									"$ref": "#/components/schemas/TrueResponseSuccess"
 								}
 							}
 						}
@@ -358,7 +369,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SessionDetails"
+									"$ref": "#/components/schemas/SessionDetailsResponseSuccess"
 								}
 							}
 						}
@@ -400,7 +411,7 @@
 								"schema": {
 									"type": "array",
 									"items": {
-										"$ref": "#/components/schemas/Stream"
+										"$ref": "#/components/schemas/StreamsResponseSuccess"
 									}
 								}
 							}
@@ -450,7 +461,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Stream"
+									"$ref": "#/components/schemas/StreamWithMessagesResponseSuccess"
 								}
 							}
 						}
@@ -499,7 +510,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Stream"
+									"$ref": "#/components/schemas/StreamResponseSuccess"
 								}
 							}
 						}
@@ -550,7 +561,14 @@
 				},
 				"responses": {
 					"204": {
-						"description": "Stream updated successfully"
+						"description": "Stream updated successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrueResponseSuccess"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Stream not found",
@@ -592,7 +610,14 @@
 				],
 				"responses": {
 					"204": {
-						"description": "Stream deleted successfully"
+						"description": "Stream deleted successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrueResponseSuccess"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Stream not found",
@@ -638,7 +663,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "boolean"
+									"$ref": "#/components/schemas/TrueResponseSuccess"
 								}
 							}
 						}
@@ -673,7 +698,14 @@
 				],
 				"responses": {
 					"204": {
-						"description": "Stream ended successfully"
+						"description": "Stream ended successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrueResponseSuccess"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Stream not found",
@@ -719,10 +751,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/schemas/Message"
-									}
+									"$ref": "#/components/schemas/StreamWithMessagesResponseSuccess"
 								}
 							}
 						}
@@ -779,7 +808,14 @@
 				},
 				"responses": {
 					"204": {
-						"description": "Password changed successfully"
+						"description": "Password changed successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrueResponseSuccess"
+								}
+							}
+						}
 					},
 					"400": {
 						"description": "Bad request due to invalid input or wrong old password",
@@ -853,7 +889,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Message"
+									"$ref": "#/components/schemas/MessageResponseSuccess"
 								}
 							}
 						}
@@ -921,7 +957,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Message"
+									"$ref": "#/components/schemas/TrueResponseSuccess"
 								}
 							}
 						}
@@ -969,13 +1005,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"success": {
-											"type": "boolean",
-											"example": true
-										}
-									}
+									"$ref": "#/components/schemas/TrueResponseSuccess"
 								}
 							}
 						}
@@ -1080,17 +1110,6 @@
 				},
 				"required": ["username", "email", "password"]
 			},
-			"Error": {
-				"type": "object",
-				"properties": {
-					"status": {
-						"type": "string"
-					},
-					"message": {
-						"type": "string"
-					}
-				}
-			},
 			"Message": {
 				"type": "object",
 				"properties": {
@@ -1155,6 +1174,278 @@
 					}
 				},
 				"required": ["id", "name", "createdAt", "updatedAt"]
+			},
+
+			"UserWithStreams": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"picture": {
+						"type": "string",
+						"nullable": true
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"streamKey": {
+						"type": "string",
+						"nullable": true
+					},
+					"streams": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Stream"
+						}
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"createdAt",
+					"updatedAt"
+				]
+			},
+			"UserResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/UserWithStreams"
+					}
+				}
+			},
+			"UsersResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/UserWithStreams"
+						}
+					}
+				}
+			},
+
+			"StreamFull": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"id": {
+							"type": "string",
+							"format": "uuid"
+						},
+						"name": {
+							"type": "string"
+						},
+						"path": {
+							"type": "string"
+						},
+						"maxCount": {
+							"type": "integer"
+						},
+						"ended": {
+							"type": "boolean"
+						},
+						"description": {
+							"type": "string"
+						},
+						"createdAt": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"updatedAt": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"user": {
+							"type": "object",
+							"properties": {
+								"username": {
+									"type": "string"
+								},
+								"picture": {
+									"type": "string",
+									"nullable": true
+								}
+							}
+						},
+						"messages": {
+							"type": "array",
+							"items": {
+								"$ref": "#/components/schemas/Message"
+							}
+						}
+					}
+				}
+			},
+			"StreamWithMessages": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"id": {
+							"type": "string",
+							"format": "uuid"
+						},
+						"name": {
+							"type": "string"
+						},
+						"path": {
+							"type": "string"
+						},
+						"maxCount": {
+							"type": "integer"
+						},
+						"ended": {
+							"type": "boolean"
+						},
+						"description": {
+							"type": "string"
+						},
+						"createdAt": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"updatedAt": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"messages": {
+							"type": "array",
+							"items": {
+								"$ref": "#/components/schemas/Message"
+							}
+						}
+					}
+				}
+			},
+			"StreamsResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/StreamFull"
+						}
+					}
+				}
+			},
+			"StreamResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/StreamFull"
+					}
+				}
+			},
+			"StreamWithMessagesResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/StreamWithMessages"
+					}
+				}
+			},
+
+			"MessageResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/Message"
+					}
+				}
+			},
+
+			"SessionDetails": {
+				"type": "object",
+				"properties": {
+					"userId": {
+						"type": "string",
+						"description": "Unique identifier for the user"
+					},
+					"username": {
+						"type": "string",
+						"description": "Name of the authenticated user"
+					},
+					"roles": {
+						"type": "array",
+						"description": "Roles assigned to the authenticated user",
+						"items": {
+							"type": "string"
+						}
+					},
+					"lastLogin": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Last login time of the user"
+					}
+				}
+			},
+			"SessionDetailsResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/SessionDetails"
+					}
+				}
+			},
+
+			"TrueResponseSuccess": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"data": {
+						"type": "boolean"
+					}
+				}
+			},
+			"Error": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"error": {
+						"type": "string"
+					}
+				}
 			}
 		}
 	}
