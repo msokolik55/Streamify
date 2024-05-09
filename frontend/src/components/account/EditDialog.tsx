@@ -66,7 +66,7 @@ const EditDialog = (props: EditDialogProps) => {
 	return (
 		<Dialog
 			visible={props.show}
-			header="Edit Stream"
+			header="Edit Recording"
 			onHide={() => props.setShow(false)}
 		>
 			<Toast ref={toast} />
