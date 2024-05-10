@@ -72,7 +72,6 @@ services:
     volumes:
       - shared-volume:/app/recordings
       - upload-volume:/app/uploads
-      - ./backend/prisma/dev.db:/app/prisma/dev.db
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://root@cockroachdb:26257/streamify?sslmode=disable
