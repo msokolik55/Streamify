@@ -22,7 +22,21 @@ git clone https://github.com/msokolik55/SBAPR-prototype.git
 cd Streamify
 ```
 
-3. Start the project using Docker Compose:
+3. Install the node modules in `frontend` folder:
+
+```bash
+cd frontend
+npm install
+```
+
+4. Install the node modules in `backend` folder:
+
+```bash
+cd backend
+npm install
+```
+
+5. Start the project using Docker Compose in the root folder:
 
 ```bash
 docker-compose up
