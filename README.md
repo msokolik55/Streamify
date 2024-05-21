@@ -28,6 +28,13 @@ cd your-project
 docker-compose up
 ```
 
+Or start the project using Kubernetes via `k8s/start.sh` bash file:
+
+```bash
+cd k8s
+./start.sh
+```
+
 This will launch the frontend, backend, and the streaming service containers.
 
 ## Project Structure
@@ -62,10 +69,17 @@ Now, your OBS Studio is configured to stream using the generated stream key.
 
 ## Cleanup
 
-To stop and remove the containers, run the following command:
+-   To stop and remove the containers, run the following command:
 
 ```bash
 docker-compose down
+```
+
+-   To stop and remove the Kubernetes containers, run the following commands:
+
+```bash
+cd k8s
+./clean.sh
 ```
 
 ## Additional Information
