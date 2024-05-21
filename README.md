@@ -19,7 +19,7 @@ git clone https://github.com/msokolik55/SBAPR-prototype.git
 2. Navigate to the project directory:
 
 ```bash
-cd your-project
+cd Streamify
 ```
 
 3. Start the project using Docker Compose:
