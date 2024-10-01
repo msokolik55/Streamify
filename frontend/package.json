@@ -10,7 +10,7 @@
 	"dependencies": {
 		"@babel/core": "^7.18.0",
 		"@hyperdx/browser": "^0.20.0",
-		"axios": "^1.6.8",
+		"axios": "^1.7.4",
 		"fullscreen": "^1.1.1",
 		"primeicons": "^7.0.0",
 		"primereact": "^10.6.3",
